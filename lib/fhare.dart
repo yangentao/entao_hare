@@ -25,8 +25,8 @@ import 'entao_harepage.dart';
 import 'entao_harewidget.dart';
 
 part 'app/AppMap.dart';
+part 'app/router_date_widget.dart';
 part 'app/HareApp.dart';
-part 'app/themes.dart';
 part 'basic/basic.dart';
 part 'basic/files.dart';
 part 'basic/ini.dart';
@@ -54,7 +54,6 @@ part 'hare/hare_ext.dart';
 part 'hare/hare_text.dart';
 part 'hare/hare_widgets.dart';
 part 'hare/page_attr.dart';
-part 'hare/router_data.dart';
 part 'page/basic_ui.dart';
 part 'page/bottom_nav_bar.dart';
 part 'page/collection_page.dart';
