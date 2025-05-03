@@ -1,4 +1,4 @@
-part of '../harepage.dart';
+part of 'harepage.dart';
 
 
 mixin DashSlot on Widget {

@@ -20,10 +20,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'dash.dart';
-import 'app.dart';
+import 'app/app.dart';
 import 'basic.dart';
-import 'harepage.dart';
-import 'harewidget.dart';
+import 'harepage/harepage.dart';
+import 'harewidget/harewidget.dart';
 
 part 'utils/basic.dart';
 part 'utils/files.dart';

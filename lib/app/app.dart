@@ -9,9 +9,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'harewidget.dart';
-import 'basic.dart';
+import '../basic.dart';
 
-part 'harepage/dashslot.dart';
-part 'harepage/hare_page.dart';
+part 'AppMap.dart';
+part 'HareApp.dart';
+part 'router_date_widget.dart';

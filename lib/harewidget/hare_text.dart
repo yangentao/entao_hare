@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../harewidget.dart';
+part of 'harewidget.dart';
 
 class HareText extends HareWidget {
   String text;

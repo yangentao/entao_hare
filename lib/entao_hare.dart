@@ -1,8 +1,8 @@
 library;
 
 export 'plat.dart';
-export 'app.dart';
+export 'app/app.dart';
 export 'dash.dart';
 export 'basic.dart';
-export 'harepage.dart';
-export 'harewidget.dart';
+export 'harepage/harepage.dart';
+export 'harewidget/harewidget.dart';

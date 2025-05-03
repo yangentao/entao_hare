@@ -6,9 +6,9 @@ import 'package:entao_hare/plat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'app.dart';
-import 'harepage.dart';
-import 'harewidget.dart';
+import 'app/app.dart';
+import 'harepage/harepage.dart';
+import 'harewidget/harewidget.dart';
 
 part 'dash/app_bar.dart';
 part 'dash/dash_page.dart';

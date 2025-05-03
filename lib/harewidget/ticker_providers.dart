@@ -1,4 +1,4 @@
-part of '../harewidget.dart';
+part of 'harewidget.dart';
 
 
 class _WidgetTicker extends Ticker {

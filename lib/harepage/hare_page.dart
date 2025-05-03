@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../harepage.dart';
+part of 'harepage.dart';
 
 abstract class GroupHarePage extends HarePage {
   GroupHarePage() : super();
