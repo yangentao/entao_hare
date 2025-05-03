@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 
 class XListView<T> extends StatelessWidget {

@@ -11,7 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'entao_basic.dart';
+import 'basic.dart';
 
 part 'app/AppMap.dart';
 part 'app/HareApp.dart';

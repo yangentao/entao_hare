@@ -11,7 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'harewidget.dart';
-import 'entao_basic.dart';
+import 'basic.dart';
 
 part 'harepage/dashslot.dart';
 part 'harepage/hare_page.dart';

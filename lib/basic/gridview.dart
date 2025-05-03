@@ -1,30 +1,28 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 
-GridView XGridViewBuilder({
-  required NullableIndexedWidgetBuilder itemBuilder,
-  int? itemCount,
+GridView XGridView({
+  required List<Widget> children,
+  required bool shrinkWrap,
+  int? columnCount,
+  int? crossAxisCount,
+  double crossAxisExtent = 80,
+  double? mainAxisExtent,
+  double flexPercent = 0.2,
+  double mainAxisSpacing = 8,
+  double crossAxisSpacing = 8,
+  double childAspectRatio = 1.0,
+  EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
   Key? key,
   Axis scrollDirection = Axis.vertical,
   bool reverse = false,
   ScrollController? controller,
   bool? primary,
   ScrollPhysics? physics,
-  required bool shrinkWrap,
-  EdgeInsetsGeometry? padding,
-  int? columnCount,
-  int? crossAxisCount,
-  double crossAxisExtent = 80,
-  double flexPercent = 0.15,
-  double mainAxisSpacing = 0.0,
-  double crossAxisSpacing = 0.0,
-  double childAspectRatio = 1.0,
-  double? mainAxisExtent,
   bool addAutomaticKeepAlives = true,
   bool addRepaintBoundaries = true,
   bool addSemanticIndexes = true,
   double? cacheExtent,
-  ChildIndexGetter? findChildIndexCallback,
   int? semanticChildCount,
   DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
@@ -40,10 +38,8 @@ GridView XGridViewBuilder({
     mainAxisExtent: mainAxisExtent,
     flexPercent: flexPercent,
   );
-  SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
-        (c, i) => itemBuilder(c, i),
-    findChildIndexCallback: findChildIndexCallback,
-    childCount: itemCount,
+  SliverChildListDelegate childrenDelegate = SliverChildListDelegate(
+    children,
     addAutomaticKeepAlives: addAutomaticKeepAlives,
     addRepaintBoundaries: addRepaintBoundaries,
     addSemanticIndexes: addSemanticIndexes,

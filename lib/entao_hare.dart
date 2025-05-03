@@ -1,5 +1,8 @@
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+library;
+
+export 'plat.dart';
+export 'app.dart';
+export 'dash.dart';
+export 'basic.dart';
+export 'harepage.dart';
+export 'harewidget.dart';

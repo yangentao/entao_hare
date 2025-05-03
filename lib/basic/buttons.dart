@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 Widget StadiumOutlinedButton({required Widget child, VoidCallback? onPressed}) {
   return OutlinedButton(

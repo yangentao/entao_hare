@@ -21,7 +21,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'dash.dart';
 import 'app.dart';
-import 'entao_basic.dart';
+import 'basic.dart';
 import 'harepage.dart';
 import 'harewidget.dart';
 

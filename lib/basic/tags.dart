@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 const EdgeInsets tagPadding = EdgeInsets.symmetric(horizontal: 4, vertical: 2);
 

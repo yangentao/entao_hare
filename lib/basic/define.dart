@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 typedef ListWidget = List<Widget>;
 typedef OnChildren<T> = List<T> Function(T value);

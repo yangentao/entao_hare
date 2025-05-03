@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 extension StringText on String {
   ActionChip actionChip(VoidCallback? onPressed, {Color? color, double paddingX = 8, double elevation = 3}) {

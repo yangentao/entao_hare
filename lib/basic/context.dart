@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 ThemeData get globalTheme => globalContext.themeData;
 

@@ -1,4 +1,4 @@
-part of '../entao_basic.dart';
+part of '../basic.dart';
 
 ButtonStyle SegStyle =
     SegmentedButton.styleFrom(selectedBackgroundColor: Colors.lightBlue, selectedForegroundColor: Colors.white, side: BorderSide(color: globalTheme.dividerColor));
