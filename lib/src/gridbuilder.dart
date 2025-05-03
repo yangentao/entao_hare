@@ -1,0 +1,70 @@
+part of '../entao_basic.dart';
+
+
+GridView XGridViewBuilder({
+  required NullableIndexedWidgetBuilder itemBuilder,
+  int? itemCount,
+  Key? key,
+  Axis scrollDirection = Axis.vertical,
+  bool reverse = false,
+  ScrollController? controller,
+  bool? primary,
+  ScrollPhysics? physics,
+  required bool shrinkWrap,
+  EdgeInsetsGeometry? padding,
+  int? columnCount,
+  int? crossAxisCount,
+  double crossAxisExtent = 80,
+  double flexPercent = 0.15,
+  double mainAxisSpacing = 0.0,
+  double crossAxisSpacing = 0.0,
+  double childAspectRatio = 1.0,
+  double? mainAxisExtent,
+  bool addAutomaticKeepAlives = true,
+  bool addRepaintBoundaries = true,
+  bool addSemanticIndexes = true,
+  double? cacheExtent,
+  ChildIndexGetter? findChildIndexCallback,
+  int? semanticChildCount,
+  DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+  ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+  String? restorationId,
+  Clip clipBehavior = Clip.hardEdge,
+}) {
+  GridDelegateX gridDelegate = GridDelegateX(
+    columnCount: crossAxisCount ?? columnCount ?? 0,
+    crossAxisExtent: crossAxisExtent,
+    mainAxisSpacing: mainAxisSpacing,
+    crossAxisSpacing: crossAxisSpacing,
+    childAspectRatio: childAspectRatio,
+    mainAxisExtent: mainAxisExtent,
+    flexPercent: flexPercent,
+  );
+  SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
+        (c, i) => itemBuilder(c, i),
+    findChildIndexCallback: findChildIndexCallback,
+    childCount: itemCount,
+    addAutomaticKeepAlives: addAutomaticKeepAlives,
+    addRepaintBoundaries: addRepaintBoundaries,
+    addSemanticIndexes: addSemanticIndexes,
+  );
+
+  return GridView.custom(
+    gridDelegate: gridDelegate,
+    childrenDelegate: childrenDelegate,
+    key: key,
+    scrollDirection: scrollDirection,
+    reverse: reverse,
+    controller: controller,
+    primary: primary,
+    physics: physics,
+    shrinkWrap: shrinkWrap,
+    padding: padding,
+    cacheExtent: cacheExtent,
+    semanticChildCount: semanticChildCount,
+    dragStartBehavior: dragStartBehavior,
+    keyboardDismissBehavior: keyboardDismissBehavior,
+    restorationId: restorationId,
+    clipBehavior: clipBehavior,
+  );
+}
