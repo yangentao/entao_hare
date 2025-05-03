@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app.dart';
-import 'entao_harepage.dart';
-import 'entao_harewidget.dart';
+import 'harepage.dart';
+import 'harewidget.dart';
 
 part 'dash/app_bar.dart';
 part 'dash/dash_page.dart';

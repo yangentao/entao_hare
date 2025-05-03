@@ -1,4 +1,4 @@
-part of '../entao_harewidget.dart';
+part of '../harewidget.dart';
 
 abstract class HareWidget extends StatefulWidget {
   final StateHolder holder = StateHolder();

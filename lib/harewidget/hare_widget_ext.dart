@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../entao_harewidget.dart';
+part of '../harewidget.dart';
 
 class HareBuilder extends HareWidget {
   late Widget Function(BuildContext context) builder;
