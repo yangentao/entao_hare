@@ -30,3 +30,4 @@ part 'src/overlay.dart';
 part 'src/loading.dart';
 part 'src/hare_layout.dart';
 part 'src/toast.dart';
+part 'src/define.dart';

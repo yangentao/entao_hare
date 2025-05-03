@@ -1,4 +1,4 @@
-part of '../entao_app.dart';
+part of '../app.dart';
 
 extension WidgetRouterDataEx on Widget {
   RouterDataWidget get withRouterData => RouterDataWidget(child: this);

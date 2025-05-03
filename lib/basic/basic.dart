@@ -1,14 +1,6 @@
 part of '../fhare.dart';
 
-typedef OnChildren<T> = List<T> Function(T value);
 
-typedef OnWidget<T> = Widget Function(T value);
-typedef OnItemView<T> = Widget Function(T value);
-typedef OnWidgetOpt<T> = Widget? Function(T value);
-
-typedef ListWidget = List<Widget>;
-
-typedef TypeWidgetBuilder<T> = T Function(BuildContext context);
 
 Future<PackageInfo> packageInfo() async {
   PackageInfo info = await PackageInfo.fromPlatform();
@@ -27,32 +19,6 @@ List<MapEntry<String, String>> parseProperties(String text, {Pattern? itemSep, P
     values << MapEntry<String, String>(pair.first, pair.second?.trim() ?? "");
   }
   return values;
-}
-
-class Plat {
-  Plat._();
-
-  static bool get isDebug => kDebugMode;
-
-  static bool get isDebugMode => kDebugMode;
-
-  static bool get isWeb => kIsWeb || kIsWasm;
-
-  static bool get isMobile => !isWeb && (Platform.isAndroid || Platform.isIOS);
-
-  static bool get isDesktop => !isWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS);
-
-  static bool get isAndroid => !isWeb && (Platform.isAndroid);
-
-  static bool get isIOS => !isWeb && (Platform.isIOS);
-
-  static bool get isFuchsia => !isWeb && (Platform.isFuchsia);
-
-  static bool get isMacOS => !isWeb && (Platform.isMacOS);
-
-  static bool get isWindows => !isWeb && (Platform.isWindows);
-
-  static bool get isLinux => !isWeb && (Platform.isLinux);
 }
 
 void setClipboardText(String text) {

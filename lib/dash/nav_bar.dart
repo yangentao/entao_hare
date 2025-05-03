@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../dash.dart';
 
 class HareNavBar extends HareWidget {
   Widget? leading;
