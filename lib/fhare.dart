@@ -14,19 +14,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import 'entao_app.dart';
 import 'entao_basic.dart';
 import 'entao_harepage.dart';
 import 'entao_harewidget.dart';
 
-part 'app/AppMap.dart';
-part 'app/router_date_widget.dart';
-part 'app/HareApp.dart';
 part 'basic/basic.dart';
 part 'basic/files.dart';
 part 'basic/ini.dart';

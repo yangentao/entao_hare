@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_app.dart';
 
 EntaoApp HareApp = EntaoApp();
 
@@ -14,12 +14,14 @@ class EntaoApp {
   BuildContext get currentContext => globalKey.currentContext!;
 
   ThemeData get currentTheme => globalKey.currentContext!.themeData;
+
   ThemeData get themeData => globalKey.currentContext!.themeData;
 
   TextTheme get textTheme => globalKey.currentContext!.themeData.textTheme;
 
   EntaoApp() {
     WidgetsFlutterBinding.ensureInitialized();
+    onGlobalContext = () => currentContext;
   }
 
   void logout() {
@@ -83,14 +85,14 @@ class EntaoApp {
     return Material(
         child: RouterDataWidget(
             child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: ListTileTheme(
-                horizontalTitleGap: listTileHorizontalTitleGap,
-                child: Overlay(initialEntries: [
-                  OverlayEntry(builder: (ctx) => Container(child: w)),
-                ]),
-              ),
-            )));
+      textDirection: TextDirection.ltr,
+      child: ListTileTheme(
+        horizontalTitleGap: listTileHorizontalTitleGap,
+        child: Overlay(initialEntries: [
+          OverlayEntry(builder: (ctx) => Container(child: w)),
+        ]),
+      ),
+    )));
   }
 
   void pop<T>([T? result]) {

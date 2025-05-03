@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_app.dart';
 
 extension WidgetRouterDataEx on Widget {
   RouterDataWidget get withRouterData => RouterDataWidget(child: this);
@@ -12,7 +12,7 @@ class RouterDataWidget extends InheritedWidget {
         super(key: UniqueKey());
 
   @override
-  bool updateShouldNotify(DataWidget oldWidget) {
+  bool updateShouldNotify(RouterDataWidget oldWidget) {
     return data == oldWidget.data;
   }
 
@@ -42,7 +42,7 @@ extension RouterDataConetxtExt on BuildContext {
     return map[key];
   }
 
-  AnyProp<T> routerProp<T  extends  Object>(String name, {T? missValue}) {
+  AnyProp<T> routerProp<T extends Object>(String name, {T? missValue}) {
     return AnyProp<T>(map: routerData(), key: name, missValue: missValue);
   }
 }
