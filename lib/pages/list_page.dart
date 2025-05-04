@@ -16,13 +16,13 @@ abstract class ListPage<T> extends CollectionPage<T> {
     return null;
   }
 
-  Widget onItemView(T item);
+  Widget onItemView(ContextIndexItem<T> item);
 
   @override
   Widget buildWidget(BuildContext context) {
-    return XListView(
+    return EnListView(
       items: itemList,
-      itemView: (c, item) => onItemView(item),
+      itemView: onItemView,
       lastItemView: onLastItemView,
       padding: listPadding,
       separator: separated,

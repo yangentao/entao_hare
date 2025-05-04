@@ -1,6 +1,6 @@
 part of 'basic.dart';
 
-class XListView<T> extends StatelessWidget {
+class EnListView<T> extends StatelessWidget {
   final int? itemCount;
   final NullableIndexedWidgetBuilder? itemBuilder;
   final IndexedWidgetBuilder? separatorBuilder;
@@ -22,12 +22,12 @@ class XListView<T> extends StatelessWidget {
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final String? restorationId;
   final List<T>? items;
-  final Widget Function(BuildContext, T)? itemView;
+  final Widget Function(ContextIndexItem<T>)? itemView;
   final Widget? Function(BuildContext)? lastItemView;
   final FutureOr<void> Function()? onLoadMore;
   final Future<void> Function()? onRefresh;
 
-  XListView({
+  EnListView({
     this.items,
     this.itemView,
     this.lastItemView,
@@ -92,7 +92,7 @@ class XListView<T> extends StatelessWidget {
   Widget? _buildItemViewRawIndex(BuildContext context, int index) {
     if (items != null) {
       if (index >= 0 && index < items!.length) {
-        if (itemView != null) return itemView!.call(context, items![index]);
+        if (itemView != null) return itemView!.call(ContextIndexItem(context, index, items![index]));
       } else if (index == items!.length) {
         if (lastItemView != null) return lastItemView!(context);
       }

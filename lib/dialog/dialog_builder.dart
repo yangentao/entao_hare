@@ -75,7 +75,7 @@ class DialogBuilderContext<T> {
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
   }) {
-    GridView gv = XGridView(
+    GridView gv = EnGridView(
       columnCount: columnCount,
       crossAxisExtent: itemWidth,
       mainAxisExtent: itemHeight,
@@ -84,7 +84,8 @@ class DialogBuilderContext<T> {
       crossAxisSpacing: horizontalSpacing,
       padding: padding,
       shrinkWrap: true,
-      children: items.mapIndex((i, e) => builder(ContextIndexItem(context, i, items[i]))),
+      items: items,
+      itemView: (e) => builder(e),
     );
     return buildScrollable(gv, aboveWidgets: aboveWidgets, belowWidgets: belowWidgets, title: title, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
   }
@@ -101,7 +102,7 @@ class DialogBuilderContext<T> {
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
   }) {
-    XListView lv = XListView(
+    EnListView lv = EnListView(
       items: items,
       shrinkWrap: true,
       padding: padding,
@@ -286,8 +287,6 @@ class DialogBuilderContext<T> {
     return AnyProp<V>(map: this.attrMap, key: name, missValue: missValue);
   }
 }
-
-
 
 class DialogWidth {
   final double value;
