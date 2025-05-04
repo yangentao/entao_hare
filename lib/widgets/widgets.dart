@@ -1,6 +1,16 @@
-part of '../entao_hare.dart';
+library;
 
+import 'dart:async';
 
+import 'package:entao_dutil/entao_dutil.dart';
+import 'package:entao_hare/basic/basic.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../harewidget/harewidget.dart';
+
+part 'actions.dart';
+part 'auto_complete.dart';
 
 extension WidgetPopButtonExt on Widget {
   Widget popActions({List<XAction>? items, List<XAction> Function(BuildContext)? builder}) {

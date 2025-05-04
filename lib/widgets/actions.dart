@@ -1,4 +1,5 @@
-part of '../entao_hare.dart';
+part of 'widgets.dart';
+
 
 extension StringActionExt on String {
 
@@ -113,7 +114,7 @@ class XAction {
     return HareBuilder((c) {
       return ActionChip(
           label: display?.call(this) ?? titleWidget,
-          avatar: (!hasIcon || noIcon) ? null : CircleAvatar(backgroundColor: Colors.transparent, foregroundColor: HareApp.textTheme.labelMedium?.color, child: iconWidget),
+          avatar: (!hasIcon || noIcon) ? null : CircleAvatar(backgroundColor: Colors.transparent, foregroundColor: globalTheme.textTheme.labelMedium?.color, child: iconWidget),
           onPressed: enable ? onclick : null);
     }).also((e) => _widget = e);
   }

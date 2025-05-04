@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../entao_hare.dart';
+part of 'query.dart';
 
 const List<String> _bigFonts = ["≠", "≥", "≤"];
 

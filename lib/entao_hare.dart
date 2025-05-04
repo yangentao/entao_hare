@@ -6,12 +6,10 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_http/entao_http.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -25,26 +23,22 @@ import 'basic/basic.dart';
 import 'dash/dash.dart';
 import 'harepage/harepage.dart';
 import 'harewidget/harewidget.dart';
+import 'query/query.dart';
+import 'widgets/widgets.dart';
 
 export 'app/app.dart';
 export 'basic/basic.dart';
+export 'binder/binder.dart';
 export 'dash/dash.dart';
 export 'harepage/harepage.dart';
 export 'harewidget/harewidget.dart';
 export 'plat.dart';
+export 'query/query.dart';
+export 'widgets/widgets.dart';
 
-part 'binder/binder.dart';
-part 'binder/binder_chip.dart';
-part 'binder/binder_radio.dart';
-part 'binder/binder_segments.dart';
-part 'binder/binder_widgets.dart';
+part 'dialog/dialog_builder.dart';
+part 'dialog/dialogs.dart';
 part 'examples/AnimPage.dart';
-part 'widget/hare_button.dart';
-part 'widget/hare_edit.dart';
-part 'widget/hare_ext.dart';
-part 'widget/hare_text.dart';
-part 'widget/hare_widgets.dart';
-part 'widget/page_attr.dart';
 part 'pages/basic_ui.dart';
 part 'pages/bottom_nav_bar.dart';
 part 'pages/collection_page.dart';
@@ -61,55 +55,37 @@ part 'pages/search_dialog.dart';
 part 'pages/tabbar_page.dart';
 part 'pages/table_page.dart';
 part 'pages/table_single_page.dart';
-part 'query/query_builder.dart';
-part 'query/query_dropdown_widget.dart';
-part 'query/query_input_widget.dart';
-part 'query/query_operator_widget.dart';
-part 'query/query_segment.dart';
-part 'query/query_single.dart';
+part 'table/data_table.dart';
+part 'table/pagination.dart';
+part 'table/table.dart';
+part 'table/table_selector.dart';
+part 'table/table_sorter.dart';
 part 'utils/basic.dart';
 part 'utils/files.dart';
 part 'utils/ini.dart';
 part 'utils/io.dart';
 part 'utils/local_store.dart';
 part 'utils/modbus.dart';
-part 'utils/numbers.dart';
-part 'utils/options.dart';
 part 'utils/text_validator.dart';
-part 'widget/actions.dart';
-part 'widget/auto_complete.dart';
 part 'widget/chips.dart';
-part 'table/data_table.dart';
-part 'dialog/dialog_builder.dart';
-part 'dialog/dialogs.dart';
 part 'widget/edits.dart';
+part 'widget/hare_button.dart';
+part 'widget/hare_edit.dart';
+part 'widget/hare_ext.dart';
+part 'widget/hare_text.dart';
+part 'widget/hare_widgets.dart';
 part 'widget/int_item_pick.dart';
-part 'table/pagination.dart';
+part 'widget/page_attr.dart';
 part 'widget/pop_context_menu.dart';
-part 'widget/popup.dart';
 part 'widget/radios.dart';
 part 'widget/segments.dart';
 part 'widget/slider.dart';
-part 'table/table.dart';
-part 'table/table_selector.dart';
-part 'table/table_sorter.dart';
 part 'widget/tree_path.dart';
 part 'widget/websocket_wrap.dart';
 
 // part 'widget/radios.dart';
 // part 'utils/values.dart';
 // part 'utils/files.dart';
-
-final Icon moreArrow = Icons.keyboard_arrow_right.icon();
-final IconData MORE_ICON = Icons.adaptive.more_rounded;
-
-extension BuildContextEx on BuildContext {}
-
-extension StringText on String {
-  HareText hareText({TextAlign? align, TextStyle? style}) {
-    return HareText(this, style: style, textAlign: align);
-  }
-}
 
 extension HttpResultToast on HttpResult {
   void showError({String? nullMessage}) {

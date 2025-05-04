@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 part 'actions.dart';
+part 'bits.dart';
 part 'buttons.dart';
 part 'chain.dart';
 part 'compose.dart';
@@ -26,8 +27,12 @@ part 'gridview.dart';
 part 'hare_layout.dart';
 part 'listview.dart';
 part 'loading.dart';
+part 'options.dart';
 part 'overlay.dart';
 part 'scroll.dart';
 part 'tags.dart';
 part 'text_ext.dart';
 part 'toast.dart';
+
+final IconData MORE_ICON = Icons.adaptive.more_rounded;
+final Icon moreArrow = Icons.keyboard_arrow_right.icon();

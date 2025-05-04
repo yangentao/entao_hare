@@ -1,4 +1,5 @@
-part of '../entao_hare.dart';
+part of 'basic.dart';
+
 
 class StringOptions {
   List<String> items;

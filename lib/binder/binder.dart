@@ -1,6 +1,21 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names
 
-part of '../entao_hare.dart';
+library;
+
+import 'dart:ui';
+
+import 'package:entao_dutil/entao_dutil.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../basic/basic.dart';
+import '../harewidget/harewidget.dart';
+
+part 'binder_chip.dart';
+part 'binder_radio.dart';
+part 'binder_widgets.dart';
+part 'binder_segments.dart';
 
 extension HarePageBinderExt on HareWidget {
   Binder<T> bind<T>(T initValue, {BinderCallback<T>? onChanged}) {

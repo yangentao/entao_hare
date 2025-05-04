@@ -1,6 +1,12 @@
 // ignore_for_file: must_be_immutable
 part of 'harewidget.dart';
 
+extension StringHareTextExt on String {
+  HareText hareText({TextAlign? align, TextStyle? style}) {
+    return HareText(this, style: style, textAlign: align);
+  }
+}
+
 class HareText extends HareWidget {
   String text;
   TextStyle? style;

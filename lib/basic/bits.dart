@@ -1,6 +1,28 @@
-// ignore_for_file: unnecessary_this
+part of 'basic.dart';
 
-part of '../entao_hare.dart';
+int makeShort({required int low, required int hight}) {
+  return ((hight & 0xFF) << 8) | (low & 0xFF);
+}
+
+extension SetIntExt on Set<int> {
+  int joinBits() {
+    return this.fold(0, (p, e) => p | e);
+  }
+}
+
+extension DoubleExts on double {
+  //[start, end)
+  double limitOpen(double start, double end, {required double step}) {
+    if (this < start) return start;
+    if (this >= end) {
+      if (end - step < start) {
+        return start;
+      }
+      return end - step;
+    }
+    return this;
+  }
+}
 
 //bitPack([1,1,0,0, 0,0,0,0]) => [0x03]
 List<int> packBits(List<int> values, {bool lowFirst = true}) {
@@ -33,16 +55,6 @@ List<int> expandBits(List<int> bytes, {bool lowFirst = true}) {
     }
   }
   return results;
-}
-
-int makeShort({required int low, required int hight}) {
-  return ((hight & 0xFF) << 8) | (low & 0xFF);
-}
-
-extension SetIntExt on Set<int> {
-  int joinBits() {
-    return this.fold(0, (p, e) => p | e);
-  }
 }
 
 class IntPair<T> {
@@ -105,19 +117,5 @@ extension IntExts on int {
 
   bool hasAnyBit(int b) {
     return this & b != 0;
-  }
-}
-
-extension DoubleExts on double {
-  //[start, end)
-  double limitOpen(double start, double end, {required double step}) {
-    if (this < start) return start;
-    if (this >= end) {
-      if (end - step < start) {
-        return start;
-      }
-      return end - step;
-    }
-    return this;
   }
 }
