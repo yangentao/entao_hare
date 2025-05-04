@@ -10,7 +10,6 @@ import 'package:entao_http/entao_http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'basic/basic.dart';
@@ -33,7 +32,6 @@ export 'widgets/widgets.dart';
 
 part 'examples/AnimPage.dart';
 part 'utils/basic.dart';
-part 'utils/files.dart';
 part 'utils/ini.dart';
 part 'utils/io.dart';
 part 'utils/modbus.dart';

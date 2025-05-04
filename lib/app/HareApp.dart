@@ -24,6 +24,11 @@ class EntaoApp {
     onGlobalContext = () => currentContext;
   }
 
+  Future<void> prepare() async {
+    await LocalStore.prepare();
+    await Dirs.prepare();
+  }
+
   void logout() {
     onLogout?.call();
   }
