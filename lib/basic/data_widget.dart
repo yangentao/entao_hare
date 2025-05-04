@@ -7,7 +7,7 @@ class DataWidget<T> extends InheritedWidget {
 
   @override
   bool updateShouldNotify(DataWidget oldWidget) {
-    return data == oldWidget.data;
+    return data != oldWidget.data;
   }
 
   static T? dataOf<T>(BuildContext context) {

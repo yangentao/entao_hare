@@ -63,11 +63,11 @@ class XDataTable<T> extends HareWidget {
     return delegate?.buildColumns(context) ?? error("NO implement: buildColumns");
   }
 
-  List<DataCellY> buildCells(ItemIndexContext<T> c) {
+  List<DataCellY> buildCells(ContextIndexItem<T> c) {
     return delegate?.buildCells(c) ?? error("NO implement: buildCells");
   }
 
-  DataRowY buildRow(ItemIndexContext<T> c) {
+  DataRowY buildRow(ContextIndexItem<T> c) {
     return DataRowY(
       onSelectChanged: selector?.of(c.item),
       selected: selector?.isSelected(c.item) ?? false,
@@ -79,7 +79,7 @@ class XDataTable<T> extends HareWidget {
   }
 
   List<DataRowY> buildRows(BuildContext context) {
-    return items.mapIndex((n, e) => buildRow(ItemIndexContext<T>(context, n, e)));
+    return items.mapIndex((n, e) => buildRow(ContextIndexItem<T>(context, n, e)));
   }
 
   Widget buildTable(BuildContext context) {
@@ -116,7 +116,7 @@ abstract mixin class DataTableDelegate<T> {
 
   List<DataColumnY> buildColumns(BuildContext context);
 
-  List<DataCellY> buildCells(ItemIndexContext<T> rc);
+  List<DataCellY> buildCells(ContextIndexItem<T> rc);
 
   List<DataRowY> buildFooterRows();
 
@@ -139,7 +139,7 @@ mixin ColumnCellBuilder<T> on DataTableDelegate<T> {
   }
 
   @override
-  List<DataCellY> buildCells(ItemIndexContext<T> rc) {
+  List<DataCellY> buildCells(ContextIndexItem<T> rc) {
     return _dataColumnCells.mapList((e) => e.buildCell(rc));
   }
 
@@ -168,10 +168,10 @@ mixin ColumnCellBuilder<T> on DataTableDelegate<T> {
 
 class DataColumnCell<T> {
   DataColumnY column;
-  DataCellY Function(ItemIndexContext<T>) builder;
+  DataCellY Function(ContextIndexItem<T>) builder;
   List<DataCellY> Function()? footerBuilder;
 
-  DataCellY buildCell(ItemIndexContext<T> c) {
+  DataCellY buildCell(ContextIndexItem<T> c) {
     return builder.call(c);
   }
 
@@ -189,15 +189,15 @@ class DataColumnCell<T> {
     DataColumnSortAction? onSort,
     TableColumnWidth? width,
     Alignment? alignment,
-    DataCellY Function(ItemIndexContext<T>)? cell,
-    Widget Function(ItemIndexContext<T>)? cellWidget,
-    Object? Function(ItemIndexContext<T>)? cellProp,
+    DataCellY Function(ContextIndexItem<T>)? cell,
+    Widget Function(ContextIndexItem<T>)? cellWidget,
+    Object? Function(ContextIndexItem<T>)? cellProp,
     this.footerBuilder,
   })  : column = DataColumnY(label: label, tooltip: tooltip, numeric: numeric, instrict: instrict, onSort: onSort, width: width, alignment: alignment),
         assert(cell != null || cellProp != null || cellWidget != null),
         this.builder = cell ?? _makeCellBuilder(cellWidget, cellProp);
 
-  static DataCellY Function(ItemIndexContext<E>) _makeCellBuilder<E>(Widget Function(ItemIndexContext<E>)? cellWidget, Object? Function(ItemIndexContext<E>)? onProp) {
+  static DataCellY Function(ContextIndexItem<E>) _makeCellBuilder<E>(Widget Function(ContextIndexItem<E>)? cellWidget, Object? Function(ContextIndexItem<E>)? onProp) {
     if (cellWidget != null) return (c) => DataCellY(cellWidget.call(c));
     if (onProp != null) return (c) => DataCellY(onProp.call(c)?.toString().text() ?? space(width: 8));
     error("NO cell builder given!");

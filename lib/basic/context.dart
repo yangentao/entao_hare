@@ -14,18 +14,20 @@ void postFrame(VoidFunc callback) {
   });
 }
 
-class IndexContext {
+class ContextIndex {
   BuildContext context;
   int index;
 
-  IndexContext(this.context, this.index);
+  ContextIndex(this.context, this.index);
 }
 
-class ItemIndexContext<T> extends IndexContext {
+class ContextIndexItem<T> extends ContextIndex {
   T item;
 
-  ItemIndexContext(super.context, super.index, this.item);
+  ContextIndexItem(super.context, super.index, this.item);
 }
+
+
 
 extension ContextExt on BuildContext {
   void showBottomSheet(List<Widget> children, {CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {

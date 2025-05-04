@@ -2,7 +2,7 @@ part of 'basic.dart';
 
 GridView XGridViewItems<T>({
   required List<T> items,
-  required Widget Function(ItemIndexContext<T>) itemView,
+  required Widget Function(ContextIndexItem<T>) itemView,
   Key? key,
   Axis scrollDirection = Axis.vertical,
   bool reverse = false,
@@ -40,7 +40,7 @@ GridView XGridViewItems<T>({
     flexPercent: flexPercent,
   );
   SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
-    (c, i) => i >= items.length ? null : itemView(ItemIndexContext(c, i, items[i])).container(key: ObjectKey(items[i])),
+    (c, i) => i >= items.length ? null : itemView(ContextIndexItem(c, i, items[i])).container(key: ObjectKey(items[i])),
     findChildIndexCallback: findChildIndexCallback,
     childCount: items.length,
     addAutomaticKeepAlives: addAutomaticKeepAlives,

@@ -287,13 +287,7 @@ class DialogBuilderContext<T> {
   }
 }
 
-class ContextIndexItem<T> {
-  BuildContext context;
-  int index;
-  T item;
 
-  ContextIndexItem(this.context, this.index, this.item);
-}
 
 class DialogWidth {
   final double value;

@@ -42,7 +42,7 @@ abstract class GridItemsPage<T> extends CollectionPage<T> {
 
   GridItemsPage() : super();
 
-  Widget onItemView(ItemIndexContext<T> iic);
+  Widget onItemView(ContextIndexItem<T> iic);
 
   @override
   List<Widget> aboveWidgets(BuildContext context) {

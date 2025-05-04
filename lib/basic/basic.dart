@@ -74,3 +74,15 @@ List<DropdownMenuItem<String>> makeDropList(List<String> items) {
           ))
       .toList();
 }
+
+class IndexItem<T> {
+  int index;
+  T item;
+
+  IndexItem(this.index, this.item);
+}
+extension ListIndexItemExt<T> on List<T> {
+  IndexItem<T> indexItem(int index){
+    return IndexItem(index, this.elementAt(index));
+  }
+}
