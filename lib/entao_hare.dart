@@ -2,7 +2,6 @@
 library;
 
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -19,8 +18,6 @@ import 'dash/dash.dart';
 import 'dialog/dialog.dart';
 import 'harepage/harepage.dart';
 import 'harewidget/harewidget.dart';
-import 'query/query.dart';
-import 'table/table.dart';
 import 'widgets/widgets.dart';
 
 export 'app/app.dart';
@@ -30,28 +27,14 @@ export 'dash/dash.dart';
 export 'dialog/dialog.dart';
 export 'harepage/harepage.dart';
 export 'harewidget/harewidget.dart';
+export 'pages/pages.dart';
 export 'plat.dart';
 export 'query/query.dart';
 export 'table/table.dart';
 export 'widgets/widgets.dart';
 
 part 'examples/AnimPage.dart';
-part 'pages/basic_ui.dart';
-part 'pages/bottom_nav_bar.dart';
-part 'pages/collection_page.dart';
-part 'pages/column_page.dart';
-part 'pages/grid_page.dart';
-part 'pages/list_page.dart';
-part 'pages/login_page.dart';
-part 'pages/login_page_x.dart';
-part 'pages/page_tab_list.dart';
-part 'pages/prepare_page.dart';
-part 'pages/query_panel.dart';
-part 'pages/refresh_page.dart';
-part 'pages/search_dialog.dart';
-part 'pages/tabbar_page.dart';
-part 'pages/table_page.dart';
-part 'pages/table_single_page.dart';
+part 'utils/search_dialog.dart';
 part 'utils/basic.dart';
 part 'utils/files.dart';
 part 'utils/ini.dart';

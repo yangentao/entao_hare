@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'pages.dart';
 
 abstract class ColumnPage extends HarePage {
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start;

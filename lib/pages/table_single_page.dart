@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'pages.dart';
 
 abstract class TableSinglePage<T> extends CollectionPage<T> with DataTableDelegate<T> {
   DataTableSortor<T> tableSorter = DataTableSortor(enable: true);

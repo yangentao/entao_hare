@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../entao_hare.dart';
+part of 'pages.dart';
 
 class TabbarPage extends GroupHarePage with TickerProviderMixin {
   Color labelColor;

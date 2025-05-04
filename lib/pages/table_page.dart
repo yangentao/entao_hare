@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'pages.dart';
 
 abstract class TablePageX<T> extends TablePage<T> with ColumnCellBuilder<T> {
   TablePageX() : super();
