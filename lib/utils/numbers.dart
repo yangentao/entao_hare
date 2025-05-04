@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_this
 
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 //bitPack([1,1,0,0, 0,0,0,0]) => [0x03]
 List<int> packBits(List<int> values, {bool lowFirst = true}) {

@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 extension HarePageAttrEx on HarePage {
   AnyProp<T> pageProp<T extends  Object>(String name, {T? missValue}) {

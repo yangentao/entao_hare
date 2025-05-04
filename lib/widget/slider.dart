@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 //step = (max - min)/divisions
 class HareSlider extends HareWidget {

@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 abstract class CollectionPage<T> extends HarePage with RefreshItemsMixin<T> {
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start;

@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 class Modbus {
   static const int E_BAD_FUNCTION = 1;

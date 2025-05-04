@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 
 SegmentedButton<T> SegmentsBindSingle<T>(Binder<T?> binder, {Key? key, required List<LabelValue<T>> items, bool allowEmpty = true}) {

@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 class RadioGroup<T> extends HareWidget {
   final Iterable<LabelValue<T>> items;

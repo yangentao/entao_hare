@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 typedef DataTableSelectAction = void Function(bool?);
 

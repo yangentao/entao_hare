@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 class TreePath<T> extends HareWidget {
   final List<T> _paths = [];

@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 const Color primaryColor = Color(0xFFF44336);
 

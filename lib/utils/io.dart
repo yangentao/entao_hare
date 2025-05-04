@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 extension FileExt on File {
   String? readText({Encoding encoding = utf8}) {

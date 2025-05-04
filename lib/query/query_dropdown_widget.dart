@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 class DropdownQueryWidget extends QueryWidget {
   final IntOptions options;

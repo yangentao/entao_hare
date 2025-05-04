@@ -1,4 +1,4 @@
-part of '../fhare.dart';
+part of '../entao_hare.dart';
 
 class SegmentQueryWidget<T> extends QueryWidget {
   final List<LabelValue<T>> items = [];
