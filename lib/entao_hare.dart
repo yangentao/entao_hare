@@ -33,7 +33,7 @@ export 'harepage/harepage.dart';
 export 'harewidget/harewidget.dart';
 export 'plat.dart';
 
-part 'binder/Binder.dart';
+part 'binder/binder.dart';
 part 'binder/binder_chip.dart';
 part 'binder/binder_radio.dart';
 part 'binder/binder_segments.dart';
