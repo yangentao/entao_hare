@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'table.dart';
 
 typedef DataColumnSortAction = void Function(int column, bool asc);
 

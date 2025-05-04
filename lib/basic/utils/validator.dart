@@ -1,4 +1,6 @@
-part of '../entao_hare.dart';
+
+
+part of '../basic.dart';
 
 typedef TextValidator = String? Function(String?);
 

@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'table.dart';
 
 class DataTableSortor<E> {
   late XDataTable<E> table;
