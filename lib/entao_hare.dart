@@ -27,7 +27,6 @@ export 'dialog/dialog.dart';
 export 'harepage/harepage.dart';
 export 'harewidget/harewidget.dart';
 export 'pages/pages.dart';
-export 'plat.dart';
 export 'query/query.dart';
 export 'table/table.dart';
 export 'widgets/widgets.dart';

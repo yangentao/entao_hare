@@ -1,6 +1,5 @@
-import 'dart:io';
+part of '../basic.dart';
 
-import 'package:flutter/foundation.dart';
 
 class Plat {
   Plat._();

@@ -1,6 +1,7 @@
 library;
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:entao_dutil/entao_dutil.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+part 'utils/plat.dart';
 part 'actions.dart';
 part 'bits.dart';
 part 'buttons.dart';
