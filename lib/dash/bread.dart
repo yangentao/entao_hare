@@ -1,4 +1,4 @@
-part of '../dash.dart';
+part of 'dash.dart';
 
 class BreadCrumb<T> extends HareWidget {
   List<BreadItem<T>> items = [];

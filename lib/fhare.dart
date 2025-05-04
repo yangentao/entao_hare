@@ -19,9 +19,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'dash.dart';
+import 'dash/dash.dart';
 import 'app/app.dart';
-import 'basic.dart';
+import 'basic/basic.dart';
 import 'harepage/harepage.dart';
 import 'harewidget/harewidget.dart';
 

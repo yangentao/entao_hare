@@ -1,4 +1,4 @@
-part of '../basic.dart';
+part of 'basic.dart';
 
 class LoadingItem {
   String? text;

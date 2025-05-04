@@ -1,4 +1,4 @@
-part of '../basic.dart';
+part of 'basic.dart';
 
 
 extension WidgetScrollExt on Widget {

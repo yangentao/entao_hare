@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../dash.dart';
+part of 'dash.dart';
 
 class ContentDashPage extends DashPage {
   DashSlot content;

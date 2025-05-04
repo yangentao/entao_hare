@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-part of '../dash.dart';
+part of 'dash.dart';
 
 abstract class DashPage extends HareWidget {
   bool _showDrawer = !Plat.isMobile;

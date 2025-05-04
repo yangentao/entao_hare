@@ -1,4 +1,4 @@
-part of '../basic.dart';
+part of 'basic.dart';
 
 extension IconDataExt on IconData {
   Icon icon({double? size, Color? color}) => Icon(this, size: size, color: color);

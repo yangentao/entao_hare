@@ -11,7 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../basic.dart';
+import '../basic/basic.dart';
 
 part 'AppMap.dart';
 part 'HareApp.dart';
