@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable
 part of 'widgets.dart';
 
 //step = (max - min)/divisions

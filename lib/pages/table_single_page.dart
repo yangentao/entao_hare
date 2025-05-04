@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable
 part of 'pages.dart';
 
 abstract class TableSinglePage<T> extends CollectionPage<T> with DataTableDelegate<T> {

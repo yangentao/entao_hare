@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable
 library;
 
 import 'dart:math' as math;
