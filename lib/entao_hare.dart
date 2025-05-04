@@ -14,7 +14,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'basic/basic.dart';
-import 'dash/dash.dart';
 import 'dialog/dialog.dart';
 import 'harepage/harepage.dart';
 import 'harewidget/harewidget.dart';
@@ -22,7 +21,7 @@ import 'widgets/widgets.dart';
 
 export 'app/app.dart';
 export 'basic/basic.dart';
-export 'binder/binder.dart';
+export 'binder/binders.dart';
 export 'dash/dash.dart';
 export 'dialog/dialog.dart';
 export 'harepage/harepage.dart';
@@ -34,12 +33,12 @@ export 'table/table.dart';
 export 'widgets/widgets.dart';
 
 part 'examples/AnimPage.dart';
-part 'utils/search_dialog.dart';
 part 'utils/basic.dart';
 part 'utils/files.dart';
 part 'utils/ini.dart';
 part 'utils/io.dart';
 part 'utils/modbus.dart';
+part 'utils/search_dialog.dart';
 part 'widget/hare_ext.dart';
 part 'widget/pop_context_menu.dart';
 part 'widget/tree_path.dart';

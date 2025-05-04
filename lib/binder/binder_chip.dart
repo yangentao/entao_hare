@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names
-part of 'binder.dart';
+part of 'binders.dart';
 
 Wrap ChipCheckGroupB<T>(Binder<Set<T>> binder,
     {required Iterable<T> items,

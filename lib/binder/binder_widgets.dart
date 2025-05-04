@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names
 
-part of 'binder.dart';
+part of 'binders.dart';
 
 Checkbox CheckboxB(
   Binder<bool?> binder, {
@@ -163,7 +163,6 @@ TextField TextFieldB(
   ContentInsertionConfiguration? contentInsertionConfiguration,
   Clip clipBehavior = Clip.hardEdge,
   String? restorationId,
-  bool scribbleEnabled = true,
   bool enableIMEPersonalizedLearning = true,
   Widget Function(BuildContext, EditableTextState)? contextMenuBuilder = _defaultContextMenuBuilder,
   bool canRequestFocus = true,
@@ -232,7 +231,6 @@ TextField TextFieldB(
     contentInsertionConfiguration: contentInsertionConfiguration,
     clipBehavior: clipBehavior,
     restorationId: restorationId,
-    scribbleEnabled: scribbleEnabled,
     enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
     contextMenuBuilder: contextMenuBuilder,
     canRequestFocus: canRequestFocus,

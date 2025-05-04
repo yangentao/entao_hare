@@ -148,4 +148,3 @@ enum HareLife {
 
   final int value;
 }
-

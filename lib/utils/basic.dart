@@ -18,4 +18,3 @@ List<MapEntry<String, String>> parseProperties(String text, {Pattern? itemSep, P
   }
   return values;
 }
-

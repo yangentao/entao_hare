@@ -1,4 +1,4 @@
-part of 'binder.dart';
+part of 'binders.dart';
 
 SegmentedButton<T> SegmentsBindSingle<T>(Binder<T?> binder, {Key? key, required List<LabelValue<T>> items, bool allowEmpty = true}) {
   return SegmentedButton<T>(
