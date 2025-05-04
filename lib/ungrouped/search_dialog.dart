@@ -1,5 +1,13 @@
 // ignore_for_file: must_be_immutable
-part of '../entao_hare.dart';
+import 'dart:async';
+
+import 'package:entao_dutil/entao_dutil.dart';
+import 'package:flutter/material.dart';
+
+import '../basic/basic.dart';
+import '../dialog/dialog.dart';
+import '../harewidget/harewidget.dart';
+import '../widgets/widgets.dart';
 
 // enum LayoutStyle { list, wrap, grid }
 

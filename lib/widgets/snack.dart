@@ -1,6 +1,7 @@
-part of '../entao_hare.dart';
 
-// extension BuildContextHareEx on BuildContext {}
+
+part of 'widgets.dart';
+
 
 const Duration _snackBarDisplayDuration = Duration(milliseconds: 4000);
 

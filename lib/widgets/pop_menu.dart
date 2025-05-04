@@ -1,4 +1,5 @@
-part of '../entao_hare.dart';
+part of 'widgets.dart';
+
 
 extension WidgetPopExt on Widget {
   PopMenu<XAction> contextActions({
@@ -93,19 +94,19 @@ class PopMenu<T> extends StatefulWidget {
 
   const PopMenu(
       {required this.child,
-      required this.builder,
-      this.onSelected,
-      this.onCanceled,
-      this.initialValue,
-      this.enable = true,
-      this.popOnTap = false,
-      this.popOnLongPress = true,
-      this.popOnRightClick = true,
-      this.useRootNavigator = true,
-      this.offset = Offset.zero,
-      this.hoverColor,
-      this.borderRadius = 3,
-      super.key})
+        required this.builder,
+        this.onSelected,
+        this.onCanceled,
+        this.initialValue,
+        this.enable = true,
+        this.popOnTap = false,
+        this.popOnLongPress = true,
+        this.popOnRightClick = true,
+        this.useRootNavigator = true,
+        this.offset = Offset.zero,
+        this.hoverColor,
+        this.borderRadius = 3,
+        super.key})
       : super();
 
   @override

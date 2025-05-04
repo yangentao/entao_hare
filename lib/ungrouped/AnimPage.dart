@@ -1,5 +1,9 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names
-part of '../entao_hare.dart';
+import 'package:flutter/material.dart';
+
+import '../basic/basic.dart';
+import '../harepage/harepage.dart';
+import '../harewidget/harewidget.dart';
 
 class AnimPage extends HarePage with SingleTickerProviderMixin {
   late AnimationController controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
