@@ -21,6 +21,7 @@ part 'radios.dart';
 part 'segments.dart';
 part 'slider.dart';
 part 'hare_text.dart';
+part 'hare_edit.dart';
 
 extension WidgetPopButtonExt on Widget {
   Widget popActions({List<XAction>? items, List<XAction> Function(BuildContext)? builder}) {

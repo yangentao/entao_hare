@@ -59,7 +59,6 @@ part 'utils/files.dart';
 part 'utils/ini.dart';
 part 'utils/io.dart';
 part 'utils/modbus.dart';
-part 'widget/hare_edit.dart';
 part 'widget/hare_ext.dart';
 part 'widget/pop_context_menu.dart';
 part 'widget/tree_path.dart';
