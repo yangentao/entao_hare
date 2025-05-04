@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'widgets.dart';
 
 class ChipChoiceGroup<T> extends HareWidget {
   final List<LabelValue<T>> items;

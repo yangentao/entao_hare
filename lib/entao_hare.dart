@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_http/entao_http.dart';
@@ -60,19 +59,9 @@ part 'utils/files.dart';
 part 'utils/ini.dart';
 part 'utils/io.dart';
 part 'utils/modbus.dart';
-part 'widget/chips.dart';
-part 'widget/edits.dart';
-part 'widget/hare_button.dart';
 part 'widget/hare_edit.dart';
 part 'widget/hare_ext.dart';
-part 'widget/hare_text.dart';
-part 'widget/hare_widgets.dart';
-part 'widget/int_item_pick.dart';
-part 'widget/page_attr.dart';
 part 'widget/pop_context_menu.dart';
-part 'widget/radios.dart';
-part 'widget/segments.dart';
-part 'widget/slider.dart';
 part 'widget/tree_path.dart';
 part 'widget/websocket_wrap.dart';
 

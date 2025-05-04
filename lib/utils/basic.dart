@@ -19,17 +19,3 @@ List<MapEntry<String, String>> parseProperties(String text, {Pattern? itemSep, P
   return values;
 }
 
-void setClipboardText(String text) {
-  Clipboard.setData(ClipboardData(text: text));
-}
-
-Future<String?> getClipboardText() async {
-  ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-  return data?.text;
-}
-
-extension TimeOfDayFormatEx on TimeOfDay {
-  String get formatTime => "${hour.formated("00")}:${minute.formated("00")}-00";
-
-  String get formatTime2 => "${hour.formated("00")}:${minute.formated("00")}";
-}

@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-part of '../entao_hare.dart';
+part of 'widgets.dart';
 
 TextInputFormatter numberOnlyInpuFormater = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
 

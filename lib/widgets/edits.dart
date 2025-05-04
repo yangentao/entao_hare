@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'widgets.dart';
 
 class EditNumber extends HareWidget {
   TextEditingController controller;

@@ -1,6 +1,7 @@
 library;
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/basic/basic.dart';
@@ -11,6 +12,15 @@ import '../harewidget/harewidget.dart';
 
 part 'actions.dart';
 part 'auto_complete.dart';
+part 'chips.dart';
+part 'edits.dart';
+part 'hare_button.dart';
+part 'hare_widgets.dart';
+part 'int_item_pick.dart';
+part 'radios.dart';
+part 'segments.dart';
+part 'slider.dart';
+part 'hare_text.dart';
 
 extension WidgetPopButtonExt on Widget {
   Widget popActions({List<XAction>? items, List<XAction> Function(BuildContext)? builder}) {

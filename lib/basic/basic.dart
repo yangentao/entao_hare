@@ -9,6 +9,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'actions.dart';
@@ -39,3 +40,18 @@ part 'utils/validator.dart';
 
 final IconData MORE_ICON = Icons.adaptive.more_rounded;
 final Icon moreArrow = Icons.keyboard_arrow_right.icon();
+
+void setClipboardText(String text) {
+  Clipboard.setData(ClipboardData(text: text));
+}
+
+Future<String?> getClipboardText() async {
+  ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+  return data?.text;
+}
+
+extension TimeOfDayFormatEx on TimeOfDay {
+  String get formatTime => "${hour.formated("00")}:${minute.formated("00")}-00";
+
+  String get formatTime2 => "${hour.formated("00")}:${minute.formated("00")}";
+}

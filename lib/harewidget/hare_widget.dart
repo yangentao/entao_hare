@@ -123,14 +123,18 @@ class HareWidgetState extends State<HareWidget> {
 class StateHolder {
   HareLife life = HareLife.inited;
   HareWidgetState? state;
-  Map<String, Object> attrs = {};
+  PropMap attrs = {};
 
-  void put(String key, Object value) {
-    attrs[key] = value;
+  void put(String key, dynamic value) {
+    if (value == null) {
+      attrs.remove(key);
+    } else {
+      attrs[key] = value;
+    }
   }
 
   T? get<T>(String key) {
-    return attrs[key]?.castTo();
+    return attrs[key];
   }
 }
 
@@ -144,3 +148,4 @@ enum HareLife {
 
   final int value;
 }
+
