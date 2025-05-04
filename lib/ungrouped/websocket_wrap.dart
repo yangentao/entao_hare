@@ -1,7 +1,4 @@
 import 'package:entao_dutil/entao_dutil.dart';
-import 'package:entao_http/entao_http.dart';
-import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../harewidget/harewidget.dart';

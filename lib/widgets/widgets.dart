@@ -19,11 +19,11 @@ part 'hare_edit.dart';
 part 'hare_text.dart';
 part 'hare_widgets.dart';
 part 'int_item_pick.dart';
+part 'pop_menu.dart';
 part 'radios.dart';
 part 'segments.dart';
 part 'slider.dart';
 part 'snack.dart';
-part 'pop_menu.dart';
 
 extension WidgetPopButtonExt on Widget {
   Widget popActions({List<XAction>? items, List<XAction> Function(BuildContext)? builder}) {

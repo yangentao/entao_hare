@@ -14,8 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'utils/plat.dart';
-part 'utils/files.dart';
 part 'actions.dart';
 part 'bits.dart';
 part 'buttons.dart';
@@ -39,7 +37,9 @@ part 'scroll.dart';
 part 'tags.dart';
 part 'text_ext.dart';
 part 'toast.dart';
+part 'utils/files.dart';
 part 'utils/localstore.dart';
+part 'utils/plat.dart';
 part 'utils/validator.dart';
 
 final IconData MORE_ICON = Icons.adaptive.more_rounded;

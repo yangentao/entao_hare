@@ -1,6 +1,5 @@
 part of '../basic.dart';
 
-
 class Plat {
   Plat._();
 

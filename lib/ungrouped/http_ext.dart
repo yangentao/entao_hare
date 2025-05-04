@@ -1,6 +1,7 @@
 import 'package:entao_http/entao_http.dart';
 
 import '../basic/basic.dart';
+
 extension HttpResultToast on HttpResult {
   void showError({String? nullMessage}) {
     if (!this.success) {

@@ -1,7 +1,4 @@
-
-
 part of 'widgets.dart';
-
 
 const Duration _snackBarDisplayDuration = Duration(milliseconds: 4000);
 
