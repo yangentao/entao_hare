@@ -1,9 +1,9 @@
 library;
 
 import 'package:entao_dutil/entao_dutil.dart';
-import 'package:flutter/material.dart';
 import 'package:entao_hare/basic/basic.dart';
 import 'package:entao_hare/harewidget/harewidget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../widgets/widgets.dart';

@@ -60,8 +60,7 @@ class RadioGroup<T> extends HareWidget {
     VisualDensity? visualDensity,
     FocusNode? focusNode,
     bool autofocus = false,
-  })
-      : _clipBehavior = clipBehavior,
+  })  : _clipBehavior = clipBehavior,
         _verticalDirection = verticalDirection,
         _textDirection = textDirection,
         _crossAxisAlignment = crossAxisAlignment,

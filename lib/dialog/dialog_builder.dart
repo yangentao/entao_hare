@@ -5,7 +5,8 @@ typedef OnBuildDialog<T> = Widget Function(DialogBuilderContext<T>);
 const EdgeInsets defaultDialogInsets = EdgeInsets.symmetric(horizontal: 36.0, vertical: 24.0);
 const EdgeInsets defaultDialogBodyInsets = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
-Future<T?> showDialogX<T>(OnBuildDialog<T> callback, {
+Future<T?> showDialogX<T>(
+  OnBuildDialog<T> callback, {
   EdgeInsets? insetPadding,
   AlignmentGeometry? alignment,
   clipBehavior = Clip.hardEdge,
@@ -18,8 +19,7 @@ Future<T?> showDialogX<T>(OnBuildDialog<T> callback, {
   };
   return showDialog<T>(
       context: HareApp.currentContext,
-      builder: (c) =>
-          Dialog(
+      builder: (c) => Dialog(
             insetPadding: insetPadding ?? defaultDialogInsets,
             alignment: alignment ?? Alignment.center,
             clipBehavior: clipBehavior,
@@ -58,7 +58,8 @@ class DialogBuilderContext<T> {
     }
   }
 
-  Widget buildGrid<E>(List<E> items, {
+  Widget buildGrid<E>(
+    List<E> items, {
     required Widget Function(ContextIndexItem<E>) builder,
     int columnCount = 0,
     double itemWidth = 80,
@@ -85,15 +86,11 @@ class DialogBuilderContext<T> {
       shrinkWrap: true,
       children: items.mapIndex((i, e) => builder(ContextIndexItem(context, i, items[i]))),
     );
-    return buildScrollable(gv, aboveWidgets: aboveWidgets,
-        belowWidgets: belowWidgets,
-        title: title,
-        ok: ok,
-        cancel: cancel,
-        dialogWidth: dialogWidth);
+    return buildScrollable(gv, aboveWidgets: aboveWidgets, belowWidgets: belowWidgets, title: title, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
   }
 
-  Widget buildList<E>(List<E> items, {
+  Widget buildList<E>(
+    List<E> items, {
     required Widget Function(ContextIndexItem<E>) builder,
     bool separated = true,
     EdgeInsets? padding,
@@ -113,15 +110,11 @@ class DialogBuilderContext<T> {
         return builder(ContextIndexItem(c, i, items[i]));
       },
     );
-    return buildScrollable(lv, aboveWidgets: aboveWidgets,
-        belowWidgets: belowWidgets,
-        title: title,
-        ok: ok,
-        cancel: cancel,
-        dialogWidth: dialogWidth);
+    return buildScrollable(lv, aboveWidgets: aboveWidgets, belowWidgets: belowWidgets, title: title, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
   }
 
-  Widget buildScrollable(Widget child, {
+  Widget buildScrollable(
+    Widget child, {
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
     String? title,
@@ -143,7 +136,8 @@ class DialogBuilderContext<T> {
     return _constrainWidth(ls);
   }
 
-  Widget buildColumn(List<Widget> children, {
+  Widget buildColumn(
+    List<Widget> children, {
     String? message,
     TextAlign? messageAlign,
     double? messageMinHeight,
@@ -170,14 +164,11 @@ class DialogBuilderContext<T> {
     Widget w = ColumnMinStretch(ls);
     if (padding != null) w = w.padded(padding);
     if (scrollable) w = w.verticalScroll();
-    return build(w, flex: true,
-        dialogWidth: dialogWidth,
-        title: title,
-        ok: ok,
-        cancel: cancel);
+    return build(w, flex: true, dialogWidth: dialogWidth, title: title, ok: ok, cancel: cancel);
   }
 
-  Widget build(Widget body, {
+  Widget build(
+    Widget body, {
     bool flex = false,
     String? title,
     bool? ok,
@@ -291,7 +282,7 @@ class DialogBuilderContext<T> {
     pop(result);
   }
 
-  AnyProp<V> prop<V extends Object >(String name, {V? missValue}) {
+  AnyProp<V> prop<V extends Object>(String name, {V? missValue}) {
     return AnyProp<V>(map: this.attrMap, key: name, missValue: missValue);
   }
 }

@@ -1,5 +1,3 @@
-
-
 part of '../basic.dart';
 
 typedef TextValidator = String? Function(String?);

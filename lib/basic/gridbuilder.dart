@@ -1,6 +1,5 @@
 part of 'basic.dart';
 
-
 GridView XGridViewBuilder({
   required NullableIndexedWidgetBuilder itemBuilder,
   int? itemCount,
@@ -41,7 +40,7 @@ GridView XGridViewBuilder({
     flexPercent: flexPercent,
   );
   SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
-        (c, i) => itemBuilder(c, i),
+    (c, i) => itemBuilder(c, i),
     findChildIndexCallback: findChildIndexCallback,
     childCount: itemCount,
     addAutomaticKeepAlives: addAutomaticKeepAlives,

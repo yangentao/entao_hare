@@ -1,8 +1,6 @@
 part of 'widgets.dart';
 
-
 extension StringActionExt on String {
-
   @Deprecated("Use actionX instead.")
   XAction actionItem(XActionCallback callback, {bool checked = false}) {
     return XAction(this, callback: callback, checked: checked);
@@ -15,10 +13,7 @@ extension StringActionExt on String {
   XAction action(VoidCallback callback, {bool checked = false}) {
     return XAction(this, action: callback, checked: checked);
   }
-
-
 }
-
 
 Widget iconPopActions(IconData icon, List<XAction> Function(BuildContext c) callback) {
   return icon.icon().paddings(hor: 16).popActions(builder: callback);
@@ -27,7 +22,6 @@ Widget iconPopActions(IconData icon, List<XAction> Function(BuildContext c) call
 Widget moreActions(List<XAction> Function(BuildContext c) callback) {
   return MORE_ICON.icon().paddings(hor: 16).popActions(builder: callback);
 }
-
 
 typedef XActionCallback = void Function(XAction);
 typedef XActionDisplay = Widget Function(XAction);
@@ -72,7 +66,13 @@ class XAction {
 
   Widget _displayMenuItem(XAction item) {
     if (item.hasIcon || item.checked) {
-      return Row(children: [if (item.hasIcon) item.iconWidget!, if (item.hasIcon) space(width: 12), item.titleWidget, if (item.checked) Spacer(), if (item.checked) Icons.check.icon()]);
+      return Row(children: [
+        if (item.hasIcon) item.iconWidget!,
+        if (item.hasIcon) space(width: 12),
+        item.titleWidget,
+        if (item.checked) Spacer(),
+        if (item.checked) Icons.check.icon()
+      ]);
     }
     return item.titleWidget;
   }
@@ -114,7 +114,9 @@ class XAction {
     return HareBuilder((c) {
       return ActionChip(
           label: display?.call(this) ?? titleWidget,
-          avatar: (!hasIcon || noIcon) ? null : CircleAvatar(backgroundColor: Colors.transparent, foregroundColor: globalTheme.textTheme.labelMedium?.color, child: iconWidget),
+          avatar: (!hasIcon || noIcon)
+              ? null
+              : CircleAvatar(backgroundColor: Colors.transparent, foregroundColor: globalTheme.textTheme.labelMedium?.color, child: iconWidget),
           onPressed: enable ? onclick : null);
     }).also((e) => _widget = e);
   }

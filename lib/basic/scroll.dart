@@ -1,6 +1,5 @@
 part of 'basic.dart';
 
-
 extension WidgetScrollExt on Widget {
   SingleChildScrollView verticalScroll({ScrollController? controller, ScrollPhysics? physics}) {
     return SingleChildScrollView(controller: controller, scrollDirection: Axis.vertical, physics: physics, child: this);

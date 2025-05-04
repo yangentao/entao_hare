@@ -47,7 +47,11 @@ class HareTimeRow extends HareWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RowMax([title.text(style: themeData.textTheme.titleMedium), const Spacer(), OutlinedButton(onPressed: _pickTime, child: time == null ? "选择时间".text() : time?.formatTime2.text())]);
+    return RowMax([
+      title.text(style: themeData.textTheme.titleMedium),
+      const Spacer(),
+      OutlinedButton(onPressed: _pickTime, child: time == null ? "选择时间".text() : time?.formatTime2.text())
+    ]);
   }
 }
 
@@ -72,6 +76,10 @@ class HareDateRow extends HareWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RowMax([title.text(style: themeData.textTheme.titleMedium), const Spacer(), OutlinedButton(onPressed: _pickDate, child: date == null ? "选择日期".text() : date?.formatDate.text())]);
+    return RowMax([
+      title.text(style: themeData.textTheme.titleMedium),
+      const Spacer(),
+      OutlinedButton(onPressed: _pickDate, child: date == null ? "选择日期".text() : date?.formatDate.text())
+    ]);
   }
 }

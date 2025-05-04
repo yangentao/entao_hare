@@ -18,8 +18,6 @@ part 'desktop.dart';
 part 'mobile.dart';
 part 'nav_bar.dart';
 
-
-
 extension BuildContextDashEx on BuildContext {
   void popDash<T extends Object>(HarePage page, [T? result]) {
     DesktopDashPage? ddp = this.findAncestorWidgetOfExactType();

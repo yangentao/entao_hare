@@ -21,7 +21,7 @@ class PreparePage extends HarePage {
         updateState();
       }
     } catch (e) {
-      success = false ;
+      success = false;
       _msg = "加载失败: $e";
       updateState();
     }
@@ -35,7 +35,7 @@ class PreparePage extends HarePage {
   void onCreate() {
     super.onCreate();
     // delayMillSeconds(10, () {
-      loadPrepare();
+    loadPrepare();
     // });
   }
 

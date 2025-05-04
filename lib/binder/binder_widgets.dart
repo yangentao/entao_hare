@@ -2,8 +2,6 @@
 
 part of 'binder.dart';
 
-
-
 Checkbox CheckboxB(
   Binder<bool?> binder, {
   Key? key,

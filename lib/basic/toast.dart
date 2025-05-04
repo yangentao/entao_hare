@@ -1,7 +1,5 @@
 part of 'basic.dart';
 
-
-
 extension ListResultToast on BaseResult {
   void showError({String? nullMessage}) {
     if (!this.success) {

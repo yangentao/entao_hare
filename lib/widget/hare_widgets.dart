@@ -35,7 +35,12 @@ class HareDate extends HareWidget {
   Widget get preferSizedBox => sizedBox(width: 150, height: 36);
 
   void _onClick(BuildContext context) {
-    showDatePicker(context: context, initialDate: value ?? DateTime.now(), firstDate: firstDate ?? DateTime(1970, 1, 1), lastDate: lastDate ?? DateTime.now().add(const Duration(days: 10 * 365))).then((value) {
+    showDatePicker(
+            context: context,
+            initialDate: value ?? DateTime.now(),
+            firstDate: firstDate ?? DateTime(1970, 1, 1),
+            lastDate: lastDate ?? DateTime.now().add(const Duration(days: 10 * 365)))
+        .then((value) {
       bool changed = this.value != value;
       if (changed && value != null) {
         this.value = value;

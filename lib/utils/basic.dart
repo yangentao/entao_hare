@@ -1,7 +1,5 @@
 part of '../entao_hare.dart';
 
-
-
 Future<PackageInfo> packageInfo() async {
   PackageInfo info = await PackageInfo.fromPlatform();
   return info;

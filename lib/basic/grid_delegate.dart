@@ -1,6 +1,5 @@
 part of 'basic.dart';
 
-
 class GridDelegateX extends SliverGridDelegate {
   const GridDelegateX({
     this.crossAxisExtent = 0,

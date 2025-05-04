@@ -1,6 +1,5 @@
 part of 'basic.dart';
 
-
 class XListView<T> extends StatelessWidget {
   final int? itemCount;
   final NullableIndexedWidgetBuilder? itemBuilder;

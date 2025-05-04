@@ -81,10 +81,10 @@ class TabbarPage extends GroupHarePage with TickerProviderMixin {
         ]).centered(),
         if (allowClose && !isFirst)
           IconButton(
-              onPressed: () {
-                removeTab(page: tabPage);
-              },
-              icon: Icons.close.icon(size: 16))
+                  onPressed: () {
+                    removeTab(page: tabPage);
+                  },
+                  icon: Icons.close.icon(size: 16))
               .align(Alignment.centerRight),
       ],
     ).tab();

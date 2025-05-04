@@ -86,8 +86,7 @@ class HareEdit extends HareWidget {
     this.allowExp,
     this.denyExp,
     this.validator,
-  })
-      : controller = TextEditingController(text: value),
+  })  : controller = TextEditingController(text: value),
         super();
 
   String get value => controller.text;
@@ -190,7 +189,18 @@ class HareTextArea extends HareWidget {
   bool readOnly;
 
   HareTextArea(
-      {String value = "", this.label, this.icon, this.style, this.readOnly = false, this.counterText, this.inputFormater, this.minLines, this.maxLines = 6, this.onChanged, this.onSubmit, this.maxLength})
+      {String value = "",
+      this.label,
+      this.icon,
+      this.style,
+      this.readOnly = false,
+      this.counterText,
+      this.inputFormater,
+      this.minLines,
+      this.maxLines = 6,
+      this.onChanged,
+      this.onSubmit,
+      this.maxLength})
       : controller = TextEditingController(text: value),
         super();
 

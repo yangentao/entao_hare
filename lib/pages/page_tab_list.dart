@@ -55,7 +55,7 @@ class HareTabWidget extends HareWidget with SingleTickerProviderMixin {
     onTabView = (c, i) => pages[i];
   }
 
-  HareTabWidget.fromPairs(List<LabelValue<Widget>> pairs, { this.initialIndex = 0, this.labelColor})
+  HareTabWidget.fromPairs(List<LabelValue<Widget>> pairs, {this.initialIndex = 0, this.labelColor})
       : length = pairs.length,
         super() {
     this.onTab = (c, i) => Tab(text: pairs[i].label);

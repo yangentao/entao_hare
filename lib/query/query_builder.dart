@@ -65,7 +65,16 @@ class QueryBuilder {
   }
 }
 
-const List<QueryOperator> commonConditionOperators = [QueryOperator.eq, QueryOperator.ge, QueryOperator.le, QueryOperator.gt, QueryOperator.lt, QueryOperator.ne, QueryOperator.inset, QueryOperator.nul];
+const List<QueryOperator> commonConditionOperators = [
+  QueryOperator.eq,
+  QueryOperator.ge,
+  QueryOperator.le,
+  QueryOperator.gt,
+  QueryOperator.lt,
+  QueryOperator.ne,
+  QueryOperator.inset,
+  QueryOperator.nul
+];
 // const List<QueryOperator> numConditionOperators = [...commonConditionOperators, QueryOperator.bit];
 const List<QueryOperator> numConditionOperators = [...commonConditionOperators];
 const List<QueryOperator> textConditionOperators = [...commonConditionOperators, QueryOperator.start, QueryOperator.end, QueryOperator.contain];
@@ -161,9 +170,7 @@ class GroupCondition extends QueryCondition {
 
   @override
   String? buildCondition() {
-    List<String> ls = conditions
-        .mapList((e) => e.buildCondition())
-        .nonNullList;
+    List<String> ls = conditions.mapList((e) => e.buildCondition()).nonNullList;
     if (ls.isEmpty) return null;
     if (ls.length == 1) return ls.first;
     String s = ls.join(',');
@@ -186,15 +193,11 @@ OrderByItem DESC(String field) {
 }
 
 QueryCondition AND_WIDGETS(List<QueryWidget> items) {
-  return GroupCondition(true, items
-      .mapList((e) => e.condition())
-      .nonNullList);
+  return GroupCondition(true, items.mapList((e) => e.condition()).nonNullList);
 }
 
 QueryCondition OR_WIDGETS(List<QueryWidget> items) {
-  return GroupCondition(false, items
-      .mapList((e) => e.condition())
-      .nonNullList);
+  return GroupCondition(false, items.mapList((e) => e.condition()).nonNullList);
 }
 
 QueryCondition AND(List<QueryCondition> items) {

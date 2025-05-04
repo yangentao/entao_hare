@@ -54,7 +54,12 @@ class DesktopDashPage extends DashPage {
     if (sub) {
       return ListTile(title: page.pageLabel.text(), selected: checked, trailing: checked ? Icons.play_arrow_rounded.icon() : null, onTap: () => replace(page));
     }
-    return ListTile(title: page.pageLabel.text(), leading: page.pageIcon.icon(), selected: checked, trailing: checked ? Icons.play_arrow_rounded.icon() : null, onTap: () => replace(page));
+    return ListTile(
+        title: page.pageLabel.text(),
+        leading: page.pageIcon.icon(),
+        selected: checked,
+        trailing: checked ? Icons.play_arrow_rounded.icon() : null,
+        onTap: () => replace(page));
   }
 
   bool hasPage(Widget item) {

@@ -1,6 +1,5 @@
 part of 'harepage.dart';
 
-
 mixin DashSlot on Widget {
   bool centerTitle = true;
   Widget? title;

@@ -8,7 +8,7 @@ class BottomBarPage extends HarePage {
 
   BottomBarPage(this.items)
       : assert(items.isNotEmpty),
-        super() ;
+        super();
 
   HarePage get currentItem => items[_selectedIndex];
 

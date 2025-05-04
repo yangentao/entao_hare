@@ -1,6 +1,5 @@
 part of 'basic.dart';
 
-
 class StringOptions {
   List<String> items;
 
@@ -17,7 +16,8 @@ class IntOptions {
   final String missLabel;
   final Set<int> hiddenSet;
 
-  IntOptions(this.items, {
+  IntOptions(
+    this.items, {
     List<int>? hiddenValues,
     this.bitOperator = false,
     this.missLabel = "未指定",
@@ -48,9 +48,11 @@ class IntOptions {
 
   List<PopupMenuItem<int>> menuItems({bool visiableOnly = true}) => entries(visiableOnly).mapList((e) => toMenuItem(e.key));
 
-  List<DropdownMenuItem<int>> dropdownItems({bool visiableOnly = true}) => entries(visiableOnly).mapList((e) => DropdownMenuItem<int>(value: e.key, child: e.value.text()));
+  List<DropdownMenuItem<int>> dropdownItems({bool visiableOnly = true}) =>
+      entries(visiableOnly).mapList((e) => DropdownMenuItem<int>(value: e.key, child: e.value.text()));
 
-  List<ButtonSegment<int>> segmentItems({bool visiableOnly = true, double paddingX = 8}) => entries(visiableOnly).mapList((e) => ButtonSegment<int>(value: e.key, label: e.value.text().paddings(hor: paddingX)));
+  List<ButtonSegment<int>> segmentItems({bool visiableOnly = true, double paddingX = 8}) =>
+      entries(visiableOnly).mapList((e) => ButtonSegment<int>(value: e.key, label: e.value.text().paddings(hor: paddingX)));
 
   DropdownMenuItem<int> toDropdownItem(int value) => DropdownMenuItem<int>(value: value, child: toWidget(value));
 

@@ -14,8 +14,8 @@ import '../harewidget/harewidget.dart';
 
 part 'binder_chip.dart';
 part 'binder_radio.dart';
-part 'binder_widgets.dart';
 part 'binder_segments.dart';
+part 'binder_widgets.dart';
 
 extension HarePageBinderExt on HareWidget {
   Binder<T> bind<T>(T initValue, {BinderCallback<T>? onChanged}) {
