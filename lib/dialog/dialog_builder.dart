@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'dialog.dart';
 
 typedef OnBuildDialog<T> = Widget Function(DialogBuilderContext<T>);
 
@@ -18,7 +18,7 @@ Future<T?> showDialogX<T>(
     return callback(b);
   };
   return showDialog<T>(
-      context: HareApp.currentContext,
+      context: globalContext,
       builder: (c) => Dialog(
             insetPadding: insetPadding ?? defaultDialogInsets,
             alignment: alignment ?? Alignment.center,

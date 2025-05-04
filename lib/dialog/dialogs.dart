@@ -1,4 +1,4 @@
-part of '../entao_hare.dart';
+part of 'dialog.dart';
 
 class dialogs {
   dialogs._();

@@ -8,16 +8,15 @@ import 'dart:io';
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_http/entao_http.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'app/app.dart';
 import 'basic/basic.dart';
 import 'dash/dash.dart';
+import 'dialog/dialog.dart';
 import 'harepage/harepage.dart';
 import 'harewidget/harewidget.dart';
 import 'query/query.dart';
@@ -28,6 +27,7 @@ export 'app/app.dart';
 export 'basic/basic.dart';
 export 'binder/binder.dart';
 export 'dash/dash.dart';
+export 'dialog/dialog.dart';
 export 'harepage/harepage.dart';
 export 'harewidget/harewidget.dart';
 export 'plat.dart';
@@ -35,8 +35,6 @@ export 'query/query.dart';
 export 'table/table.dart';
 export 'widgets/widgets.dart';
 
-part 'dialog/dialog_builder.dart';
-part 'dialog/dialogs.dart';
 part 'examples/AnimPage.dart';
 part 'pages/basic_ui.dart';
 part 'pages/bottom_nav_bar.dart';
