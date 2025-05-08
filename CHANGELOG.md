@@ -7,3 +7,6 @@
 ## 0.0.5
 * column pagex, IndexItem.
 
+## 0.0.6
+* hare page.
+
