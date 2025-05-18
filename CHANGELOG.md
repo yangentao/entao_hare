@@ -9,4 +9,6 @@
 
 ## 0.0.6
 * hare page.
+## 1.0.0
+* dep log
 
