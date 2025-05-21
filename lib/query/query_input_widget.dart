@@ -2,7 +2,7 @@
 
 part of 'query.dart';
 
-class InputQueryWidget extends QueryWidget {
+class InputQueryWidget extends HareWidget with WithCondition {
   TextEditingController? _controller;
 
   final List<TextInputFormatter> _inputFormaters = [];
@@ -12,9 +12,9 @@ class InputQueryWidget extends QueryWidget {
   double? _optionsWidth;
   late QueryOperatorWidget operatorDropdown;
 
-  QueryOperator get currentOperator => operatorDropdown.currentOperator;
+  QueryOp get currentOperator => operatorDropdown.currentOperator;
 
-  set currentOperator(QueryOperator op) => operatorDropdown.currentOperator = op;
+  set currentOperator(QueryOp op) => operatorDropdown.currentOperator = op;
 
   String? _helper;
   Future<String?> Function(String input)? onSearch;
@@ -35,7 +35,7 @@ class InputQueryWidget extends QueryWidget {
   }
 
   InputQueryWidget.text(this.field, this.label,
-      {this.hint, QueryOperator? operator, QueryConditionChange? onChange, this.onSearch, this.autoCompleteBuilder, double? optionsWidth, int maxLength = 512})
+      {this.hint, QueryOp? operator, QueryConditionChange? onChange, this.onSearch, this.autoCompleteBuilder, double? optionsWidth, int maxLength = 512})
       : super() {
     _inputFormaters << LengthLimitingTextInputFormatter(maxLength);
     _inputFormaters << FilteringTextInputFormatter.deny(RegExp(r'[;"]'));
@@ -61,11 +61,11 @@ class InputQueryWidget extends QueryWidget {
   }
 
   @override
-  QueryCondition? condition() {
+  QueryCond? condition() {
     if (value.trim().isEmpty) {
       return null;
     }
-    return SingleCondition(op: currentOperator, field: field, params: [value.trim()]);
+    return FieldCond(op: currentOperator, field: field, values: [value.trim()]);
   }
 
   void _fireChanged() {

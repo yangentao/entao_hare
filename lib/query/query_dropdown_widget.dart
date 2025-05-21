@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 part of 'query.dart';
 
-class DropdownQueryWidget extends QueryWidget {
+class DropdownQueryWidget extends HareWidget with WithCondition {
   final IntOptions options;
   late QueryOperatorWidget operatorDropdown = QueryOperatorWidget.number((e) => _fireChanged());
   final String field;
@@ -14,12 +14,12 @@ class DropdownQueryWidget extends QueryWidget {
     onConditionChange = onChange;
   }
 
-  QueryOperator get currentOperator => operatorDropdown.currentOperator;
+  QueryOp get currentOperator => operatorDropdown.currentOperator;
 
   @override
-  QueryCondition? condition() {
+  QueryCond? condition() {
     if (value == null) return null;
-    return SingleCondition(op: currentOperator, field: field, params: [value]);
+    return FieldCond(op: currentOperator, field: field, values: [value]);
   }
 
   void _fireChanged() {

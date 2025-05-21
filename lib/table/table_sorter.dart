@@ -21,8 +21,8 @@ class DataTableSortor<E> {
     return enable ? _TableRemoteSortor<E>(this, field).call : null;
   }
 
-  OrderByItem? orderByItem() {
-    return field == null ? null : OrderByItem(asc: asc, field: field!);
+  QuerySort? orderByItem() {
+    return field == null ? null : QuerySort(asc: asc, field: field!);
   }
 
   void updateOrder(String? field, bool asc) {

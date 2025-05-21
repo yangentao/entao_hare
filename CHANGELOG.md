@@ -12,3 +12,6 @@
 ## 1.0.0
 * dep log
 
+## 1.0.1
+* query condition
+

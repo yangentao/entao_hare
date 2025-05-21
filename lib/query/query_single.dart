@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 part of 'query.dart';
 
-class SingleSelectQueryWidget<T> extends QueryWidget {
+class SingleSelectQueryWidget<T> extends HareWidget with WithCondition {
   final List<LabelValue<T>> items = [];
   final String label;
   final String? clearText;
@@ -34,9 +34,9 @@ class SingleSelectQueryWidget<T> extends QueryWidget {
   }
 
   @override
-  QueryCondition? condition() {
+  QueryCond? condition() {
     var item = selectedItem;
     if (item == null) return null;
-    return SingleCondition(op: QueryOperator.eq, field: field, params: [item.value]);
+    return FieldCond(op: QueryOp.eq, field: field, values: [item.value]);
   }
 }

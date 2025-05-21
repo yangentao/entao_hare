@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 part of 'query.dart';
 
-class SegmentQueryWidget<T> extends QueryWidget {
+class SegmentQueryWidget<T> extends HareWidget with WithCondition {
   final List<LabelValue<T>> items = [];
   final String field;
   final bool multi;
@@ -36,14 +36,14 @@ class SegmentQueryWidget<T> extends QueryWidget {
   }
 
   @override
-  QueryCondition? condition() {
+  QueryCond? condition() {
     var set = selectedItems;
     if (set.isEmpty) return null;
     if (bitOperator && T == int) {
       List<int> ns = set.toList().castTo();
       int a = ns.reduce((value, element) => value | element);
-      return BIT(field, a);
+      return FieldCond(field: field, values: [a], op: QueryOp.bit);
     }
-    return SingleCondition(op: QueryOperator.inset, field: field, params: selectedItems.toList());
+    return FieldCond(op: QueryOp.inset, field: field, values: selectedItems.toList());
   }
 }

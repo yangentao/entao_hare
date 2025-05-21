@@ -5,9 +5,9 @@ const List<String> _bigFonts = ["≠", "≥", "≤"];
 
 //setOf("eq", "ne", "ge", "le", "gt", "lt",  "nul", "start", "end", "contain", "in")
 class QueryOperatorWidget extends HareWidget {
-  final List<QueryOperator> opList;
-  void Function(QueryOperator e) onChange;
-  late QueryOperator currentOperator = opList.first;
+  final List<QueryOp> opList;
+  void Function(QueryOp e) onChange;
+  late QueryOp currentOperator = opList.first;
 
   QueryOperatorWidget(this.opList, this.onChange)
       : assert(opList.isNotEmpty),
@@ -28,7 +28,7 @@ class QueryOperatorWidget extends HareWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<QueryOperator>(
+    return DropdownButtonFormField<QueryOp>(
       value: currentOperator,
       isExpanded: true,
       focusColor: Colors.transparent,
@@ -46,8 +46,8 @@ class QueryOperatorWidget extends HareWidget {
     ).sizedBox(width: 42);
   }
 
-  List<DropdownMenuItem<QueryOperator>> _makeDropList(List<QueryOperator> items) {
-    return items.mapList((e) => DropdownMenuItem<QueryOperator>(
+  List<DropdownMenuItem<QueryOp>> _makeDropList(List<QueryOp> items) {
+    return items.mapList((e) => DropdownMenuItem<QueryOp>(
           value: e,
           child: e.label.text(style: TextStyle(fontSize: _itemFontSize(e.label), color: Colors.lightBlue)).centered(),
         ));
