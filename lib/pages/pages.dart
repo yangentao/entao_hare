@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import '../basic/basic.dart';
 import '../harepage/harepage.dart';
 import '../harewidget/harewidget.dart';
-import '../query/query.dart';
 import '../table/table.dart';
 
 part 'bottom_bar_page.dart';
