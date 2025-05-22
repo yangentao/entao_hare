@@ -10,6 +10,10 @@ void main() {
         FieldCond(field: "addr", op: QueryOp.ne, values: ["Jinan"]),
         FieldCond(field: "age", op: QueryOp.ge, values: [49]),
       ]),
+      AndCond([
+        FieldCond(field: "addr1", op: QueryOp.ne, values: ["Jinan"]),
+        FieldCond(field: "age1", op: QueryOp.ge, values: [49]),
+      ]),
     ]);
 
     printX(c.buildCondition());

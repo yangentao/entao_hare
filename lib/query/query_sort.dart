@@ -1,7 +1,7 @@
 part of 'query.dart';
 
-/// QuerySort q = QuerySort().asc("name").desc("date")
-/// sort=q.toString()
+/// QuerySort q = QuerySort("id").asc("name").desc("date")
+/// http://xxx/list?sort=q.toString()
 class QuerySort {
   List<String> list = [];
 
@@ -16,12 +16,16 @@ class QuerySort {
   }
 
   QuerySort asc(String field) {
-    list << "_$field";
+    if(field.isNotEmpty) {
+      list << "_$field";
+    }
     return this;
   }
 
   QuerySort desc(String field) {
-    list << "${field}_";
+    if(field.isNotEmpty) {
+      list << "${field}_";
+    }
     return this;
   }
 
