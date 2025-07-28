@@ -15,3 +15,6 @@
 ## 1.0.1
 * query condition
 
+## 1.2.0
+* dart 3.8
+

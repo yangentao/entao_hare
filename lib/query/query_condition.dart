@@ -2,6 +2,10 @@ part of 'query.dart';
 
 sealed class QueryCond {
   String? buildCondition();
+  @override
+  String toString() {
+    return buildCondition() ?? "";
+  }
 }
 
 class FieldCond extends QueryCond {
