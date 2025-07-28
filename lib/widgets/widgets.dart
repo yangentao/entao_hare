@@ -63,15 +63,28 @@ extension WidgetPopButtonExt on Widget {
     Widget Function(LabelValue<T>)? display,
     required void Function(LabelValue<T>) callback,
     LabelValue<T>? initialValue,
+    T? value,
   }) {
     return PopupMenuButton<LabelValue<T>>(
       child: this,
       onSelected: (e) => callback(e),
       position: PopupMenuPosition.under,
-      initialValue: initialValue,
+      initialValue: initialValue ?? items?.firstOr((e)=>e.value == value ),
       itemBuilder: (BuildContext c) {
         List<LabelValue<T>> ls = builder?.call(c) ?? items ?? [];
         return ls.mapList((e) => PopupMenuItem<LabelValue<T>>(value: e, child: display?.call(e) ?? e.label.text()));
+      },
+    );
+  }
+
+  Widget popPairs<T>({required List<LabelValue<T>> items, Widget Function(LabelValue<T>)? display, required void Function(LabelValue<T>) callback, T? value}) {
+    return PopupMenuButton<LabelValue<T>>(
+      child: this,
+      onSelected: (e) => callback(e),
+      position: PopupMenuPosition.under,
+      initialValue: items.firstOr((e) => e.value == value),
+      itemBuilder: (BuildContext c) {
+        return items.mapList((e) => PopupMenuItem<LabelValue<T>>(value: e, child: display?.call(e) ?? e.label.text()));
       },
     );
   }
