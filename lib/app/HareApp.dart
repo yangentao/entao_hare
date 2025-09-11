@@ -8,8 +8,6 @@ class EntaoApp {
   ThemeData _themeData = ThemeData.light(useMaterial3: true);
   ThemeData? _darkThemeData;
   GlobalKey<NavigatorState> globalKey = GlobalKey();
-  double listTileHorizontalTitleGap = 4;
-  VoidCallback? onLogout;
 
   BuildContext get currentContext => globalKey.currentContext!;
 
@@ -18,6 +16,14 @@ class EntaoApp {
   ThemeData get themeData => globalKey.currentContext!.themeData;
 
   TextTheme get textTheme => globalKey.currentContext!.themeData.textTheme;
+
+  double listTileHorizontalTitleGap = 4;
+  VoidCallback? onLogout;
+
+  Locale? locale;
+  List<Locale>? supportedLocales;
+  LocalizationsDelegate<dynamic>? localDelegate;
+  String Function(BuildContext)? onGenerateTitle;
 
   EntaoApp() {
     WidgetsFlutterBinding.ensureInitialized();
@@ -67,37 +73,37 @@ class EntaoApp {
 
   //ListTileTheme
   void run(Widget? home) {
-    runApp(MaterialApp(
-      title: title,
-      themeMode: _themeMode,
-      theme: _themeData,
-      darkTheme: _darkThemeData,
-      locale: const Locale("zh", 'CN'),
-      supportedLocales: const [Locale('zh', 'CN'), Locale('en', '')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      debugShowCheckedModeBanner: false,
-      navigatorKey: globalKey,
-      home: home,
-      builder: _builder,
-    ));
+    runApp(
+      MaterialApp(
+        onGenerateTitle: onGenerateTitle ?? (c) => title,
+        themeMode: _themeMode,
+        theme: _themeData,
+        darkTheme: _darkThemeData,
+        locale: locale,
+        supportedLocales: supportedLocales ?? [Locale("zh")],
+        localizationsDelegates: [?localDelegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
+        debugShowCheckedModeBanner: false,
+        navigatorKey: globalKey,
+        home: home,
+        builder: _builder,
+      ),
+    );
   }
 
   Widget _builder(BuildContext context, Widget? w) {
     return Material(
-        child: RouterDataWidget(
-            child: Directionality(
-      textDirection: TextDirection.ltr,
-      child: ListTileTheme(
-        horizontalTitleGap: listTileHorizontalTitleGap,
-        child: Overlay(initialEntries: [
-          OverlayEntry(builder: (ctx) => Container(child: w)),
-        ]),
+      child: RouterDataWidget(
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: ListTileTheme(
+            horizontalTitleGap: listTileHorizontalTitleGap,
+            child: Overlay(
+              initialEntries: [OverlayEntry(builder: (ctx) => Container(child: w))],
+            ),
+          ),
+        ),
       ),
-    )));
+    );
   }
 
   void pop<T>([T? result]) {

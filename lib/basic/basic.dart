@@ -23,10 +23,10 @@ part 'context.dart';
 part 'data_widget.dart';
 part 'define.dart';
 part 'dimension.dart';
+part 'grid_builder.dart';
 part 'grid_delegate.dart';
 part 'grid_items.dart';
 part 'grid_tile.dart';
-part 'grid_builder.dart';
 part 'hare_layout.dart';
 part 'listview.dart';
 part 'loading.dart';
@@ -40,6 +40,10 @@ part 'utils/files.dart';
 part 'utils/localstore.dart';
 part 'utils/plat.dart';
 part 'utils/validator.dart';
+
+Builder builderWidget(WidgetBuilder b, {Key? key}) {
+  return Builder(builder: b, key: key);
+}
 
 final IconData MORE_ICON = Icons.adaptive.more_rounded;
 final Icon moreArrow = Icons.keyboard_arrow_right.icon();
@@ -67,10 +71,12 @@ ButtonStyle get elevatedButtonStyleLarge => ElevatedButton.styleFrom(backgroundC
 
 List<DropdownMenuItem<String>> makeDropList(List<String> items) {
   return items
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Center(child: Text(e)),
-          ))
+      .map(
+        (e) => DropdownMenuItem<String>(
+          value: e,
+          child: Center(child: Text(e)),
+        ),
+      )
       .toList();
 }
 
@@ -80,8 +86,9 @@ class IndexItem<T> {
 
   IndexItem(this.index, this.item);
 }
+
 extension ListIndexItemExt<T> on List<T> {
-  IndexItem<T> indexItem(int index){
+  IndexItem<T> indexItem(int index) {
     return IndexItem(index, this.elementAt(index));
   }
 }
