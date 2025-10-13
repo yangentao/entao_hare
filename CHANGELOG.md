@@ -20,3 +20,6 @@
 
 ## 1.2.1
 * locale
+
+## 1.2.2
+* RadioGroupX

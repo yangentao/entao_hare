@@ -1,6 +1,6 @@
 part of 'widgets.dart';
 
-class RadioGroup<T> extends HareWidget {
+class RadioGroupX<T> extends HareWidget {
   final Iterable<LabelValue<T>> items;
   final NotifyValue<T> notifyValue;
 
@@ -33,7 +33,7 @@ class RadioGroup<T> extends HareWidget {
   final FocusNode? _focusNode;
   final bool _autofocus;
 
-  RadioGroup({
+  RadioGroupX({
     required this.items,
     T? value,
     this.onChange,
