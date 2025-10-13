@@ -22,4 +22,4 @@
 * locale
 
 ## 1.2.2
-* RadioGroupX
+* Raname RadioGroupX
