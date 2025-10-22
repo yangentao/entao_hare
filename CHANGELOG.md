@@ -29,3 +29,6 @@
 
 ## 1.2.5
 * bottom bar
+* 
+## 1.2.6
+* build Scaffold

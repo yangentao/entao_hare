@@ -63,8 +63,9 @@ abstract class DashPage extends HareWidget {
 
     Widget? leadButton;
     if (thisDrawer != null) {
-      leadButton = Builder(builder: (ctx) {
-        return IconButton(
+      leadButton = Builder(
+        builder: (ctx) {
+          return IconButton(
             onPressed: () {
               if (largeScreen) {
                 _showDrawer = !_showDrawer;
@@ -73,14 +74,17 @@ abstract class DashPage extends HareWidget {
                 Scaffold.of(ctx).openDrawer();
               }
             },
-            icon: Icons.menu.icon(size: 32));
-      });
+            icon: Icons.menu.icon(size: 32),
+          );
+        },
+      );
     } else if (showBack) {
       leadButton = IconButton(
-          onPressed: () {
-            onBackPressed(context);
-          },
-          icon: Icons.keyboard_arrow_left.icon(size: 32));
+        onPressed: () {
+          onBackPressed(context);
+        },
+        icon: Icons.keyboard_arrow_left.icon(size: 32),
+      );
     }
 
     HareAppBar bar = HareAppBar(
@@ -92,24 +96,31 @@ abstract class DashPage extends HareWidget {
       centerTitle: isTitleCenter(),
     ).also((e) => appBar = e);
 
-    HareBuilder bBuilder = HareBuilder((c) => _buildBody(c, thisDrawer, largeScreen) ?? Container());
+    HareBuilder bBuilder = HareBuilder((c) => buildBody(c, thisDrawer, largeScreen) ?? Container());
     bodyBuilder = bBuilder;
-    return Scaffold(
-      key: UniqueKey(),
+    return buildScaffold(
       appBar: bar,
-      bottomNavigationBar: buildBottomNavigationBar(context),
+      bottomBar: buildBottomNavigationBar(context),
       drawer: largeScreen ? null : thisDrawer,
       body: safeArea ? Container(child: bBuilder).safeArea() : Container(child: bBuilder),
     );
   }
 
-  Widget? _buildBody(BuildContext context, Drawer? drawer, bool largeScreen) {
+  Widget buildScaffold({PreferredSizeWidget? appBar, Widget? bottomBar, Widget? drawer, required Widget body}) {
+    return Scaffold(key: UniqueKey(), appBar: appBar, bottomNavigationBar: bottomBar, drawer: drawer, body: body);
+  }
+
+  Widget? buildBody(BuildContext context, Drawer? drawer, bool largeScreen) {
     var content = buildContent(context);
     if (largeScreen && drawer != null && _showDrawer) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         verticalDirection: VerticalDirection.up,
-        children: [drawer, Container(color: themeData.dividerColor, width: 1), content.expanded()],
+        children: [
+          drawer,
+          Container(color: themeData.dividerColor, width: 1),
+          content.expanded(),
+        ],
       );
     } else {
       return content;
