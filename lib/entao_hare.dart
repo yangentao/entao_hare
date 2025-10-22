@@ -15,5 +15,5 @@ export 'ungrouped/hare_utils.dart';
 export 'ungrouped/http_ext.dart';
 export 'ungrouped/search_dialog.dart';
 export 'ungrouped/tree_path.dart';
-export 'ungrouped/websocket_wrap.dart';
+export 'ungrouped/hare_websocket.dart';
 export 'widgets/widgets.dart';
