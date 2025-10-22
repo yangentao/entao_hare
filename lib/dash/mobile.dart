@@ -2,17 +2,21 @@
 part of 'dash.dart';
 
 class MobileDashPage extends DashPage {
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
   List<HarePage> bottomItems;
-  final Drawer? _drawer;
+  final Drawer? drawer;
   TypeWidgetBuilder<Drawer>? drawerBuilder;
 
-  MobileDashPage(this.bottomItems, {Drawer? drawer, this.drawerBuilder})
-      : assert(bottomItems.isNotEmpty),
-        _drawer = drawer,
-        super();
+  MobileDashPage(this.bottomItems, {this.drawer, this.drawerBuilder}) : assert(bottomItems.isNotEmpty), super();
 
-  HarePage get currentItem => bottomItems[_selectedIndex];
+  HarePage get currentItem => bottomItems[selectedIndex];
+
+  int get pageCount => bottomItems.length;
+
+  void updateIndex(int n) {
+    selectedIndex = n;
+    updateState();
+  }
 
   @override
   bool isTitleCenter() {
@@ -21,7 +25,7 @@ class MobileDashPage extends DashPage {
 
   @override
   Drawer? buildDrawer(BuildContext context) {
-    return drawerBuilder?.call(context) ?? _drawer;
+    return drawerBuilder?.call(context) ?? drawer;
   }
 
   @override
@@ -44,12 +48,9 @@ class MobileDashPage extends DashPage {
   Widget? buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       items: bottomItems.mapList((e) => BottomNavigationBarItem(icon: e.pageIconWidget(), label: e.pageLabel)),
-      currentIndex: _selectedIndex,
+      currentIndex: selectedIndex,
       type: BottomNavigationBarType.fixed,
-      onTap: (i) {
-        _selectedIndex = i;
-        updateState();
-      },
+      onTap: updateIndex,
     );
   }
 }
