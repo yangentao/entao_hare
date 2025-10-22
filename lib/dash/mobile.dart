@@ -41,7 +41,7 @@ class MobileDashPage extends DashPage {
   }
 
   @override
-  BottomNavigationBar? buildBottomNavigationBar(BuildContext context) {
+  Widget? buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       items: bottomItems.mapList((e) => BottomNavigationBarItem(icon: e.pageIconWidget(), label: e.pageLabel)),
       currentIndex: _selectedIndex,

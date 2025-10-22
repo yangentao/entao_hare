@@ -26,3 +26,6 @@
 
 ## 1.2.4 
 * websocket
+
+## 1.2.5
+* bottom bar
