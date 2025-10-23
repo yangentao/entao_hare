@@ -4,9 +4,10 @@ EntaoApp HareApp = EntaoApp();
 
 class EntaoApp {
   String title = "App Title";
-  ThemeMode? _themeMode;
-  ThemeData _themeData = ThemeData.light(useMaterial3: true);
-  ThemeData? _darkThemeData;
+  ThemeMode themeMode = ThemeMode.system;
+  ThemeData themeDataLight = ThemeData.light(useMaterial3: true);
+  ThemeData? themeDataDark = ThemeData.dark(useMaterial3: true);
+
   GlobalKey<NavigatorState> globalKey = GlobalKey();
 
   BuildContext get currentContext => globalKey.currentContext!;
@@ -39,35 +40,21 @@ class EntaoApp {
     onLogout?.call();
   }
 
-  void themeDark({bool? useMaterial3}) {
-    theme(theme: ThemeData.dark(useMaterial3: useMaterial3 ?? false));
+  void themeDark({bool? useMaterial3, ThemeData? data, Color? seed}) {
+    themeMode = ThemeMode.dark;
+    if (data != null) {
+      themeDataDark = data;
+    } else if (seed != null) {
+      themeDataDark = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seed, brightness: Brightness.dark);
+    }
   }
 
-  void themeLight({bool? useMaterial3}) {
-    theme(theme: ThemeData.light(useMaterial3: useMaterial3 ?? false));
-  }
-
-  void theme({ThemeMode? mode, ThemeData? theme, ThemeData? darkTheme, Color? seedColor, Color? darkSeedColor, bool? useMaterial3}) {
-    if (theme != null) {
-      _themeData = theme;
-    } else if (seedColor != null) {
-      _themeData = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seedColor, brightness: Brightness.light);
-    }
-    if (darkTheme != null) {
-      _darkThemeData = darkTheme;
-    } else if (darkSeedColor != null) {
-      _darkThemeData = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: darkSeedColor, brightness: Brightness.dark);
-    }
-    if (mode != null) {
-      _themeMode = mode;
-    } else {
-      bool hasLight = theme != null || seedColor != null;
-      bool hasDark = darkTheme != null || darkSeedColor != null;
-      if (hasLight && !hasDark) {
-        _themeMode = ThemeMode.light;
-      } else if (hasDark && !hasLight) {
-        _themeMode = ThemeMode.dark;
-      }
+  void themeLight({bool? useMaterial3, ThemeData? data, Color? seed}) {
+    themeMode = ThemeMode.light;
+    if (data != null) {
+      themeDataLight = data;
+    } else if (seed != null) {
+      themeDataLight = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seed, brightness: Brightness.light);
     }
   }
 
@@ -76,21 +63,21 @@ class EntaoApp {
     runApp(
       MaterialApp(
         onGenerateTitle: onGenerateTitle ?? (c) => title,
-        themeMode: _themeMode,
-        theme: _themeData,
-        darkTheme: _darkThemeData,
+        themeMode: themeMode,
+        theme: themeDataLight,
+        darkTheme: themeDataDark,
         locale: locale,
         supportedLocales: supportedLocales ?? [Locale("zh")],
         localizationsDelegates: [?localDelegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
         debugShowCheckedModeBanner: false,
         navigatorKey: globalKey,
         home: home,
-        builder: _builder,
+        builder: appBuilder,
       ),
     );
   }
 
-  Widget _builder(BuildContext context, Widget? w) {
+  Widget appBuilder(BuildContext context, Widget? w) {
     return Material(
       child: RouterDataWidget(
         child: Directionality(
