@@ -44,3 +44,6 @@
 
 ## 1.2.10
 * appbar.bottom
+
+## 1.2.11
+* dialogs.inputInt/Double

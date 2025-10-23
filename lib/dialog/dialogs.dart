@@ -16,8 +16,14 @@ class dialogs {
     return await pickSegmentValue(items, title: title, message: message, selected: selected, allowEmpty: allowEmpty, multi: true);
   }
 
-  static Future<Set<T>?> pickSegmentValue<T>(List<LabelValue<T>> items,
-      {String? title, String? message, Set<T>? selected, bool multi = false, bool allowEmpty = false}) async {
+  static Future<Set<T>?> pickSegmentValue<T>(
+    List<LabelValue<T>> items, {
+    String? title,
+    String? message,
+    Set<T>? selected,
+    bool multi = false,
+    bool allowEmpty = false,
+  }) async {
     Set<T> selSet = {...?selected};
     return await showDialogX((b) {
       b.init(result: selSet);
@@ -31,17 +37,18 @@ class dialogs {
 
       ls <<
           SegmentedButton<T>(
-              multiSelectionEnabled: multi,
-              emptySelectionAllowed: allowEmpty,
-              showSelectedIcon: false,
-              style: SegStyle,
-              segments: items.mapList((e) => ButtonSegment<T>(value: e.value, label: e.label.text())),
-              selected: selSet,
-              onSelectionChanged: (newSelection) {
-                selSet = newSelection;
-                b.setResult(selSet);
-                b.updateState();
-              });
+            multiSelectionEnabled: multi,
+            emptySelectionAllowed: allowEmpty,
+            showSelectedIcon: false,
+            style: SegStyle,
+            segments: items.mapList((e) => ButtonSegment<T>(value: e.value, label: e.label.text())),
+            selected: selSet,
+            onSelectionChanged: (newSelection) {
+              selSet = newSelection;
+              b.setResult(selSet);
+              b.updateState();
+            },
+          );
       return b.buildColumn(ls);
     });
   }
@@ -57,7 +64,15 @@ class dialogs {
     return null;
   }
 
-  static Future<double?> inputDouble({double? value, required String title, String? label, String? message, double? minValue, double? maxValue}) async {
+  static Future<double?> inputDouble({
+    double? value,
+    required String title,
+    String? label,
+    String? message,
+    double? minValue,
+    double? maxValue,
+    bool signed = true,
+  }) async {
     String? s = await inputText(
       value: value?.toString(),
       title: title,
@@ -68,18 +83,12 @@ class dialogs {
       tips: _rangeTip(minValue, maxValue),
       validator: NumValidator(minValue: minValue, maxValue: maxValue).call,
       width: DialogWidth.small,
+      keyboardType: TextInputType.numberWithOptions(decimal: true, signed: signed),
     );
     return s?.trim().toDouble;
   }
 
-  static Future<int?> inputInt({
-    int? value,
-    required String title,
-    String? label,
-    String? message,
-    int? minValue,
-    int? maxValue,
-  }) async {
+  static Future<int?> inputInt({int? value, required String title, String? label, String? message, int? minValue, int? maxValue, bool signed = true}) async {
     String? s = await inputText(
       value: value?.toString(),
       title: title,
@@ -90,6 +99,7 @@ class dialogs {
       tips: _rangeTip(minValue, maxValue),
       validator: NumValidator(minValue: minValue, maxValue: maxValue).call,
       width: DialogWidth.small,
+      keyboardType: TextInputType.numberWithOptions(decimal: false, signed: signed),
     );
     return s?.trim().toInt;
   }
@@ -121,24 +131,25 @@ class dialogs {
       bool multiLines = maxLines != null && maxLines > 1;
       ListWidget ls = [];
       HareEdit edit = HareEdit(
-          value: value?.toString() ?? "",
-          helpText: tips,
-          label: label,
-          allowExp: allowExp,
-          denyExp: denyExp,
-          keyboardType: keyboardType,
-          inputFormaters: inputFormaters,
-          validator: vs,
-          maxLength: maxLength,
-          maxLines: maxLines,
-          password: password,
-          autofucus: true,
-          noClear: multiLines,
-          border: !multiLines ? null : OutlineInputBorder(),
-          onSubmit: (s) {
-            b.setResult(s);
-            b.clickOK();
-          });
+        value: value?.toString() ?? "",
+        helpText: tips,
+        label: label,
+        allowExp: allowExp,
+        denyExp: denyExp,
+        keyboardType: keyboardType,
+        inputFormaters: inputFormaters,
+        validator: vs,
+        maxLength: maxLength,
+        maxLines: maxLines,
+        password: password,
+        autofucus: true,
+        noClear: multiLines,
+        border: !multiLines ? null : OutlineInputBorder(),
+        onSubmit: (s) {
+          b.setResult(s);
+          b.clickOK();
+        },
+      );
       ls << edit;
       if (multiLines) {
         Widget btn = b.makeAction("清除", () {
@@ -181,13 +192,7 @@ class dialogs {
     });
   }
 
-  static Future<String?> input(
-    HareEdit edit, {
-    required String title,
-    String? message,
-    TextValidator? validator,
-    DialogWidth? dialogWidth,
-  }) async {
+  static Future<String?> input(HareEdit edit, {required String title, String? message, TextValidator? validator, DialogWidth? dialogWidth}) async {
     return await showDialogX((b) {
       b.okCallback = () {
         if (!edit.validate(validator)) return false;
@@ -307,20 +312,24 @@ class dialogs {
   }) async {
     return await showDialogX((b) {
       b.init(result: selected);
-      return b.buildList(items, builder: (iic) {
-        T item = iic.item;
-        bool checked = b.result == item;
-        if (onItemView != null) {
-          return onItemView(item).inkWell(onTap: () {
-            b.setResult(item);
-            if (withOKCancel) {
-              b.updateState();
-            } else {
-              b.clickOK();
-            }
-          });
-        }
-        return ListTile(
+      return b.buildList(
+        items,
+        builder: (iic) {
+          T item = iic.item;
+          bool checked = b.result == item;
+          if (onItemView != null) {
+            return onItemView(item).inkWell(
+              onTap: () {
+                b.setResult(item);
+                if (withOKCancel) {
+                  b.updateState();
+                } else {
+                  b.clickOK();
+                }
+              },
+            );
+          }
+          return ListTile(
             title: onTitle?.call(item) ?? item.toString().text(),
             subtitle: onSubtitle?.call(item),
             leading: onLeading?.call(item),
@@ -332,8 +341,16 @@ class dialogs {
               } else {
                 b.clickOK();
               }
-            });
-      }, aboveWidgets: aboveWidgets, belowWidgets: belowWidgets, dialogWidth: width, title: title, ok: withOKCancel, cancel: withOKCancel);
+            },
+          );
+        },
+        aboveWidgets: aboveWidgets,
+        belowWidgets: belowWidgets,
+        dialogWidth: width,
+        title: title,
+        ok: withOKCancel,
+        cancel: withOKCancel,
+      );
     });
   }
 
@@ -388,30 +405,33 @@ class dialogs {
           T item = iic.item;
           Widget cell;
           if (onItemView != null) {
-            cell = onItemView(item, b.result ?? {}).inkWell(onTap: () {
-              if (resultSet.contains(item)) {
-                resultSet.remove(item);
-              } else {
-                resultSet.add(item);
-              }
-              b.updateState();
-            });
+            cell = onItemView(item, b.result ?? {}).inkWell(
+              onTap: () {
+                if (resultSet.contains(item)) {
+                  resultSet.remove(item);
+                } else {
+                  resultSet.add(item);
+                }
+                b.updateState();
+              },
+            );
           } else {
             bool checked = resultSet.contains(item);
             cell = ListTile(
-                key: UniqueKey(),
-                title: onTitle?.call(item) ?? item.toString().text(),
-                subtitle: onSubtitle?.call(item),
-                leading: onLeading?.call(item),
-                trailing: onTrailing?.call(item) ?? (checked ? Icons.check.icon() : null),
-                onTap: () {
-                  if (resultSet.contains(item)) {
-                    resultSet.remove(item);
-                  } else {
-                    resultSet.add(item);
-                  }
-                  b.updateState();
-                });
+              key: UniqueKey(),
+              title: onTitle?.call(item) ?? item.toString().text(),
+              subtitle: onSubtitle?.call(item),
+              leading: onLeading?.call(item),
+              trailing: onTrailing?.call(item) ?? (checked ? Icons.check.icon() : null),
+              onTap: () {
+                if (resultSet.contains(item)) {
+                  resultSet.remove(item);
+                } else {
+                  resultSet.add(item);
+                }
+                b.updateState();
+              },
+            );
           }
           return cell;
         },
@@ -448,50 +468,57 @@ class dialogs {
     Alignment? dialogAlignment,
     EdgeInsets? dialogInsets,
   }) async {
-    return await showDialogX((b) {
-      b.init(result: selected);
-      return b.buildGrid(
-        items,
-        columnCount: columnCount,
-        itemWidth: itemWidth,
-        itemHeight: itemHeight,
-        aspectRatio: aspectRatio,
-        verticalSpacing: verticalSpacing,
-        horizontalSpacing: horizontalSpacing,
-        padding: padding,
-        builder: (iic) {
-          T item = iic.item;
-          Widget cell;
-          if (onItemView != null) {
-            cell = onItemView(item);
-          } else {
-            bool checked = b.result == item;
-            cell = GridTile(
-              header: onHeader?.call(item),
-              footer: onFooter?.call(item),
-              child: onTitle?.call(item) ?? item.toString().text(style: b.context.themeData.textTheme.titleMedium).centered(),
-            ).let((e) {
-              if (!checked) return e;
-              return e.coloredBox(b.gridSelectedBackground).clipRoundRect(3);
-            });
-          }
-          return cell.inkWell(onTap: () {
-            b.setResult(item);
-            if (ok == true) {
-              b.updateState();
+    return await showDialogX(
+      (b) {
+        b.init(result: selected);
+        return b.buildGrid(
+          items,
+          columnCount: columnCount,
+          itemWidth: itemWidth,
+          itemHeight: itemHeight,
+          aspectRatio: aspectRatio,
+          verticalSpacing: verticalSpacing,
+          horizontalSpacing: horizontalSpacing,
+          padding: padding,
+          builder: (iic) {
+            T item = iic.item;
+            Widget cell;
+            if (onItemView != null) {
+              cell = onItemView(item);
             } else {
-              b.clickOK();
+              bool checked = b.result == item;
+              cell =
+                  GridTile(
+                    header: onHeader?.call(item),
+                    footer: onFooter?.call(item),
+                    child: onTitle?.call(item) ?? item.toString().text(style: b.context.themeData.textTheme.titleMedium).centered(),
+                  ).let((e) {
+                    if (!checked) return e;
+                    return e.coloredBox(b.gridSelectedBackground).clipRoundRect(3);
+                  });
             }
-          });
-        },
-        title: title,
-        ok: ok,
-        cancel: cancel,
-        dialogWidth: dialogWidth,
-        aboveWidgets: aboveWidgets,
-        belowWidgets: belowWidgets,
-      );
-    }, alignment: dialogAlignment, insetPadding: dialogInsets);
+            return cell.inkWell(
+              onTap: () {
+                b.setResult(item);
+                if (ok == true) {
+                  b.updateState();
+                } else {
+                  b.clickOK();
+                }
+              },
+            );
+          },
+          title: title,
+          ok: ok,
+          cancel: cancel,
+          dialogWidth: dialogWidth,
+          aboveWidgets: aboveWidgets,
+          belowWidgets: belowWidgets,
+        );
+      },
+      alignment: dialogAlignment,
+      insetPadding: dialogInsets,
+    );
   }
 
   static Future<Set<T>?> pickGridValueSet<T>(
@@ -517,50 +544,56 @@ class dialogs {
     if (selected != null) resultSet.addAll(selected);
     return await showDialogX((b) {
       b.init(result: resultSet);
-      return b.buildGrid(items,
-          aboveWidgets: aboveWidgets,
-          belowWidgets: belowWidgets,
-          columnCount: columnCount,
-          itemWidth: itemWidth,
-          itemHeight: itemHeight,
-          aspectRatio: aspectRatio,
-          verticalSpacing: verticalSpacing,
-          horizontalSpacing: horizontalSpacing,
-          padding: padding, builder: (iic) {
-        T item = iic.item;
-        Widget cell;
-        if (onItemView != null) {
-          cell = onItemView.call(item, resultSet);
-        } else {
-          bool checked = resultSet.contains(item);
-          cell = GridTile(
-            header: onHeader?.call(item),
-            footer: onFooter?.call(item),
-            child: onTitle?.call(item) ?? item.toString().titleMedium().centered(),
-          ).let((e) {
-            if (!checked) return e;
-            return e.coloredBox(b.gridSelectedBackground).clipRoundRect(3);
-          });
-        }
-        return cell.inkWell(onTap: () {
-          if (resultSet.contains(item)) {
-            resultSet.remove(item);
+      return b.buildGrid(
+        items,
+        aboveWidgets: aboveWidgets,
+        belowWidgets: belowWidgets,
+        columnCount: columnCount,
+        itemWidth: itemWidth,
+        itemHeight: itemHeight,
+        aspectRatio: aspectRatio,
+        verticalSpacing: verticalSpacing,
+        horizontalSpacing: horizontalSpacing,
+        padding: padding,
+        builder: (iic) {
+          T item = iic.item;
+          Widget cell;
+          if (onItemView != null) {
+            cell = onItemView.call(item, resultSet);
           } else {
-            resultSet.add(item);
+            bool checked = resultSet.contains(item);
+            cell = GridTile(header: onHeader?.call(item), footer: onFooter?.call(item), child: onTitle?.call(item) ?? item.toString().titleMedium().centered()).let((e) {
+              if (!checked) return e;
+              return e.coloredBox(b.gridSelectedBackground).clipRoundRect(3);
+            });
           }
-          b.updateState();
-        });
-      }, title: title, ok: true, cancel: true, dialogWidth: dialogWidth);
+          return cell.inkWell(
+            onTap: () {
+              if (resultSet.contains(item)) {
+                resultSet.remove(item);
+              } else {
+                resultSet.add(item);
+              }
+              b.updateState();
+            },
+          );
+        },
+        title: title,
+        ok: true,
+        cancel: true,
+        dialogWidth: dialogWidth,
+      );
     });
   }
 
   static Future<T?> showPage<T>(HarePage page, {bool flex = true, bool closable = false, DialogWidth? dialogWidth}) {
     return showDialogX((b) {
       b.titleX(
-          left: IconButton(onPressed: () => page.onBackPressed(b.context), icon: Icons.adaptive.arrow_back.icon(size: 18)),
-          title: page.pageLabel.text(),
-          right: page.actions.isEmpty ? null : RowMin(page.actions),
-          closable: closable);
+        left: IconButton(onPressed: () => page.onBackPressed(b.context), icon: Icons.adaptive.arrow_back.icon(size: 18)),
+        title: page.pageLabel.text(),
+        right: page.actions.isEmpty ? null : RowMin(page.actions),
+        closable: closable,
+      );
       return b.build(page, flex: flex, dialogWidth: dialogWidth);
     });
   }
@@ -574,13 +607,7 @@ class dialogs {
     Widget? above,
     Widget? below,
   }) async {
-    ChipChoiceGroup<T> group = ChipChoiceGroup(
-      items: items,
-      selected: selected,
-      allowEmpty: allowEmpty,
-      multiSelect: multiSelect,
-      alignment: WrapAlignment.center,
-    );
+    ChipChoiceGroup<T> group = ChipChoiceGroup(items: items, selected: selected, allowEmpty: allowEmpty, multiSelect: multiSelect, alignment: WrapAlignment.center);
 
     return await showDialogX((b) {
       b.title(title);
