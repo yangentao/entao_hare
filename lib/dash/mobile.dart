@@ -29,6 +29,11 @@ class MobileDashPage extends DashPage {
   }
 
   @override
+  PreferredSizeWidget? buildAppBarBottom(BuildContext context) {
+    return currentItem.buildAppBarBottom(context);
+  }
+
+  @override
   Widget buildContent(BuildContext context) {
     return currentItem;
   }

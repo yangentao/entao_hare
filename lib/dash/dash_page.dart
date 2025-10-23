@@ -50,6 +50,10 @@ abstract class DashPage extends HareWidget {
     return null;
   }
 
+  PreferredSizeWidget? buildAppBarBottom(BuildContext context) {
+    return null;
+  }
+
   Widget buildContent(BuildContext context);
 
   @override
@@ -87,18 +91,21 @@ abstract class DashPage extends HareWidget {
       );
     }
 
-    HareAppBar bar = HareAppBar(
+    HareAppBar? bar = buildAppBar(
+      context,
       leading: leadButton,
       leadingWidth: (leadButton != null) ? 48 : null,
       titleSpacing: (leadButton != null) ? 0 : null,
       title: buildTitle(context),
       actions: buildActions(context),
       centerTitle: isTitleCenter(),
+      bottom: buildAppBarBottom(context),
     ).also((e) => appBar = e);
 
     HareBuilder bBuilder = HareBuilder((c) => buildBody(c, thisDrawer, largeScreen) ?? Container());
     bodyBuilder = bBuilder;
     return buildScaffold(
+      context,
       appBar: bar,
       bottomBar: buildBottomNavigationBar(context),
       drawer: largeScreen ? null : thisDrawer,
@@ -106,7 +113,20 @@ abstract class DashPage extends HareWidget {
     );
   }
 
-  Widget buildScaffold({PreferredSizeWidget? appBar, Widget? bottomBar, Widget? drawer, required Widget body}) {
+  HareAppBar? buildAppBar(
+    BuildContext context, {
+    Widget? leading,
+    double? leadingWidth,
+    double? titleSpacing,
+    Widget? title,
+    List<Widget>? actions,
+    bool? centerTitle,
+    PreferredSizeWidget? bottom,
+  }) {
+    return HareAppBar(leading: leading, leadingWidth: leadingWidth, titleSpacing: titleSpacing, title: title, actions: actions, centerTitle: centerTitle, bottom: bottom);
+  }
+
+  Widget buildScaffold(BuildContext context, {PreferredSizeWidget? appBar, Widget? bottomBar, Widget? drawer, required Widget body}) {
     return Scaffold(key: UniqueKey(), appBar: appBar, bottomNavigationBar: bottomBar, drawer: drawer, body: body);
   }
 

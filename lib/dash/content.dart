@@ -40,4 +40,9 @@ class ContentDashPage extends DashPage {
   Widget? buildBottomNavigationBar(BuildContext context) {
     return content.buildBottomNavigationBar(context);
   }
+
+  @override
+  PreferredSizeWidget? buildAppBarBottom(BuildContext context) {
+    return content.buildAppBarBottom(context);
+  }
 }

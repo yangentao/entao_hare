@@ -46,6 +46,8 @@ class EntaoApp {
       themeDataDark = data;
     } else if (seed != null) {
       themeDataDark = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seed, brightness: Brightness.dark);
+    } else if (useMaterial3 != null) {
+      themeDataDark = ThemeData.dark(useMaterial3: useMaterial3);
     }
   }
 
@@ -55,6 +57,8 @@ class EntaoApp {
       themeDataLight = data;
     } else if (seed != null) {
       themeDataLight = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seed, brightness: Brightness.light);
+    } else if (useMaterial3 != null) {
+      themeDataLight = ThemeData.light(useMaterial3: useMaterial3);
     }
   }
 

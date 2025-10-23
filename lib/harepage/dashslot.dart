@@ -25,6 +25,10 @@ mixin DashSlot on Widget {
     return null;
   }
 
+  PreferredSizeWidget? buildAppBarBottom(BuildContext context) {
+    return null;
+  }
+
   Future<void> onBackPressed(BuildContext context) async {
     Navigator.of(context).maybePop();
   }
