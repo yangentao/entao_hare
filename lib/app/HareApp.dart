@@ -59,7 +59,16 @@ class EntaoApp {
   }
 
   //ListTileTheme
-  void run(Widget? home) {
+  void run(
+    Widget? home, {
+    TransitionBuilder? builder,
+    ScrollBehavior? scrollBehavior,
+    Color? color,
+    Map<ShortcutActivator, Intent>? shortcuts,
+    Map<Type, Action<Intent>>? actions,
+    String? restorationScopeId,
+    AnimationStyle? themeAnimationStyle,
+  }) {
     runApp(
       MaterialApp(
         onGenerateTitle: onGenerateTitle ?? (c) => title,
@@ -72,7 +81,13 @@ class EntaoApp {
         debugShowCheckedModeBanner: false,
         navigatorKey: globalKey,
         home: home,
-        builder: appBuilder,
+        builder: builder ?? appBuilder,
+        scrollBehavior: scrollBehavior,
+        color: color,
+        shortcuts: shortcuts,
+        actions: actions,
+        restorationScopeId: restorationScopeId,
+        themeAnimationStyle: themeAnimationStyle,
       ),
     );
   }
