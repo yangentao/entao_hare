@@ -10,17 +10,18 @@ class EntaoApp {
 
   GlobalKey<NavigatorState> globalKey = GlobalKey();
 
-  BuildContext get currentContext => globalKey.currentContext!;
+  BuildContext get context => globalKey.currentContext!;
 
-  ThemeData get currentTheme => globalKey.currentContext!.themeData;
+  BuildContext get currentContext => context;
 
-  ThemeData get themeData => globalKey.currentContext!.themeData;
+  ThemeData get currentTheme => context.themeData;
 
-  TextTheme get textTheme => globalKey.currentContext!.themeData.textTheme;
+  ThemeData get themeData => context.themeData;
 
-  double listTileHorizontalTitleGap = 4;
+  TextTheme get textTheme => context.themeData.textTheme;
+
   VoidCallback? onLogout;
-
+  double listTileHorizontalTitleGap = 4;
   Locale? locale;
   List<Locale>? supportedLocales;
   LocalizationsDelegate<dynamic>? localDelegate;
