@@ -47,3 +47,6 @@
 
 ## 1.2.11
 * dialogs.inputInt/Double
+
+## 1.2.12
+* dialogs.inputText
