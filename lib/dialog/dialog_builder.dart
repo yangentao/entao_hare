@@ -5,12 +5,7 @@ typedef OnBuildDialog<T> = Widget Function(DialogBuilderContext<T>);
 const EdgeInsets defaultDialogInsets = EdgeInsets.symmetric(horizontal: 36.0, vertical: 24.0);
 const EdgeInsets defaultDialogBodyInsets = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
-Future<T?> showDialogX<T>(
-  OnBuildDialog<T> callback, {
-  EdgeInsets? insetPadding,
-  AlignmentGeometry? alignment,
-  clipBehavior = Clip.hardEdge,
-}) {
+Future<T?> showDialogX<T>(OnBuildDialog<T> callback, {EdgeInsets? insetPadding, AlignmentGeometry? alignment, clipBehavior = Clip.hardEdge}) {
   HareBuilder hb = HareBuilder();
   DialogBuilderContext<T> b = DialogBuilderContext(hb);
   hb.builder = (c) {
@@ -18,14 +13,10 @@ Future<T?> showDialogX<T>(
     return callback(b);
   };
   return showDialog<T>(
-      context: globalContext,
-      builder: (c) => Dialog(
-            insetPadding: insetPadding ?? defaultDialogInsets,
-            alignment: alignment ?? Alignment.center,
-            clipBehavior: clipBehavior,
-            elevation: 4,
-            child: hb,
-          ));
+    context: globalContext,
+    builder: (c) =>
+        Dialog(insetPadding: insetPadding ?? defaultDialogInsets, alignment: alignment ?? Alignment.center, clipBehavior: clipBehavior, elevation: 4, child: hb),
+  );
 }
 
 class DialogBuilderContext<T> {
@@ -114,15 +105,7 @@ class DialogBuilderContext<T> {
     return buildScrollable(lv, aboveWidgets: aboveWidgets, belowWidgets: belowWidgets, title: title, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
   }
 
-  Widget buildScrollable(
-    Widget child, {
-    List<Widget>? aboveWidgets,
-    List<Widget>? belowWidgets,
-    String? title,
-    bool? ok,
-    bool? cancel,
-    DialogWidth? dialogWidth,
-  }) {
+  Widget buildScrollable(Widget child, {List<Widget>? aboveWidgets, List<Widget>? belowWidgets, String? title, bool? ok, bool? cancel, DialogWidth? dialogWidth}) {
     if (title != null) this.title(title.text());
     this.actions(ok: ok, cancel: cancel);
     if (dialogWidth != null) this.dialogWidth = dialogWidth;
@@ -157,7 +140,7 @@ class DialogBuilderContext<T> {
           textAlign: messageAlign ?? (children.isEmpty ? TextAlign.center : TextAlign.start),
           minHeight: messageMinHeight ?? (children.isEmpty ? 48 : 32),
         ),
-        ...children
+        ...children,
       ];
     } else {
       ls = children;
@@ -168,25 +151,13 @@ class DialogBuilderContext<T> {
     return build(w, flex: true, dialogWidth: dialogWidth, title: title, ok: ok, cancel: cancel);
   }
 
-  Widget build(
-    Widget body, {
-    bool flex = false,
-    String? title,
-    bool? ok,
-    bool? cancel,
-    DialogWidth? dialogWidth,
-  }) {
+  Widget build(Widget body, {bool flex = false, String? title, bool? ok, bool? cancel, DialogWidth? dialogWidth}) {
     if (dialogWidth != null) {
       this.dialogWidth = dialogWidth;
     }
     if (title != null) this.title(title.text());
     this.actions(ok: ok, cancel: cancel);
-    List<Widget> items = [
-      if (panelTitle != null) panelTitle!,
-      if (flex) body.flexible(),
-      if (!flex) body,
-      if (panelActions != null) panelActions!,
-    ];
+    List<Widget> items = [if (panelTitle != null) panelTitle!, if (flex) body.flexible(), if (!flex) body, if (panelActions != null) panelActions!];
     return _constrainWidth(items);
   }
 
@@ -207,24 +178,22 @@ class DialogBuilderContext<T> {
 
   void title(Widget? title, {bool closable = true}) {
     if (title == null) return;
-    var w = RowMax(
-      [title, if (closable) IconButton(onPressed: clickCancel, icon: Icons.close.icon(size: 16))],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    ).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.secondaryHeaderColor);
+    var w = RowMax([
+      title,
+      if (closable) IconButton(onPressed: clickCancel, icon: Icons.close.icon(size: 16)),
+    ], mainAxisAlignment: MainAxisAlignment.spaceBetween).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.colorScheme.secondary);
     panelTitle = DefaultTextStyle(textAlign: TextAlign.left, style: context.themeData.textTheme.titleMedium!, child: w);
   }
 
   void titleX({Widget? left, Widget? title, Widget? right, bool closable = true}) {
     if (title == null && left == null && right == null) return;
-    var w = RowMax(
-      [
-        if (left != null) left,
-        if (title != null) title,
-        Spacer(),
-        if (right != null) right,
-        if (closable) IconButton(onPressed: clickCancel, icon: Icons.close.icon(size: 16))
-      ],
-    ).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.secondaryHeaderColor);
+    var w = RowMax([
+      if (left != null) left,
+      if (title != null) title,
+      Spacer(),
+      if (right != null) right,
+      if (closable) IconButton(onPressed: clickCancel, icon: Icons.close.icon(size: 16)),
+    ]).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.colorScheme.secondary);
     panelTitle = DefaultTextStyle(textAlign: TextAlign.left, style: context.themeData.textTheme.titleMedium!, child: w);
   }
 
@@ -238,18 +207,14 @@ class DialogBuilderContext<T> {
       list << textCancel.stadiumOutlinedButton(clickCancel).constrainedBox(minWidth: ACTION_MIN_WIDTH);
     }
     if (ok == true) {
-      list <<
-          OutlinedButton(
-            onPressed: clickOK,
-            child: textOK.text(),
-            style: OutlinedButton.styleFrom(shape: StadiumBorder(), backgroundColor: Colors.blueAccent.withOpacityX(0.3)),
-          ).constrainedBox(minWidth: ACTION_MIN_WIDTH);
+      list << StadiumElevatedButton(child: textOK.text(), onPressed: clickOK).constrainedBox(minWidth: ACTION_MIN_WIDTH);
     }
     if (list.isEmpty) return;
-    panelActions = RowMax(
-      list.gaped(() => space(width: spaceActions)),
-      mainAxisAlignment: centerActions ? MainAxisAlignment.center : MainAxisAlignment.end,
-    ).padded(xy(10, 8)).shapeDecorated(shape: Border(top: BorderSide(color: context.themeData.dividerColor)));
+    panelActions = RowMax(list.gaped(() => space(width: spaceActions)), mainAxisAlignment: centerActions ? MainAxisAlignment.center : MainAxisAlignment.end)
+        .padded(xy(10, 8))
+        .shapeDecorated(
+          shape: Border(top: BorderSide(color: context.themeData.dividerColor)),
+        );
   }
 
   void updateState() {

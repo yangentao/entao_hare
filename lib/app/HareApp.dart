@@ -40,23 +40,25 @@ class EntaoApp {
     onLogout?.call();
   }
 
-  void themeDark({bool? useMaterial3, ThemeData? data, Color? seed}) {
+  void themeDark({ThemeData? data, Color? seed, bool? useMaterial3}) {
     themeMode = ThemeMode.dark;
     if (data != null) {
       themeDataDark = data;
     } else if (seed != null) {
-      themeDataDark = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seed, brightness: Brightness.dark);
+      ColorScheme cs = ColorScheme.fromSeed(seedColor: seed, dynamicSchemeVariant: DynamicSchemeVariant.fidelity, brightness: Brightness.dark);
+      themeDataDark = ThemeData.from(colorScheme: cs, useMaterial3: useMaterial3);
     } else if (useMaterial3 != null) {
       themeDataDark = ThemeData.dark(useMaterial3: useMaterial3);
     }
   }
 
-  void themeLight({bool? useMaterial3, ThemeData? data, Color? seed}) {
+  void themeLight({ThemeData? data, Color? seed, bool? useMaterial3}) {
     themeMode = ThemeMode.light;
     if (data != null) {
       themeDataLight = data;
     } else if (seed != null) {
-      themeDataLight = ThemeData(useMaterial3: useMaterial3, colorSchemeSeed: seed, brightness: Brightness.light);
+      ColorScheme cs = ColorScheme.fromSeed(seedColor: seed, dynamicSchemeVariant: DynamicSchemeVariant.fidelity, brightness: Brightness.light);
+      themeDataLight = ThemeData.from(colorScheme: cs, useMaterial3: useMaterial3);
     } else if (useMaterial3 != null) {
       themeDataLight = ThemeData.light(useMaterial3: useMaterial3);
     }

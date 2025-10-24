@@ -50,3 +50,6 @@
 
 ## 1.2.12
 * dialogs.inputText
+
+## 1.2.13
+* theme
