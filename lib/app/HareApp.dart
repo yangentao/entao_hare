@@ -25,6 +25,7 @@ class EntaoApp {
   List<Locale>? supportedLocales;
   LocalizationsDelegate<dynamic>? localDelegate;
   String Function(BuildContext)? onGenerateTitle;
+  Widget Function(MaterialApp)? onBeforeRunApp;
 
   EntaoApp() {
     WidgetsFlutterBinding.ensureInitialized();
@@ -75,27 +76,30 @@ class EntaoApp {
     String? restorationScopeId,
     AnimationStyle? themeAnimationStyle,
   }) {
-    runApp(
-      MaterialApp(
-        onGenerateTitle: onGenerateTitle ?? (c) => title,
-        themeMode: themeMode,
-        theme: themeDataLight,
-        darkTheme: themeDataDark,
-        locale: locale,
-        supportedLocales: supportedLocales ?? [Locale("zh")],
-        localizationsDelegates: [?localDelegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-        debugShowCheckedModeBanner: false,
-        navigatorKey: globalKey,
-        home: home,
-        builder: builder ?? appBuilder,
-        scrollBehavior: scrollBehavior,
-        color: color,
-        shortcuts: shortcuts,
-        actions: actions,
-        restorationScopeId: restorationScopeId,
-        themeAnimationStyle: themeAnimationStyle,
-      ),
+    MaterialApp app = MaterialApp(
+      onGenerateTitle: onGenerateTitle ?? (c) => title,
+      themeMode: themeMode,
+      theme: themeDataLight,
+      darkTheme: themeDataDark,
+      locale: locale,
+      supportedLocales: supportedLocales ?? [Locale("zh")],
+      localizationsDelegates: [?localDelegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
+      debugShowCheckedModeBanner: false,
+      navigatorKey: globalKey,
+      home: home,
+      builder: builder ?? appBuilder,
+      scrollBehavior: scrollBehavior,
+      color: color,
+      shortcuts: shortcuts,
+      actions: actions,
+      restorationScopeId: restorationScopeId,
+      themeAnimationStyle: themeAnimationStyle,
     );
+    if (onBeforeRunApp == null) {
+      runApp(app);
+    } else {
+      runApp(onBeforeRunApp!(app));
+    }
   }
 
   Widget appBuilder(BuildContext context, Widget? w) {
