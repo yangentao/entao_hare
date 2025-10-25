@@ -16,10 +16,21 @@ class ThemeWidget extends StatefulWidget {
 }
 
 class ThemeState extends State<ThemeWidget> {
-  void themeSystem({required ThemeData light, required ThemeData? dark}) {
+  void themeSystem({ThemeData? light, ThemeData? dark}) {
     HareApp.themeMode = ThemeMode.system;
-    HareApp.themeDataLight = light;
+    HareApp.themeDataLight = light ?? ThemeData.light(useMaterial3: false);
     HareApp.themeDataDark = dark ?? ThemeData.dark(useMaterial3: false);
+    setState(() {});
+  }
+
+  void theme(ThemeData data) {
+    if (data.brightness == Brightness.light) {
+      HareApp.themeMode = ThemeMode.light;
+      HareApp.themeDataLight = data;
+    } else {
+      HareApp.themeMode = ThemeMode.dark;
+      HareApp.themeDataDark = data;
+    }
     setState(() {});
   }
 

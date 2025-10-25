@@ -13,6 +13,7 @@ part 'HareApp.dart';
 part 'router_date_widget.dart';
 part 'ThemeWidget.dart';
 part 'AppBuilder.dart';
+part 'ThemePalette.dart';
 
 ThemeData LightThemeData({required Color seed, bool useMaterial3 = false}) {
   ColorScheme cs = ColorScheme.fromSeed(seedColor: seed, dynamicSchemeVariant: DynamicSchemeVariant.fidelity, brightness: Brightness.light);
