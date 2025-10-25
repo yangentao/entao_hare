@@ -61,7 +61,12 @@ extension StringButtonsExt on String {
       onPressed: onPressed,
     );
   }
-
+  Widget actionOnPrimary(VoidCallback? onPressed, {Color? color}) {
+    return TextButton(
+      onPressed: onPressed,
+      child: text(color: color ?? globalTheme.colorScheme.onPrimary),
+    );
+  }
   Widget button(VoidCallback? onPressed, {Color? color}) {
     return TextButton(
       onPressed: onPressed,
