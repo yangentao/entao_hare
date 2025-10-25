@@ -56,3 +56,6 @@
 
 ## 1.2.14
 * run app
+
+## 1.2.15
+* theme palette

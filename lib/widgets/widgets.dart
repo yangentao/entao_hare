@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 
 import '../harewidget/harewidget.dart';
 
+part 'FlipCard.dart';
 part 'actions.dart';
 part 'auto_complete.dart';
 part 'chips.dart';
@@ -25,6 +26,18 @@ part 'segments.dart';
 part 'slider.dart';
 part 'snack.dart';
 
+class QuickScrollPhysics extends ScrollPhysics {
+  const QuickScrollPhysics({super.parent});
+
+  @override
+  QuickScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return QuickScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  SpringDescription get spring => SpringDescription.withDampingRatio(mass: 0.1, stiffness: 100, ratio: 1);
+}
+
 extension WidgetPopButtonExt on Widget {
   Widget popActions({List<XAction>? items, List<XAction> Function(BuildContext)? builder}) {
     return PopupMenuButton<XAction>(
@@ -38,13 +51,7 @@ extension WidgetPopButtonExt on Widget {
     );
   }
 
-  Widget popValues<T>({
-    List<T>? items,
-    List<T> Function(BuildContext)? builder,
-    Widget Function(T)? display,
-    required void Function(T) callback,
-    T? initialValue,
-  }) {
+  Widget popValues<T>({List<T>? items, List<T> Function(BuildContext)? builder, Widget Function(T)? display, required void Function(T) callback, T? initialValue}) {
     return PopupMenuButton<T>(
       child: this,
       onSelected: (e) => callback(e),
@@ -69,7 +76,7 @@ extension WidgetPopButtonExt on Widget {
       child: this,
       onSelected: (e) => callback(e),
       position: PopupMenuPosition.under,
-      initialValue: initialValue ?? items?.firstOr((e)=>e.value == value ),
+      initialValue: initialValue ?? items?.firstOr((e) => e.value == value),
       itemBuilder: (BuildContext c) {
         List<LabelValue<T>> ls = builder?.call(c) ?? items ?? [];
         return ls.mapList((e) => PopupMenuItem<LabelValue<T>>(value: e, child: display?.call(e) ?? e.label.text()));

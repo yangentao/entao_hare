@@ -19,14 +19,14 @@ class ThemePalette {
     switch (th) {
       case T_SYS:
         HareApp.themeMode = ThemeMode.system;
-        HareApp.themeDataLight = ThemeData.light(useMaterial3: true);
-        HareApp.themeDataDark = ThemeData.dark(useMaterial3: true);
+        HareApp.themeDataLight = ThemeData.light(useMaterial3: false);
+        HareApp.themeDataDark = ThemeData.dark(useMaterial3: false);
       case T_LIGHT:
         HareApp.themeMode = ThemeMode.light;
-        HareApp.themeDataLight = ThemeData.light(useMaterial3: true);
+        HareApp.themeDataLight = ThemeData.light(useMaterial3: false);
       case T_DARK:
         HareApp.themeMode = ThemeMode.dark;
-        HareApp.themeDataDark = ThemeData.dark(useMaterial3: true);
+        HareApp.themeDataDark = ThemeData.dark(useMaterial3: false);
       default:
         ThemeData td = p._themeData();
         if (td.brightness == Brightness.light) {

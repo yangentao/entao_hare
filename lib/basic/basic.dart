@@ -40,6 +40,7 @@ part 'utils/files.dart';
 part 'utils/localstore.dart';
 part 'utils/plat.dart';
 part 'utils/validator.dart';
+part "utils/TipMessage.dart";
 
 Builder builderWidget(WidgetBuilder b, {Key? key}) {
   return Builder(builder: b, key: key);

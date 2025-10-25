@@ -86,8 +86,8 @@ class HareEdit extends HareWidget {
     this.allowExp,
     this.denyExp,
     this.validator,
-  })  : controller = TextEditingController(text: value),
-        super();
+  }) : controller = TextEditingController(text: value),
+       super();
 
   String get value => controller.text;
 
@@ -128,17 +128,18 @@ class HareEdit extends HareWidget {
         icon = Icons.clear_rounded.icon(size: 16);
       }
       return IconButton(
-          onPressed: () {
-            if (pwd) {
-              _showPassword = !_showPassword;
-            } else {
-              controller.clear();
-              onClear?.call();
-              onChanged?.call("");
-            }
-            updateState();
-          },
-          icon: icon);
+        onPressed: () {
+          if (pwd) {
+            _showPassword = !_showPassword;
+          } else {
+            controller.clear();
+            onClear?.call();
+            onChanged?.call("");
+          }
+          updateState();
+        },
+        icon: icon,
+      );
     }
 
     return TextFormField(
@@ -188,21 +189,21 @@ class HareTextArea extends HareWidget {
   int? minLines;
   bool readOnly;
 
-  HareTextArea(
-      {String value = "",
-      this.label,
-      this.icon,
-      this.style,
-      this.readOnly = false,
-      this.counterText,
-      this.inputFormater,
-      this.minLines,
-      this.maxLines = 6,
-      this.onChanged,
-      this.onSubmit,
-      this.maxLength})
-      : controller = TextEditingController(text: value),
-        super();
+  HareTextArea({
+    String value = "",
+    this.label,
+    this.icon,
+    this.style,
+    this.readOnly = false,
+    this.counterText,
+    this.inputFormater,
+    this.minLines,
+    this.maxLines = 6,
+    this.onChanged,
+    this.onSubmit,
+    this.maxLength,
+  }) : controller = TextEditingController(text: value),
+       super();
 
   String get value => controller.text;
 

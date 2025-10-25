@@ -179,29 +179,38 @@ class DialogBuilderContext<T> {
   void title(Widget? title, {bool closable = true}) {
     if (title == null) return;
     var w = RowMax([
-      DefaultTextStyle(
-        style: TextStyle(color: context.themeData.colorScheme.onSecondary),
-        child: title,
-      ),
-      if (closable) IconButton(onPressed: clickCancel, icon: Icons.close.icon(size: 16)),
-    ], mainAxisAlignment: MainAxisAlignment.spaceBetween).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.colorScheme.secondary);
-    panelTitle = DefaultTextStyle(textAlign: TextAlign.left, style: context.themeData.textTheme.titleMedium!, child: w);
+      title,
+      if (closable)
+        IconButton(
+          onPressed: clickCancel,
+          icon: Icons.close.icon(size: 16, color: context.themeData.colorScheme.onPrimary),
+        ),
+    ], mainAxisAlignment: MainAxisAlignment.spaceBetween).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.colorScheme.primary);
+    panelTitle = DefaultTextStyle(
+      textAlign: TextAlign.left,
+      style: context.themeData.textTheme.titleMedium!.copyWith(color: context.themeData.colorScheme.onPrimary),
+      child: w,
+    );
   }
 
   void titleX({Widget? left, Widget? title, Widget? right, bool closable = true}) {
     if (title == null && left == null && right == null) return;
     var w = RowMax([
       if (left != null) left,
-      if (title != null)
-        DefaultTextStyle(
-          style: TextStyle(color: context.themeData.colorScheme.onSecondary),
-          child: title,
-        ),
+      if (title != null) title,
       Spacer(),
       if (right != null) right,
-      if (closable) IconButton(onPressed: clickCancel, icon: Icons.close.icon(size: 16)),
-    ]).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.colorScheme.secondary);
-    panelTitle = DefaultTextStyle(textAlign: TextAlign.left, style: context.themeData.textTheme.titleMedium!, child: w);
+      if (closable)
+        IconButton(
+          onPressed: clickCancel,
+          icon: Icons.close.icon(size: 16, color: context.themeData.colorScheme.onPrimary),
+        ),
+    ]).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(context.themeData.colorScheme.primary);
+    panelTitle = DefaultTextStyle(
+      textAlign: TextAlign.left,
+      style: context.themeData.textTheme.titleMedium!.copyWith(color: context.themeData.colorScheme.onPrimary),
+      child: w,
+    );
   }
 
   Widget makeAction(String label, VoidCallback onTap) {

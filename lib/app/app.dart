@@ -8,12 +8,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../basic/basic.dart';
 
+part 'AppBuilder.dart';
 part 'AppMap.dart';
 part 'HareApp.dart';
-part 'router_date_widget.dart';
-part 'ThemeWidget.dart';
-part 'AppBuilder.dart';
 part 'ThemePalette.dart';
+part 'ThemeWidget.dart';
+part 'router_date_widget.dart';
 
 ThemeData LightThemeData({required Color seed, bool useMaterial3 = false}) {
   ColorScheme cs = ColorScheme.fromSeed(seedColor: seed, dynamicSchemeVariant: DynamicSchemeVariant.fidelity, brightness: Brightness.light);
@@ -40,3 +40,7 @@ const Set<PointerDeviceKind> _deviceTypes = <PointerDeviceKind>{
   // scrollables.
   PointerDeviceKind.unknown,
 };
+
+Widget TextAction(String title, {Color? color, VoidCallback? onTap}) {
+  return title.button(onTap, color: color ?? HareApp.themeData.colorScheme.onPrimary);
+}
