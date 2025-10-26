@@ -29,12 +29,6 @@ extension ThemeDataBright on ThemeData {
   bool get isLight => this.brightness == Brightness.light;
 }
 
-extension ContextBright on BuildContext {
-  bool get isDark => this.themeData.brightness == Brightness.dark;
-
-  bool get isLight => this.themeData.brightness == Brightness.light;
-}
-
 ThemeData LightThemeData({required Color seed, bool useMaterial3 = false}) {
   ColorScheme cs = ColorScheme.fromSeed(seedColor: seed, dynamicSchemeVariant: DynamicSchemeVariant.fidelity, brightness: Brightness.light);
   return ThemeData.from(colorScheme: cs, useMaterial3: useMaterial3);

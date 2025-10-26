@@ -1,6 +1,7 @@
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/query/query.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:println/println.dart';
 
 void main() {
   test('adds one to input values', () {
@@ -16,6 +17,6 @@ void main() {
       ]),
     ]);
 
-    printX(c.buildCondition());
+    println(c.buildCondition());
   });
 }

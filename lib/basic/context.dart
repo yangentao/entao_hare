@@ -27,15 +27,14 @@ class ContextIndexItem<T> extends ContextIndex {
   ContextIndexItem(super.context, super.index, this.item);
 }
 
-
-
 extension ContextExt on BuildContext {
-  void showBottomSheet(List<Widget> children, {CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
+  void showBottomModal(List<Widget> children, {CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
     showModalBottomSheet(
-        context: this,
-        builder: (c) {
-          return ColumnMin(children, crossAxisAlignment: crossAxisAlignment);
-        });
+      context: this,
+      builder: (c) {
+        return ColumnMin(children, crossAxisAlignment: crossAxisAlignment);
+      },
+    );
   }
 
   NavigatorState get navigator {
@@ -62,9 +61,9 @@ extension ContextExt on BuildContext {
 
   ThemeData get themeData => Theme.of(this);
 
-  bool get isDark {
-    return this.themeData.brightness == Brightness.dark;
-  }
+  bool get isDark => this.themeData.brightness == Brightness.dark;
+
+  bool get isLight => this.themeData.brightness == Brightness.light;
 
   bool get largeScreen => mediaData.size.width > 600;
 
