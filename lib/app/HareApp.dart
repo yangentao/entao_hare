@@ -37,6 +37,7 @@ class EntaoApp {
   Future<void> prepare() async {
     await LocalStore.prepare();
     await Dirs.prepare();
+    await Assets.loadKeys();
   }
 
   void logout() {

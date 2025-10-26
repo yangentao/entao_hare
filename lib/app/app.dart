@@ -1,19 +1,39 @@
 library;
 
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../basic/basic.dart';
 
 part 'AppBuilder.dart';
 part 'AppMap.dart';
+part 'Assets.dart';
+part 'FileConfig.dart';
 part 'HareApp.dart';
+part 'PreferStore.dart';
 part 'ThemePalette.dart';
 part 'ThemeWidget.dart';
 part 'router_date_widget.dart';
+
+extension ThemeDataBright on ThemeData {
+  bool get isDark => this.brightness == Brightness.dark;
+
+  bool get isLight => this.brightness == Brightness.light;
+}
+
+extension ContextBright on BuildContext {
+  bool get isDark => this.themeData.brightness == Brightness.dark;
+
+  bool get isLight => this.themeData.brightness == Brightness.light;
+}
 
 ThemeData LightThemeData({required Color seed, bool useMaterial3 = false}) {
   ColorScheme cs = ColorScheme.fromSeed(seedColor: seed, dynamicSchemeVariant: DynamicSchemeVariant.fidelity, brightness: Brightness.light);

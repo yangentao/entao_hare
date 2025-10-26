@@ -59,3 +59,6 @@
 
 ## 1.2.15
 * theme palette
+
+## 1.2.16
+* file config
