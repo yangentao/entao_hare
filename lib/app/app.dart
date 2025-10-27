@@ -9,7 +9,6 @@ import 'package:entao_dutil/entao_dutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../basic/basic.dart';
 
@@ -18,10 +17,11 @@ part 'AppMap.dart';
 part 'Assets.dart';
 part 'FileConfig.dart';
 part 'HareApp.dart';
-part 'PreferStore.dart';
 part 'ThemePalette.dart';
 part 'ThemeWidget.dart';
 part 'router_date_widget.dart';
+
+
 
 extension ThemeDataBright on ThemeData {
   bool get isDark => this.brightness == Brightness.dark;
