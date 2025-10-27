@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:entao_dutil/entao_dutil.dart';
+import 'package:println/println.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'attribute.dart';
 part 'attribute_extend.dart';
-part 'prefer_provider.dart';
-part 'map_provider.dart';
 part 'list_transform.dart';
+part 'map_provider.dart';
+part 'prefer_provider.dart';
 
 abstract mixin class AttributeProvider {
   bool acceptValue(dynamic value);
@@ -21,7 +22,9 @@ abstract mixin class AttributeProvider {
   void setAttribute(String key, Object? value);
 
   Object? removeAttribute(String key);
+}
 
+extension AttributeProviderExt on AttributeProvider {
   RequiredAttribute<T> require<T extends Object>({required String key, required T missValue, AttributeTransform<T>? transform}) {
     return RequiredAttribute<T>(key: key, provider: this, missValue: missValue, transform: transform);
   }

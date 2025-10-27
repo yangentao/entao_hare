@@ -1,6 +1,6 @@
 part of 'app.dart';
 
-class FileConfig {
+class FileConfig implements AttributeProvider {
   static const int DELAY_SAVE_MS = 1000;
   final File _file;
   final bool _autoSave;
@@ -34,7 +34,7 @@ class FileConfig {
     return configMap;
   }
 
-  bool exist(String key) {
+  bool containsKey(String key) {
     return configMap.containsKey(key);
   }
 
@@ -74,32 +74,38 @@ class FileConfig {
     });
   }
 
-  FileConfigAttr<T> attr<T>(String key) {
-    return FileConfigAttr<T>(this, key);
+  @override
+  bool acceptType<CH>(XType<CH> chtype) {
+    return chtype.isSubtypeOf<bool?>() ||
+        chtype.isSubtypeOf<int?>() ||
+        chtype.isSubtypeOf<double?>() ||
+        chtype.isSubtypeOf<String?>() ||
+        chtype.isSubtypeOf<List<dynamic>>() ||
+        chtype.isSubtypeOf<Map<String, dynamic>>();
+  }
+
+  @override
+  bool acceptValue(dynamic value) {
+    return value == null || value is bool || value is int || value is double || value is String || value is List || value is Map<String, dynamic>;
+  }
+
+  @override
+  Object? getAttribute(String key) {
+    return get(key);
+  }
+
+  @override
+  void setAttribute(String key, Object? value) {
+    put(key, value);
+  }
+
+  @override
+  bool hasAttribute(String key) {
+    return containsKey(key);
+  }
+
+  @override
+  Object? removeAttribute(String key) {
+    return remove(key);
   }
 }
-
-class FileConfigAttr<T> {
-  final FileConfig config;
-  final String key;
-
-  FileConfigAttr(this.config, this.key);
-
-  T get value => config.get(key);
-
-  set value(T v) {
-    config.put(key, v);
-  }
-}
-
-typedef FCString = FileConfigAttr<String>;
-typedef FCString_ = FileConfigAttr<String?>;
-
-typedef FCInt = FileConfigAttr<int>;
-typedef FCInt_ = FileConfigAttr<int?>;
-
-typedef FCDouble = FileConfigAttr<double>;
-typedef FCDouble_ = FileConfigAttr<double?>;
-
-typedef FCBool = FileConfigAttr<bool>;
-typedef FCBool_ = FileConfigAttr<bool?>;

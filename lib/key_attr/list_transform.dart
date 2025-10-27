@@ -6,6 +6,8 @@ class ListStringTransform extends AttributeTransform<List<String>> {
     switch (attr) {
       case List<String> _:
         return attr;
+      case List<dynamic> ls:
+        return ls.map((e) => e?.toString()).nonNullList;
       case String _:
         return attr.split(",").mapList((e) => e).nonNullList;
       default:
@@ -35,6 +37,15 @@ class ListIntTransform extends AttributeTransform<List<int>> {
         return attr.split(",").mapList((e) => e.toInt).nonNullList;
       case List<String> _:
         return attr.map((e) => e.toInt).nonNullList;
+      case List<dynamic> ls:
+        return ls.map((e) {
+          return switch (e) {
+            int n => n,
+            num m => m.toInt(),
+            String s => s.toInt,
+            _ => null,
+          };
+        }).nonNullList;
       default:
         typeError(List<int>, attr);
     }

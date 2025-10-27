@@ -27,71 +27,20 @@ class ListIntAttribute extends ListIntOptional with RequiredValue {
   @override
   final List<int> missValue;
 
-  ListIntAttribute({required super.key, required this.missValue, required super.provider, super.transform});
+  ListIntAttribute({required super.key, required this.missValue, required super.provider});
 }
 
 class ListIntOptional extends OptionalAttribute<List<int>> {
-  ListIntOptional({required super.key, required super.provider, super.transform});
-
-  @override
-  List<int> fromRawAttribute(Object attr) {
-    switch (attr) {
-      case List<int> _:
-        return attr;
-      case String _:
-        return attr.split(",").mapList((e) => e.toInt).nonNullList;
-      case List<String> _:
-        return attr.map((e) => e.toInt).nonNullList;
-      default:
-        typeError(List<int>, attr);
-    }
-  }
-
-  @override
-  Object toRawAtttribute(List<int> value) {
-    if (provider.acceptValue(value)) {
-      return value;
-    }
-    if (provider.acceptType(XType.typeListString)) {
-      return value.mapList((e) => e.toString());
-    }
-    if (provider.acceptType(XType.typeString)) {
-      return value.join(",");
-    }
-    typeError(List<int>, value);
-  }
+  ListIntOptional({required super.key, required super.provider}) : super(transform: ListIntTransform());
 }
 
 class ListStringAttribute extends ListStringOptional with RequiredValue {
   @override
   final List<String> missValue;
 
-  ListStringAttribute({required super.key, required this.missValue, required super.provider, super.transform});
+  ListStringAttribute({required super.key, required this.missValue, required super.provider});
 }
 
 class ListStringOptional extends OptionalAttribute<List<String>> {
-  ListStringOptional({required super.key, required super.provider, super.transform});
-
-  @override
-  List<String> fromRawAttribute(Object attr) {
-    switch (attr) {
-      case List<String> _:
-        return attr;
-      case String _:
-        return attr.split(",").mapList((e) => e).nonNullList;
-      default:
-        typeError(List<String>, attr);
-    }
-  }
-
-  @override
-  Object toRawAtttribute(List<String> value) {
-    if (provider.acceptValue(value)) {
-      return value;
-    }
-    if (provider.acceptType(XType.typeString)) {
-      return value.join(",");
-    }
-    typeError(List<String>, value);
-  }
+  ListStringOptional({required super.key, required super.provider}) : super(transform: ListStringTransform());
 }

@@ -6,11 +6,11 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:entao_dutil/entao_dutil.dart';
+import 'package:entao_hare/entao_hare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../basic/basic.dart';
 
 part 'AppBuilder.dart';
 part 'AppMap.dart';

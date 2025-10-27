@@ -38,6 +38,7 @@ class EntaoApp {
     await LocalStore.prepare();
     await Dirs.prepare();
     await Assets.loadKeys();
+    await PreferProvider.prepare();
   }
 
   void logout() {
