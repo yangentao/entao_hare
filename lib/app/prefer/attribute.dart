@@ -44,19 +44,20 @@ class OptionalAttribute<T extends Object> {
   }
 
   T fromRawAttribute(AttributeProvider provider, Object attr) {
+    if (attr is T) return attr;
+    if (provider.acceptType<T>()) return attr as T;
     if (transform != null) {
       return transform!.fromRawAttribute(provider, attr);
     }
-    if (attr is T) return attr;
     typeError(T, attr);
   }
 
   Object toRawAtttribute(AttributeProvider provider, T value) {
+    if (provider.acceptType<T>()) {
+      return value;
+    }
     if (transform != null) {
       return transform!.toRawAtttribute(provider, value);
-    }
-    if (provider.acceptType<T>()) {
-      return value as Object;
     }
     typeError(T, value);
   }
