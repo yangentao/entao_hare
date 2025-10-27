@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'attribute.dart';
 part 'attribute_extend.dart';
-part 'list_transform.dart';
+part 'transforms.dart';
 part 'map_provider.dart';
 part 'prefer_provider.dart';
 

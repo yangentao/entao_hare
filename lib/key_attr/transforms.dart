@@ -1,5 +1,37 @@
 part of 'key_attr.dart';
 
+class JsonModelTransform<T extends JsonModel> extends AttributeTransform<T> {
+  final T Function(JsonValue) creator;
+
+  JsonModelTransform({required this.creator});
+
+  @override
+  T fromRawAttribute(AttributeProvider provider, Object attr) {
+    if (attr is String) return creator(JsonValue(json.decode(attr)));
+    if (attr is JsonValue) return creator(attr);
+    typeError(JsonValue, attr);
+  }
+
+  @override
+  Object toRawAtttribute(AttributeProvider provider, T value) {
+    return value.jsonValue.jsonText;
+  }
+}
+
+class JsonValueTransform extends AttributeTransform<JsonValue> {
+  @override
+  JsonValue fromRawAttribute(AttributeProvider provider, Object attr) {
+    if (attr is String) return JsonValue(json.decode(attr));
+    if (attr is JsonValue) return attr;
+    typeError(JsonValue, attr);
+  }
+
+  @override
+  Object toRawAtttribute(AttributeProvider provider, JsonValue value) {
+    return value.jsonText;
+  }
+}
+
 class ListStringTransform extends AttributeTransform<List<String>> {
   @override
   List<String> fromRawAttribute(AttributeProvider provider, Object attr) {

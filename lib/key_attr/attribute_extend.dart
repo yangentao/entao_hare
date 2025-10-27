@@ -8,19 +8,7 @@ class JsonValueAttribute extends JsonValueOptional with RequiredValue {
 }
 
 class JsonValueOptional extends OptionalAttribute<JsonValue> {
-  JsonValueOptional({required super.key, required super.provider});
-
-  @override
-  JsonValue fromRawAttribute(Object attr) {
-    if (attr is String) return JsonValue(json.decode(attr));
-    if (attr is JsonValue) return attr;
-    typeError(JsonValue, attr);
-  }
-
-  @override
-  Object toRawAtttribute(JsonValue value) {
-    return value.jsonText;
-  }
+  JsonValueOptional({required super.key, required super.provider}) : super(transform: JsonValueTransform());
 }
 
 class ListIntAttribute extends ListIntOptional with RequiredValue {
