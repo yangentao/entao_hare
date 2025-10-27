@@ -29,9 +29,7 @@ class HareOutlinedButton extends HareWidget {
     statesController.notifyListeners();
   }
 
-  HareOutlinedButton(this.child, {bool disabled = false, this.onPressed})
-      : _disabled = disabled,
-        super();
+  HareOutlinedButton(this.child, {bool disabled = false, this.onPressed}) : _disabled = disabled, super();
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +48,14 @@ class HareDropdown<T> extends HareWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var ls = items.mapList((e) => DropdownMenuItem<T>(value: e.value, child: Center(child: Text(e.label.toString()))));
+    var ls = items.mapList(
+      (e) => DropdownMenuItem<T>(
+        value: e.value,
+        child: Center(child: Text(e.label.toString())),
+      ),
+    );
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       isExpanded: true,
       style: TextStyle(fontSize: 14, color: theme.textTheme.labelMedium?.color ?? Colors.black87),
       alignment: AlignmentDirectional.centerEnd,
@@ -80,7 +83,7 @@ class HareDropdownX<T> extends HareWidget {
   Widget build(BuildContext context) {
     var ls = items.mapList((e) => DropdownMenuItem<T>(value: e.value, child: Text(e.label)));
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       isExpanded: true,
       items: ls,
       onChanged: (e) {

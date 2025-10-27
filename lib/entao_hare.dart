@@ -9,6 +9,7 @@ export 'dialog/bottoms.dart';
 export 'dialog/dialog.dart';
 export 'harepage/harepage.dart';
 export 'harewidget/harewidget.dart';
+export 'key_attr/key_attr.dart';
 export 'pages/pages.dart';
 export 'query/query.dart';
 export 'table/table.dart';

@@ -82,7 +82,7 @@ Switch SwitchB(Binder<bool> binder,
         binder.fireUpdateUI();
         binder.fireChanged();
       },
-      activeColor: activeColor,
+      activeThumbColor: activeColor,
       activeTrackColor: activeTrackColor,
       inactiveThumbColor: inactiveThumbColor,
       inactiveTrackColor: inactiveTrackColor,

@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names
 part of 'binders.dart';
-
+@Deprecated("Use RadioGroup")
 class RadioGroupB extends HareWidget {
   int? _value;
   final Iterable<int> items;

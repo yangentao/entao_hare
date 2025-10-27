@@ -13,6 +13,7 @@ class OptionalAttribute<T extends Object> {
   final String key;
   final AttributeProvider provider;
   final AttributeTransform<T>? transform;
+  final XType<T> attributeType = XType();
 
   OptionalAttribute({required this.key, required this.provider, this.transform});
 
@@ -39,7 +40,6 @@ class OptionalAttribute<T extends Object> {
 
   T fromRawAttribute(Object attr) {
     if (attr is T) return attr;
-    if (provider.acceptType<T>()) return attr as T;
     if (transform != null) {
       return transform!.fromRawAttribute(provider, attr);
     }
@@ -47,7 +47,7 @@ class OptionalAttribute<T extends Object> {
   }
 
   Object toRawAtttribute(T value) {
-    if (provider.acceptType<T>()) {
+    if (provider.acceptValue(value)) {
       return value;
     }
     if (transform != null) {
@@ -69,6 +69,3 @@ mixin RequiredValue<T extends Object> on OptionalAttribute<T> {
   T get value => super.value ?? missValue;
 }
 
-Never typeError(Type t, Object? value) {
-  throw Exception("Type error, type=$t, value=$value ");
-}

@@ -231,7 +231,7 @@ ExpansionTile ExpandTile(
   ShapeBorder? collapsedShape,
   Clip? clipBehavior,
   ListTileControlAffinity? controlAffinity = ListTileControlAffinity.leading,
-  ExpansionTileController? controller,
+  ExpansibleController? controller,
   bool? dense,
   VisualDensity? visualDensity,
   double? minTileHeight,

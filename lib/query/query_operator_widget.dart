@@ -29,7 +29,7 @@ class QueryOperatorWidget extends HareWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<QueryOp>(
-      value: currentOperator,
+      initialValue: currentOperator,
       isExpanded: true,
       focusColor: Colors.transparent,
       iconSize: 0,

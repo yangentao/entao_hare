@@ -1,5 +1,6 @@
 part of 'widgets.dart';
 
+@Deprecated("Use RadioGroup")
 class RadioGroupX<T> extends HareWidget {
   final Iterable<LabelValue<T>> items;
   final NotifyValue<T> notifyValue;
@@ -60,30 +61,30 @@ class RadioGroupX<T> extends HareWidget {
     VisualDensity? visualDensity,
     FocusNode? focusNode,
     bool autofocus = false,
-  })  : _clipBehavior = clipBehavior,
-        _verticalDirection = verticalDirection,
-        _textDirection = textDirection,
-        _crossAxisAlignment = crossAxisAlignment,
-        _spacing = spacing,
-        _runSpacing = runSpacing,
-        _runAlignment = runAlignment,
-        _alignment = alignment,
-        _direction = direction,
-        _autofocus = autofocus,
-        _focusNode = focusNode,
-        _visualDensity = visualDensity,
-        _materialTapTargetSize = materialTapTargetSize,
-        _splashRadius = splashRadius,
-        _overlayColor = overlayColor,
-        _hoverColor = hoverColor,
-        _focusColor = focusColor,
-        _fillColor = fillColor,
-        _activeColor = activeColor,
-        _toggleable = toggleable,
-        _mouseCursor = mouseCursor,
-        assert(notifyValue != null || value != null),
-        this.notifyValue = notifyValue ?? NotifyValue(value: value as T),
-        super() {
+  }) : _clipBehavior = clipBehavior,
+       _verticalDirection = verticalDirection,
+       _textDirection = textDirection,
+       _crossAxisAlignment = crossAxisAlignment,
+       _spacing = spacing,
+       _runSpacing = runSpacing,
+       _runAlignment = runAlignment,
+       _alignment = alignment,
+       _direction = direction,
+       _autofocus = autofocus,
+       _focusNode = focusNode,
+       _visualDensity = visualDensity,
+       _materialTapTargetSize = materialTapTargetSize,
+       _splashRadius = splashRadius,
+       _overlayColor = overlayColor,
+       _hoverColor = hoverColor,
+       _focusColor = focusColor,
+       _fillColor = fillColor,
+       _activeColor = activeColor,
+       _toggleable = toggleable,
+       _mouseCursor = mouseCursor,
+       assert(notifyValue != null || value != null),
+       this.notifyValue = notifyValue ?? NotifyValue(value: value as T),
+       super() {
     this.notifyValue.add(this._onChangedOut);
   }
 
@@ -118,7 +119,7 @@ class RadioGroupX<T> extends HareWidget {
         autofocus: _autofocus,
       ),
       space(width: 4),
-      item.label.text()
+      item.label.text(),
     ]);
   }
 
@@ -134,9 +135,7 @@ class RadioGroupX<T> extends HareWidget {
       direction: _direction,
       textDirection: _textDirection,
       clipBehavior: _clipBehavior,
-      children: [
-        for (var v in items) _buildItem(v),
-      ],
+      children: [for (var v in items) _buildItem(v)],
     );
   }
 }

@@ -31,7 +31,7 @@ class DropdownQueryWidget extends HareWidget with WithCondition {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
       focusNode: focusNode,
-      value: value,
+      initialValue: value,
       enableFeedback: false,
       focusColor: Colors.transparent,
       itemHeight: kMinInteractiveDimension,

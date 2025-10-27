@@ -1,11 +1,5 @@
 part of 'key_attr.dart';
 
-abstract mixin class AttributeTransform<T extends Object> {
-  T fromRawAttribute(AttributeProvider provider, Object attr);
-
-  Object toRawAtttribute(AttributeProvider provider, T value);
-}
-
 class ListStringTransform extends AttributeTransform<List<String>> {
   @override
   List<String> fromRawAttribute(AttributeProvider provider, Object attr) {
@@ -21,13 +15,10 @@ class ListStringTransform extends AttributeTransform<List<String>> {
 
   @override
   Object toRawAtttribute(AttributeProvider provider, List<String> value) {
-    if (provider.acceptType<List<String>>()) {
+    if (provider.acceptValue(value)) {
       return value;
     }
-    if (provider.acceptType<Object>()) {
-      return value;
-    }
-    if (provider.acceptType<String>()) {
+    if (provider.acceptType(XType.typeString)) {
       return value.join(",");
     }
     typeError(List<String>, value);
@@ -51,16 +42,13 @@ class ListIntTransform extends AttributeTransform<List<int>> {
 
   @override
   Object toRawAtttribute(AttributeProvider provider, List<int> value) {
-    if (provider.acceptType<List<int>>()) {
+    if (provider.acceptValue(value)) {
       return value;
     }
-    if (provider.acceptType<Object>()) {
-      return value;
-    }
-    if (provider.acceptType<List<String>>()) {
+    if (provider.acceptType(XType.typeListString)) {
       return value.mapList((e) => e.toString());
     }
-    if (provider.acceptType<String>()) {
+    if (provider.acceptType(XType.typeString)) {
       return value.join(",");
     }
     typeError(List<int>, value);

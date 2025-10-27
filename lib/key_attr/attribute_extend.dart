@@ -49,13 +49,13 @@ class ListIntOptional extends OptionalAttribute<List<int>> {
 
   @override
   Object toRawAtttribute(List<int> value) {
-    if (provider.acceptType<List<int>>()) {
+    if (provider.acceptValue(value)) {
       return value;
     }
-    if (provider.acceptType<List<String>>()) {
+    if (provider.acceptType(XType.typeListString)) {
       return value.mapList((e) => e.toString());
     }
-    if (provider.acceptType<String>()) {
+    if (provider.acceptType(XType.typeString)) {
       return value.join(",");
     }
     typeError(List<int>, value);
@@ -86,10 +86,10 @@ class ListStringOptional extends OptionalAttribute<List<String>> {
 
   @override
   Object toRawAtttribute(List<String> value) {
-    if (provider.acceptType<List<String>>()) {
+    if (provider.acceptValue(value)) {
       return value;
     }
-    if (provider.acceptType<String>()) {
+    if (provider.acceptType(XType.typeString)) {
       return value.join(",");
     }
     typeError(List<String>, value);
