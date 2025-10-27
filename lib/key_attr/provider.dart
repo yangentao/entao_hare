@@ -1,4 +1,4 @@
-part of 'prefer.dart';
+part of 'key_attr.dart';
 
 abstract mixin class AttributeProvider {
   bool acceptType<T extends Object>();
@@ -11,13 +11,19 @@ abstract mixin class AttributeProvider {
 
   Object? removeAttribute(String key);
 
-  static AttributeProvider? globalProvider;
+  RequiredAttribute<T> require<T extends Object>({required String key, required T missValue, AttributeTransform<T>? transform}) {
+    return RequiredAttribute<T>(key: key, provider: this, missValue: missValue, transform: transform);
+  }
+
+  OptionalAttribute<T> optional<T extends Object>({required String key, AttributeTransform<T>? transform}) {
+    return OptionalAttribute<T>(key: key, provider: this, transform: transform);
+  }
 }
 
 class MapAttributeProvider extends AttributeProvider {
   Map<String, dynamic> map;
 
-  MapAttributeProvider({Map<String, dynamic>? map}) : this.map = map ?? {};
+  MapAttributeProvider(this.map);
 
   @override
   Object? getAttribute(String key) {

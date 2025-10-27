@@ -1,49 +1,43 @@
-part of 'prefer.dart';
+part of 'key_attr.dart';
 
 //bool, int, double, String, List<String>
 class RequiredAttribute<T extends Object> extends OptionalAttribute<T> with RequiredValue {
   @override
   final T missValue;
 
-  RequiredAttribute({required super.key, required this.missValue, super.transform, super.provider});
+  RequiredAttribute({required super.key, required this.missValue, required super.provider, super.transform});
 }
 
 //bool?, int?, double?, String?, List<String>?
 class OptionalAttribute<T extends Object> {
   final String key;
+  final AttributeProvider provider;
   final AttributeTransform<T>? transform;
-  final AttributeProvider? provider;
 
-  OptionalAttribute({required this.key, this.transform, this.provider});
+  OptionalAttribute({required this.key, required this.provider, this.transform});
 
-  AttributeProvider get requiredProvider {
-    var p = this.provider ?? AttributeProvider.globalProvider;
-    if (p != null) return p;
-    throw Exception("No Provider");
-  }
+  bool get exists => provider.hasAttribute(key);
 
-  bool get exists => requiredProvider.hasAttribute(key);
+  Object? get rawValue => provider.getAttribute(key);
 
-  Object? get rawValue => requiredProvider.getAttribute(key);
-
-  set rawValue(Object? value) => requiredProvider.setAttribute(key, value);
+  set rawValue(Object? value) => provider.setAttribute(key, value);
 
   T? get value {
-    Object? v = requiredProvider.getAttribute(key);
+    Object? v = provider.getAttribute(key);
     if (v == null) return null;
-    return fromRawAttribute(requiredProvider, v);
+    return fromRawAttribute(v);
   }
 
   set value(T? newValue) {
     if (newValue == null) {
-      requiredProvider.removeAttribute(key);
+      provider.removeAttribute(key);
     } else {
-      var v = toRawAtttribute(requiredProvider, newValue);
-      requiredProvider.setAttribute(key, v);
+      var v = toRawAtttribute(newValue);
+      provider.setAttribute(key, v);
     }
   }
 
-  T fromRawAttribute(AttributeProvider provider, Object attr) {
+  T fromRawAttribute(Object attr) {
     if (attr is T) return attr;
     if (provider.acceptType<T>()) return attr as T;
     if (transform != null) {
@@ -52,7 +46,7 @@ class OptionalAttribute<T extends Object> {
     typeError(T, attr);
   }
 
-  Object toRawAtttribute(AttributeProvider provider, T value) {
+  Object toRawAtttribute(T value) {
     if (provider.acceptType<T>()) {
       return value;
     }

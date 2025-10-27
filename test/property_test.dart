@@ -1,21 +1,18 @@
-import 'package:entao_hare/app/prefer/prefer.dart';
+import 'package:entao_hare/key_attr/key_attr.dart';
 import 'package:println/println.dart';
 
 void main() async {
-  AttributeProvider p = MapAttributeProvider();
-  // AttributeProvider.globalProvider = MapAttributeProvider();
-  IntAttribute n = IntAttribute(key: "age", missValue: 0, provider: p);
+  AttributeProvider p = MapAttributeProvider({});
+  var n = p.require<int>(key: "age", missValue: 0);
   n.value = 99;
   println("99? ", n.value);
 
-  StringOptionalAttribute name = StringOptionalAttribute(key: "name", provider: p);
+  var name = p.optional<String>(key: "name");
   println("name: ", name.value);
   name.value = "entao";
   println("name: ", name.value);
+
+  var c = p.optional<List<int>>(key: "a", transform: ListIntTransform());
+  c.value = [1, 2, 3];
+  println(c.value);
 }
-
-class ListIntPrefer extends OptionalAttribute<List<int>>{
-  ListIntPrefer({required super.key});
-
-}
-
