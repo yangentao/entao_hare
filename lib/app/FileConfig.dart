@@ -75,7 +75,7 @@ class FileConfig implements AttributeProvider {
   }
 
   @override
-  bool acceptType<CH>(XType<CH> chtype) {
+  bool acceptType<CH>(DType<CH> chtype) {
     return chtype.isSubtypeOf<bool?>() ||
         chtype.isSubtypeOf<int?>() ||
         chtype.isSubtypeOf<double?>() ||
@@ -85,7 +85,7 @@ class FileConfig implements AttributeProvider {
   }
 
   @override
-  bool acceptValue(dynamic value) {
+  bool acceptValue(Object? value) {
     return value == null || value is bool || value is int || value is double || value is String || value is List || value is Map<String, dynamic>;
   }
 

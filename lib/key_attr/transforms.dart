@@ -52,7 +52,7 @@ class ListStringTransform extends AttributeTransform<List<String>> {
     if (provider.acceptValue(value)) {
       return value;
     }
-    if (provider.acceptType(XType.typeString)) {
+    if (provider.acceptType(DType.typeString)) {
       return value.join(",");
     }
     typeError(List<String>, value);
@@ -88,10 +88,10 @@ class ListIntTransform extends AttributeTransform<List<int>> {
     if (provider.acceptValue(value)) {
       return value;
     }
-    if (provider.acceptType(XType.typeListString)) {
+    if (provider.acceptType(DType.typeListString)) {
       return value.mapList((e) => e.toString());
     }
-    if (provider.acceptType(XType.typeString)) {
+    if (provider.acceptType(DType.typeString)) {
       return value.join(",");
     }
     typeError(List<int>, value);

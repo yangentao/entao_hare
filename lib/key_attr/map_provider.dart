@@ -2,7 +2,7 @@ part of 'key_attr.dart';
 
 class MapAttributeProvider<V> extends AttributeProvider {
   final Map<String, V> map;
-  final XType<V> valueType = XType();
+  final DType<V> valueType = DType();
 
   MapAttributeProvider(this.map);
 
@@ -31,12 +31,12 @@ class MapAttributeProvider<V> extends AttributeProvider {
   }
 
   @override
-  bool acceptValue(dynamic value) {
+  bool acceptValue(Object? value) {
     return valueType.acceptInstance(value);
   }
 
   @override
-  bool acceptType<CH>(XType<CH> chtype) {
+  bool acceptType<CH>(DType<CH> chtype) {
     return chtype.isSubtypeOf<V>();
   }
 }

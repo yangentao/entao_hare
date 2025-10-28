@@ -1,19 +1,18 @@
 import 'dart:convert';
 
 import 'package:entao_dutil/entao_dutil.dart';
-import 'package:println/println.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'attribute.dart';
 part 'attribute_extend.dart';
-part 'transforms.dart';
 part 'map_provider.dart';
 part 'prefer_provider.dart';
+part 'transforms.dart';
 
 abstract mixin class AttributeProvider {
-  bool acceptValue(dynamic value);
+  bool acceptValue(Object? value);
 
-  bool acceptType<CH>(XType<CH> chtype);
+  bool acceptType<CH>(DType<CH> chtype);
 
   bool hasAttribute(String key);
 
@@ -24,47 +23,39 @@ abstract mixin class AttributeProvider {
   Object? removeAttribute(String key);
 }
 
-extension AttributeProviderExt on AttributeProvider {
-  RequiredAttribute<T> require<T extends Object>({required String key, required T missValue, AttributeTransform<T>? transform}) {
-    return RequiredAttribute<T>(key: key, provider: this, missValue: missValue, transform: transform);
-  }
 
-  OptionalAttribute<T> optional<T extends Object>({required String key, AttributeTransform<T>? transform}) {
-    return OptionalAttribute<T>(key: key, provider: this, transform: transform);
-  }
-}
 
 abstract mixin class AttributeTransform<T extends Object> {
-  final XType<T> attributeType = XType();
+  final DType<T> attributeType = DType();
 
   T fromRawAttribute(AttributeProvider provider, Object attr);
 
   Object toRawAtttribute(AttributeProvider provider, T value);
 }
 
-class XType<T> {
+class DType<T> {
   Type get type => T;
 
   bool isSubtypeOf<SUPER>() {
-    return this is XType<SUPER>;
+    return this is DType<SUPER>;
   }
 
-  bool isSuperOf<CHILD>(XType<CHILD> ch) => ch is XType<T>;
+  bool isSuperOf<CHILD>(DType<CHILD> ch) => ch is DType<T>;
 
   bool acceptNull() => null is T;
 
-  bool acceptInstance(dynamic inst) => inst is T;
+  bool acceptInstance(Object? inst) => inst is T;
 
-  static final XType<String> typeString = XType();
-  static final XType<bool> typeBool = XType();
-  static final XType<int> typeInt = XType();
-  static final XType<double> typeDouble = XType();
-  static final XType<num> typeNum = XType();
+  static final DType<String> typeString = DType();
+  static final DType<bool> typeBool = DType();
+  static final DType<int> typeInt = DType();
+  static final DType<double> typeDouble = DType();
+  static final DType<num> typeNum = DType();
 
-  static final XType<List<String>> typeListString = XType();
-  static final XType<List<bool>> typeListBool = XType();
-  static final XType<List<int>> typeListInt = XType();
-  static final XType<List<double>> typeListDouble = XType();
+  static final DType<List<String>> typeListString = DType();
+  static final DType<List<bool>> typeListBool = DType();
+  static final DType<List<int>> typeListInt = DType();
+  static final DType<List<double>> typeListDouble = DType();
 }
 
 Never typeError(Type t, Object? value) {

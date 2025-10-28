@@ -106,12 +106,12 @@ class PreferProvider extends AttributeProvider {
   }
 
   @override
-  bool acceptValue(dynamic value) {
+  bool acceptValue(Object? value) {
     return value is bool || value is int || value is double || value is String || value is List<String>;
   }
 
   @override
-  bool acceptType<CH>(XType<CH> chtype) {
+  bool acceptType<CH>(DType<CH> chtype) {
     return chtype.isSubtypeOf<bool>() || chtype.isSubtypeOf<int>() || chtype.isSubtypeOf<double>() || chtype.isSubtypeOf<String>() || chtype.isSubtypeOf<List<String>>();
   }
 }

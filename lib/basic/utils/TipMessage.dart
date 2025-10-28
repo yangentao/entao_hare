@@ -14,6 +14,14 @@ class TipMessage {
   String toString() {
     return "$level: $message";
   }
+
+  static TipMessage error(String message) => TipMessage(level: TipLevel.error, message: message);
+
+  static TipMessage warning(String message) => TipMessage(level: TipLevel.warning, message: message);
+
+  static TipMessage info(String message) => TipMessage(level: TipLevel.info, message: message);
+
+  static TipMessage tip(String message) => TipMessage(level: TipLevel.tip, message: message);
 }
 
 enum TipLevel implements Comparable<TipLevel> {

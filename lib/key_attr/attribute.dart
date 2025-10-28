@@ -1,5 +1,15 @@
 part of 'key_attr.dart';
 
+extension AttributeProviderExt on AttributeProvider {
+  RequiredAttribute<T> require<T extends Object>({required String key, required T missValue, AttributeTransform<T>? transform}) {
+    return RequiredAttribute<T>(key: key, provider: this, missValue: missValue, transform: transform);
+  }
+
+  OptionalAttribute<T> optional<T extends Object>({required String key, AttributeTransform<T>? transform}) {
+    return OptionalAttribute<T>(key: key, provider: this, transform: transform);
+  }
+}
+
 //bool, int, double, String, List<String>
 class RequiredAttribute<T extends Object> extends OptionalAttribute<T> with RequiredValue {
   @override
@@ -13,7 +23,7 @@ class OptionalAttribute<T extends Object> {
   final String key;
   final AttributeProvider provider;
   final AttributeTransform<T>? transform;
-  final XType<T> attributeType = XType();
+  final DType<T> attributeType = DType();
 
   OptionalAttribute({required this.key, required this.provider, this.transform});
 
@@ -68,4 +78,3 @@ mixin RequiredValue<T extends Object> on OptionalAttribute<T> {
   @override
   T get value => super.value ?? missValue;
 }
-
