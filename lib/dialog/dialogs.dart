@@ -8,23 +8,16 @@ class dialogs {
   }
 
   static Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? title, String? message, T? selected, bool allowEmpty = false}) async {
-    Set<T>? st = await pickSegmentValue(items, title: title,
-        message: message,
-        selected: selected == null ? null : {selected},
-        allowEmpty: allowEmpty,
-        multi: false);
+    Set<T>? st = await pickSegmentValue(items, title: title, message: message, selected: selected == null ? null : {selected}, allowEmpty: allowEmpty, multi: false);
     return st?.firstOrNull;
   }
 
   static Future<Set<T>?> pickSegmentMulti<T>(List<LabelValue<T>> items, {String? title, String? message, Set<T>? selected, bool allowEmpty = false}) async {
-    return await pickSegmentValue(items, title: title,
-        message: message,
-        selected: selected,
-        allowEmpty: allowEmpty,
-        multi: true);
+    return await pickSegmentValue(items, title: title, message: message, selected: selected, allowEmpty: allowEmpty, multi: true);
   }
 
-  static Future<Set<T>?> pickSegmentValue<T>(List<LabelValue<T>> items, {
+  static Future<Set<T>?> pickSegmentValue<T>(
+    List<LabelValue<T>> items, {
     String? title,
     String? message,
     Set<T>? selected,
@@ -92,9 +85,7 @@ class dialogs {
       width: DialogWidth.small,
       keyboardType: TextInputType.numberWithOptions(decimal: true, signed: signed),
     );
-    return s
-        ?.trim()
-        .toDouble;
+    return s?.trim().toDouble;
   }
 
   static Future<int?> inputInt({int? value, required String title, String? label, String? message, int? minValue, int? maxValue, bool signed = true}) async {
@@ -110,9 +101,7 @@ class dialogs {
       width: DialogWidth.small,
       keyboardType: TextInputType.numberWithOptions(decimal: false, signed: signed),
     );
-    return s
-        ?.trim()
-        .toInt;
+    return s?.trim().toInt;
   }
 
   static Future<String?> inputText({
@@ -139,8 +128,8 @@ class dialogs {
     bool? outlineBorder,
     DialogWidth? width,
   }) {
-    TextValidator lenValid = Valids.length(minLength, maxLength, allowEmpty: allowEmpty, trim: trim);
-    TextValidator vs = validator == null ? lenValid : Valids.list([validator, lenValid]);
+    TextValidator lenValid = LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: allowEmpty, trim: trim);
+    TextValidator vs = validator == null ? lenValid : ListValidator([validator, lenValid]);
     return showDialogX((b) {
       if (width != null) b.dialogWidth = width;
       b.title(title.text());
@@ -187,14 +176,15 @@ class dialogs {
     });
   }
 
-  static Future<({String first, String second})?> input2(HareEdit edit,
-      HareEdit secondEdit, {
-        required String title,
-        String? message,
-        TextValidator? validator,
-        TextValidator? secondValidator,
-        DialogWidth? dialogWidth,
-      }) async {
+  static Future<({String first, String second})?> input2(
+    HareEdit edit,
+    HareEdit secondEdit, {
+    required String title,
+    String? message,
+    TextValidator? validator,
+    TextValidator? secondValidator,
+    DialogWidth? dialogWidth,
+  }) async {
     return await showDialogX((b) {
       b.okCallback = () {
         bool ok1 = edit.validate(validator);
@@ -205,11 +195,7 @@ class dialogs {
         b.setResult((first: s, second: s2));
         return true;
       };
-      return b.buildColumn([edit, secondEdit], title: title,
-          ok: true,
-          cancel: true,
-          message: message,
-          dialogWidth: dialogWidth);
+      return b.buildColumn([edit, secondEdit], title: title, ok: true, cancel: true, message: message, dialogWidth: dialogWidth);
     });
   }
 
@@ -221,13 +207,7 @@ class dialogs {
         b.setResult(s);
         return true;
       };
-      return b.buildColumn([edit], title: title,
-          ok: true,
-          cancel: true,
-          dialogWidth: dialogWidth,
-          message: message,
-          messageAlign: TextAlign.start,
-          messageMinHeight: 32);
+      return b.buildColumn([edit], title: title, ok: true, cancel: true, dialogWidth: dialogWidth, message: message, messageAlign: TextAlign.start, messageMinHeight: 32);
     });
   }
 
@@ -254,15 +234,12 @@ class dialogs {
         b.setResult(true);
         return true;
       };
-      return b.buildColumn([], title: title,
-          message: message,
-          messageAlign: align,
-          ok: true,
-          cancel: true);
+      return b.buildColumn([], title: title, message: message, messageAlign: align, ok: true, cancel: true);
     });
   }
 
-  static Future<XAction?> pickAction(List<XAction> items, {
+  static Future<XAction?> pickAction(
+    List<XAction> items, {
     String? title,
     XAction? selected,
     Widget Function(XAction)? onItemView,
@@ -295,7 +272,8 @@ class dialogs {
     return ac;
   }
 
-  static Future<LabelValue<T>?> pickLabelValue<T>(List<LabelValue<T>> items, {
+  static Future<LabelValue<T>?> pickLabelValue<T>(
+    List<LabelValue<T>> items, {
     T? selected,
     String? title,
     Widget Function(LabelValue<T>)? onItemView,
@@ -325,7 +303,8 @@ class dialogs {
     );
   }
 
-  static Future<T?> pickValue<T>(List<T> items, {
+  static Future<T?> pickValue<T>(
+    List<T> items, {
     T? selected,
     String? title,
     Widget Function(T)? onItemView,
@@ -382,7 +361,8 @@ class dialogs {
     });
   }
 
-  static Future<Set<LabelValue<T>>?> pickLabelValueSet<T>(List<LabelValue<T>> items, {
+  static Future<Set<LabelValue<T>>?> pickLabelValueSet<T>(
+    List<LabelValue<T>> items, {
     Iterable<T>? selected,
     String? title,
     Widget Function(LabelValue<T>)? onItemView,
@@ -409,7 +389,8 @@ class dialogs {
     );
   }
 
-  static Future<Set<T>?> pickValueSet<T>(List<T> items, {
+  static Future<Set<T>?> pickValueSet<T>(
+    List<T> items, {
     Iterable<T>? selected,
     String? title,
     Widget Function(T, Set<T>)? onItemView,
@@ -471,7 +452,8 @@ class dialogs {
     });
   }
 
-  static Future<T?> pickGridValue<T>(List<T> items, {
+  static Future<T?> pickGridValue<T>(
+    List<T> items, {
     T? selected,
     Widget Function(T)? onItemView,
     Widget? Function(T)? onTitle,
@@ -494,7 +476,7 @@ class dialogs {
     EdgeInsets? dialogInsets,
   }) async {
     return await showDialogX(
-          (b) {
+      (b) {
         b.init(result: selected);
         return b.buildGrid(
           items,
@@ -546,7 +528,8 @@ class dialogs {
     );
   }
 
-  static Future<Set<T>?> pickGridValueSet<T>(List<T> items, {
+  static Future<Set<T>?> pickGridValueSet<T>(
+    List<T> items, {
     Iterable<T>? selected,
     String? title,
     Widget Function(T, Set<T>)? onItemView,
@@ -631,11 +614,7 @@ class dialogs {
     Widget? above,
     Widget? below,
   }) async {
-    ChipChoiceGroup<T> group = ChipChoiceGroup(items: items,
-        selected: selected,
-        allowEmpty: allowEmpty,
-        multiSelect: multiSelect,
-        alignment: WrapAlignment.center);
+    ChipChoiceGroup<T> group = ChipChoiceGroup(items: items, selected: selected, allowEmpty: allowEmpty, multiSelect: multiSelect, alignment: WrapAlignment.center);
 
     return await showDialogX((b) {
       b.title(title);
@@ -647,7 +626,8 @@ class dialogs {
     });
   }
 
-  static Future<T?> columns<T>(List<Widget> children, {
+  static Future<T?> columns<T>(
+    List<Widget> children, {
     required RFunc<DataResult<T>> validator,
     String? title,
     String? message,
@@ -665,11 +645,7 @@ class dialogs {
         }
         return r.success;
       };
-      return b.buildColumn(children, title: title,
-          message: message,
-          ok: ok,
-          cancel: cancel,
-          dialogWidth: dialogWidth);
+      return b.buildColumn(children, title: title, message: message, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
     });
   }
 }
