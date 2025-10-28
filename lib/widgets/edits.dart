@@ -125,7 +125,7 @@ class EditText extends HareWidget {
     this.maxLines = 1,
     this.minLines,
     this.autofocus = false,
-    this.decoration = const InputDecoration(),
+    this.decoration ,
     this.onChanged,
     this.onTapOutside,
   })  : controller = controller ?? TextEditingController(),

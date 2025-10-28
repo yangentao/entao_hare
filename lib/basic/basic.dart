@@ -40,6 +40,8 @@ part "utils/TipMessage.dart";
 part 'utils/Dirs.dart';
 part 'utils/plat.dart';
 part 'utils/validator.dart';
+part 'value_listener.dart';
+
 
 Builder builderWidget(WidgetBuilder b, {Key? key}) {
   return Builder(builder: b, key: key);
