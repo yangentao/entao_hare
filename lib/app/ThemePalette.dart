@@ -1,5 +1,7 @@
 part of 'app.dart';
 
+final StringOptional themePrefer = PreferProvider.instance.stringOptional(key: "themeIdent");
+
 class ThemePalette {
   final String ident;
   final Color color;
@@ -8,11 +10,9 @@ class ThemePalette {
 
   ThemePalette({required this.ident, required this.color, this.data, this.onDisplay});
 
-  static final LocalStringOpt _themeIdent = LocalStringOpt("themeIdent");
-
   /// after HareApp.prepare()
   static bool loadTheme() {
-    String? th = _themeIdent.value;
+    String? th = themePrefer.value;
     if (th == null) return false;
     ThemePalette? p = themeList.firstOr((e) => e.ident == th);
     if (p == null) return false;
@@ -46,7 +46,7 @@ class ThemePalette {
     } else {
       HareApp.themeState?.theme(_themeData());
     }
-    _themeIdent.value = ident;
+    themePrefer.value = ident;
   }
 
   ThemeData _themeData() {

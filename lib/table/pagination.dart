@@ -22,13 +22,13 @@ class PaginationInfo {
 
 class XPagination extends HareWidget {
   static final List<int> pageSizeList = const [10, 15, 20, 30, 50];
-  final LocalInt _localPageSize;
+  final IntAttribute _localPageSize;
   int offset = 0;
   int total = 0;
   void Function(PaginationInfo)? onChange;
 
   XPagination({String pageId = "global", this.onChange})
-      : _localPageSize = LocalInt(key: "pagesize_$pageId", defaultValue: 15),
+      : _localPageSize = IntAttribute(key: "pagesize_$pageId", missValue: 15, provider: PreferProvider.instance),
         super();
 
   int get pageSize => _localPageSize.value;

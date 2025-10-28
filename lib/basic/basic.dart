@@ -13,7 +13,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:println/println.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'actions.dart';
 part 'bits.dart';
@@ -37,11 +36,10 @@ part 'scroll.dart';
 part 'tags.dart';
 part 'text_ext.dart';
 part 'toast.dart';
-part 'utils/files.dart';
-part 'utils/localstore.dart';
+part "utils/TipMessage.dart";
+part 'utils/Dirs.dart';
 part 'utils/plat.dart';
 part 'utils/validator.dart';
-part "utils/TipMessage.dart";
 
 Builder builderWidget(WidgetBuilder b, {Key? key}) {
   return Builder(builder: b, key: key);
