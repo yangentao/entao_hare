@@ -26,6 +26,31 @@ part 'segments.dart';
 part 'slider.dart';
 part 'snack.dart';
 
+RadioGroup<T> RadioGroupVer<T>(
+  List<LabelValue<T>> items,
+  OptionalValueListener<T> listener, {
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.center,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
+}) {
+  return RadioGroup<T>(
+    groupValue: listener.value,
+    onChanged: listener.onChanged,
+    child: ColumnMin(
+      items.mapList((e) => RowMin([Radio(value: e.value), e.label.text()])),
+      mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: crossAxisAlignment,
+    ),
+  );
+}
+
+RadioGroup<T> RadioGroupHor<T>(List<LabelValue<T>> items, OptionalValueListener<T> listener, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.spaceAround}) {
+  return RadioGroup<T>(
+    groupValue: listener.value,
+    onChanged: listener.onChanged,
+    child: RowMax(items.mapList((e) => RowMin([Radio(value: e.value), e.label.text()])), mainAxisAlignment: mainAxisAlignment),
+  );
+}
+
 class QuickScrollPhysics extends ScrollPhysics {
   const QuickScrollPhysics({super.parent});
 

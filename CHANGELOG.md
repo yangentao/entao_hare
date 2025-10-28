@@ -62,3 +62,6 @@
 
 ## 1.2.16
 * file config
+
+## 1.2.18
+* attribute

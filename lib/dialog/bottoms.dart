@@ -338,4 +338,52 @@ class bottoms {
       requestFocus: requestFocus,
     );
   }
+
+  static Future<T?> showModalWidget<T>(
+    Widget child, {
+    BuildContext? context,
+    Color? backgroundColor,
+    String? barrierLabel,
+    double? elevation,
+    ShapeBorder? shape,
+    Clip? clipBehavior,
+    BoxConstraints? constraints,
+    Color? barrierColor,
+    bool isScrollControlled = false,
+    // double scrollControlDisabledMaxHeightRatio = _defaultScrollControlDisabledMaxHeightRatio,
+    bool useRootNavigator = false,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    bool? showDragHandle,
+    bool useSafeArea = false,
+    RouteSettings? routeSettings,
+    AnimationController? transitionAnimationController,
+    Offset? anchorPoint,
+    AnimationStyle? sheetAnimationStyle,
+    bool? requestFocus,
+    PropMap? propMap,
+  }) {
+    return showModalBottomSheet(
+      context: context ?? globalContext,
+      builder: (c) => child,
+      backgroundColor: backgroundColor,
+      barrierLabel: barrierLabel,
+      elevation: elevation,
+      shape: shape,
+      clipBehavior: clipBehavior,
+      constraints: constraints,
+      barrierColor: barrierColor,
+      isScrollControlled: isScrollControlled,
+      useRootNavigator: useRootNavigator,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      showDragHandle: showDragHandle,
+      useSafeArea: useSafeArea,
+      routeSettings: routeSettings,
+      transitionAnimationController: transitionAnimationController,
+      anchorPoint: anchorPoint,
+      sheetAnimationStyle: sheetAnimationStyle,
+      requestFocus: requestFocus,
+    );
+  }
 }

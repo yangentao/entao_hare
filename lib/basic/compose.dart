@@ -1,24 +1,25 @@
 part of 'basic.dart';
 
-ButtonStyle SegStyle =
-    SegmentedButton.styleFrom(selectedBackgroundColor: Colors.lightBlue, selectedForegroundColor: Colors.white, side: BorderSide(color: globalTheme.dividerColor));
+ButtonStyle SegStyle = SegmentedButton.styleFrom(
+  selectedBackgroundColor: Colors.lightBlue,
+  selectedForegroundColor: Colors.white,
+  side: BorderSide(color: globalTheme.dividerColor),
+);
 
 Widget CirclePoint({required double size, required Color color, String? text, Color? textColor, double? fontSize}) {
   return Container(
-      width: size,
-      height: size,
-      child: text?.text(color: textColor, fontSize: fontSize, mono: true).centered(),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(size / 2)));
+    width: size,
+    height: size,
+    child: text?.text(color: textColor, fontSize: fontSize, mono: true).centered(),
+    decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(size / 2)),
+  );
 }
 
 DecoratedBox RoundRectBox({Widget? child, Color? color, BorderRadius? borderRadius, double radius = 8, BoxShadow? shadow}) {
   return DecoratedBox(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)),
-        boxShadow: shadow == null ? null : [shadow],
-      ),
-      child: child);
+    decoration: BoxDecoration(color: color, borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)), boxShadow: shadow == null ? null : [shadow]),
+    child: child,
+  );
 }
 
 Widget TitleBar(BuildContext context, {required Widget title, List<Widget>? actions, double padX = 16}) {
@@ -31,8 +32,16 @@ Widget TitleBar(BuildContext context, {required Widget title, List<Widget>? acti
   ]).constrainedBox(minHeight: 56).coloredBox(context.themeData.cardColor);
 }
 
-Widget TitleValueView(BuildContext context,
-    {required List<Widget> left, List<Widget>? right, double itemSpace = 8, double minHeight = 48, double padX = 16, VoidCallback? onTap, VoidCallback? onDoubleTap}) {
+Widget TitleValueView(
+  BuildContext context, {
+  required List<Widget> left,
+  List<Widget>? right,
+  double itemSpace = 8,
+  double minHeight = 48,
+  double padX = 16,
+  VoidCallback? onTap,
+  VoidCallback? onDoubleTap,
+}) {
   late Widget leftWidget;
   if (left.isEmpty) {
     leftWidget = "".text();
@@ -72,13 +81,14 @@ ListView ListViewByWidgets(List<Widget> items, {bool seprator = false, EdgeInset
 
 Widget PickDateButton(BuildContext context, {required DateTime firstDate, DateTime? lastDate, DateTime? date, void Function(DateTime date)? onChange}) {
   return FilledButton(
-      onPressed: () async {
-        DateTime? dt = await showDatePicker(context: context, firstDate: firstDate, lastDate: lastDate ?? DateTime.now(), initialDate: date);
-        if (dt != null) {
-          onChange?.call(dt);
-        }
-      },
-      child: date?.formatDate.text() ?? "选择日期".text());
+    onPressed: () async {
+      DateTime? dt = await showDatePicker(context: context, firstDate: firstDate, lastDate: lastDate ?? DateTime.now(), initialDate: date);
+      if (dt != null) {
+        onChange?.call(dt);
+      }
+    },
+    child: date?.formatDate.text() ?? "选择日期".text(),
+  );
 }
 
 Widget ButtonGroup(BuildContext context, {required List<String> items, String? selected, required void Function(String item) onChange}) {
@@ -157,8 +167,12 @@ Column ColumnMaxStretch(List<Widget> children, {MainAxisAlignment mainAxisAlignm
   return ColumnMax(children, crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisAlignment: mainAxisAlignment);
 }
 
-Column ColumnMax(List<Widget> children,
-    {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center, TextBaseline? textBaseline}) {
+Column ColumnMax(
+  List<Widget> children, {
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  TextBaseline? textBaseline,
+}) {
   return Column(
     mainAxisSize: MainAxisSize.max,
     crossAxisAlignment: crossAxisAlignment,
@@ -168,8 +182,12 @@ Column ColumnMax(List<Widget> children,
   );
 }
 
-Column ColumnMin(List<Widget> children,
-    {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center, TextBaseline? textBaseline}) {
+Column ColumnMin(
+  List<Widget> children, {
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  TextBaseline? textBaseline,
+}) {
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: crossAxisAlignment,
@@ -179,8 +197,12 @@ Column ColumnMin(List<Widget> children,
   );
 }
 
-Row RowMax(List<Widget> children,
-    {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center, TextBaseline? textBaseline}) {
+Row RowMax(
+  List<Widget> children, {
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  TextBaseline? textBaseline,
+}) {
   return Row(
     mainAxisSize: MainAxisSize.max,
     mainAxisAlignment: mainAxisAlignment,
@@ -190,12 +212,14 @@ Row RowMax(List<Widget> children,
   );
 }
 
-Row RowMin(List<Widget> children,
-    {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-    TextDirection? textDirection,
-    TextBaseline? textBaseline,
-    VerticalDirection verticalDirection = VerticalDirection.down}) {
+Row RowMin(
+  List<Widget> children, {
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  TextDirection? textDirection,
+  TextBaseline? textBaseline,
+  VerticalDirection verticalDirection = VerticalDirection.down,
+}) {
   return Row(
     mainAxisSize: MainAxisSize.min,
     mainAxisAlignment: mainAxisAlignment,
@@ -274,5 +298,8 @@ ExpansionTile ExpandTile(
 }
 
 Drawer ListDrawer(List<Widget> items, {double? width = 200, List<Widget>? tailItems}) {
-  return Drawer(width: width, child: ColumnMax([ListView(shrinkWrap: true, children: items), Spacer(), ...(tailItems ?? [])]));
+  return Drawer(
+    width: width,
+    child: ColumnMax([ListView(shrinkWrap: true, children: items), Spacer(), ...(tailItems ?? [])]),
+  );
 }
