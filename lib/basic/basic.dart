@@ -36,12 +36,17 @@ part 'scroll.dart';
 part 'tags.dart';
 part 'text_ext.dart';
 part 'toast.dart';
-part "utils/TipMessage.dart";
 part 'utils/Dirs.dart';
+part "utils/TipMessage.dart";
 part 'utils/plat.dart';
 part 'utils/validator.dart';
 part 'value_listener.dart';
 
+extension IntMinMaxExt on int {
+  static const int minValue = (kIsWasm || kIsWeb) ? -9007199254740992 : -9223372036854775808;
+
+  static const int maxValue = (kIsWasm || kIsWeb) ? 9007199254740991 : 9223372036854775807;
+}
 
 Builder builderWidget(WidgetBuilder b, {Key? key}) {
   return Builder(builder: b, key: key);

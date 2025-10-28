@@ -1,82 +1,6 @@
 // ignore_for_file: must_be_immutable
 part of 'widgets.dart';
 
-class EditNumber extends HareWidget {
-  TextEditingController controller;
-  num? initialValue;
-  num minValue;
-  num maxValue;
-  bool signed;
-  bool decimal;
-  bool allowEmpty;
-  String? label;
-  void Function(num? value)? onSubmitted;
-  Widget? prefixIcon;
-  String? helperText;
-  String? errorText;
-  bool clear;
-  Widget? suffixIcon;
-  FocusNode focusNode;
-  Color? cursorColor;
-  TextInputType? keyboardType;
-  TextInputAction? textInputAction;
-
-  num? get value => decimal ? controller.text.toDouble : controller.text.toInt;
-
-  int? get valueInt => controller.text.toInt;
-
-  double? get valueDouble => controller.text.toDouble;
-
-  EditNumber({
-    TextEditingController? controller,
-    this.initialValue,
-    this.label,
-    FocusNode? focusNode,
-    required this.minValue,
-    required this.maxValue,
-    this.allowEmpty = false,
-    this.signed = true,
-    this.decimal = true,
-    this.cursorColor = Colors.deepOrange,
-    this.prefixIcon,
-    this.helperText,
-    this.errorText,
-    this.onSubmitted,
-    this.clear = true,
-    this.suffixIcon,
-    TextInputType? keyboardType,
-    this.textInputAction = TextInputAction.next,
-  })  : controller = controller ?? TextEditingController(),
-        keyboardType = keyboardType ?? TextInputType.numberWithOptions(signed: signed, decimal: decimal),
-        focusNode = focusNode ?? FocusNode(),
-        super();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      key: UniqueKey(),
-      controller: controller,
-      initialValue: initialValue?.toString(),
-      focusNode: focusNode,
-      cursorColor: cursorColor,
-      maxLength: math.max(minValue.toString().length + 1, maxValue.toString().length + 1),
-      onFieldSubmitted: (s) => onSubmitted?.call(decimal ? s.toDouble : s.toInt),
-      validator: NumValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty).call,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      onTapOutside: (e) => focusNode.unfocus(),
-      decoration: InputDecoration(
-        labelText: label,
-        counterText: "",
-        prefixIcon: prefixIcon,
-        helperText: helperText,
-        errorText: errorText,
-        suffixIcon: suffixIcon ?? (!clear ? null : IconButton(icon: const Icon(Icons.clear), onPressed: () => controller.clear())),
-      ),
-    );
-  }
-}
-
 class EditText extends HareWidget {
   final TextEditingController controller;
   final String? label;
@@ -125,12 +49,12 @@ class EditText extends HareWidget {
     this.maxLines = 1,
     this.minLines,
     this.autofocus = false,
-    this.decoration ,
+    this.decoration,
     this.onChanged,
     this.onTapOutside,
-  })  : controller = controller ?? TextEditingController(),
-        focusNode = focusNode ?? FocusNode(),
-        super() {
+  }) : controller = controller ?? TextEditingController(),
+       focusNode = focusNode ?? FocusNode(),
+       super() {
     if (this.initialValue != null && this.initialValue!.isNotEmpty) {
       this.controller.text = this.initialValue!;
     }
@@ -154,7 +78,8 @@ class EditText extends HareWidget {
       minLines: minLines,
       autofocus: autofocus,
       onChanged: onChanged,
-      decoration: decoration ??
+      decoration:
+          decoration ??
           InputDecoration(
             labelText: label,
             counterText: "",
@@ -167,65 +92,53 @@ class EditText extends HareWidget {
   }
 }
 
-class EditPassword extends HareWidget {
-  TextEditingController controller;
-  bool showPassword;
-  int minLength;
-  int maxLength;
-  FuncString? onSubmitted;
-  String? label;
-  Color? cursorColor;
-  Widget? prefixIcon;
-  String? errorText;
-  TextInputAction? textInputAction;
-  FocusNode focusNode;
-
-  String get value => controller.text;
-
-  EditPassword({
-    TextEditingController? controller,
-    this.label = "密码",
-    this.minLength = 1,
-    this.maxLength = 128,
-    this.showPassword = false,
-    FocusNode? focusNode,
-    this.onSubmitted,
-    this.cursorColor,
-    this.errorText,
-    this.textInputAction = TextInputAction.done,
-    this.prefixIcon = const Icon(Icons.lock),
-  })  : controller = controller ?? TextEditingController(),
-        focusNode = focusNode ?? FocusNode(),
-        super();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      key: UniqueKey(),
-      controller: controller,
-      cursorColor: cursorColor,
-      obscureText: !showPassword,
-      maxLength: maxLength,
-      keyboardType: TextInputType.visiblePassword,
-      textInputAction: textInputAction,
-      onFieldSubmitted: (s) => onSubmitted?.call(s),
-      validator: LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: false).call,
-      focusNode: focusNode,
-      onTapOutside: (e) => focusNode.unfocus(),
-      decoration: InputDecoration(
-        prefixIcon: prefixIcon,
-        labelText: label,
-        counterText: "",
-        suffixIcon: IconButton(
-          icon: showPassword ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
-          onPressed: () {
-            showPassword = !showPassword;
-            updateState();
-          },
-        ),
+Widget EditPassword({
+  required ValueListener<bool> eyeListener,
+  ValueListener<String>? valueListener,
+  TextEditingController? controller,
+  String? initialValue,
+  int minLength = 1,
+  int maxLength = 128,
+  String? label = "密码",
+  String? errorText,
+  String? hint,
+  OnValue<String>? onChanged,
+  OnValue<String>? onSubmitted,
+  FocusNode? focusNode,
+  Color? cursorColor,
+  Widget? prefixIcon = const Icon(Icons.lock),
+  TextInputAction? textInputAction = TextInputAction.done,
+}) {
+  TextEditingController c = controller ?? TextEditingController(text: initialValue ?? valueListener?.value);
+  FocusNode node = focusNode ?? FocusNode();
+  return TextFormField(
+    key: UniqueKey(),
+    initialValue: null,
+    controller: c,
+    cursorColor: cursorColor,
+    obscureText: eyeListener.value,
+    maxLength: maxLength,
+    keyboardType: TextInputType.visiblePassword,
+    textInputAction: textInputAction,
+    onChanged: onChanged ?? valueListener?.onChanged,
+    onFieldSubmitted: onSubmitted ?? valueListener?.onChanged,
+    validator: LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: false).call,
+    focusNode: focusNode,
+    onTapOutside: (e) => node.unfocus(),
+    decoration: InputDecoration(
+      prefixIcon: prefixIcon,
+      labelText: label,
+      errorText: errorText,
+      hintText: hint,
+      counterText: "",
+      suffixIcon: IconButton(
+        icon: eyeListener.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
+        onPressed: () {
+          eyeListener.onChanged(!eyeListener.value);
+        },
       ),
-    );
-  }
+    ),
+  );
 }
 
 extension TextEditingControllerInsertExt on TextEditingController {
@@ -233,7 +146,10 @@ extension TextEditingControllerInsertExt on TextEditingController {
     if (s.isEmpty) return;
     TextEditingValue v = this.value;
     if (this.text.isEmpty) {
-      this.value = TextEditingValue(text: s, selection: TextSelection.collapsed(offset: s.length));
+      this.value = TextEditingValue(
+        text: s,
+        selection: TextSelection.collapsed(offset: s.length),
+      );
       return;
     }
     String oldText = this.text;
@@ -241,7 +157,130 @@ extension TextEditingControllerInsertExt on TextEditingController {
     if (old.isValid && old.isNormalized) {
       String newText = old.textBefore(oldText) + s + old.textAfter(oldText);
       int newStart = old.start + s.length;
-      this.value = TextEditingValue(text: newText, selection: TextSelection.collapsed(offset: newStart));
+      this.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newStart),
+      );
     }
   }
+}
+
+Widget EditInt({
+  Key? key,
+  OptionalValueListener<int>? valueListener,
+  TextEditingController? controller,
+  int? initialValue,
+  int? minValue,
+  int? maxValue,
+  bool signed = true,
+  bool allowEmpty = true,
+  void Function(String)? onSubmitted,
+  void Function(String)? onChanged,
+  String? label,
+  String? hint,
+  Widget? prefixIcon,
+  String? helperText,
+  String? errorText,
+  int? maxLength,
+  bool clear = false,
+  Widget? suffixIcon,
+  FocusNode? focusNode,
+  Color? cursorColor,
+  TextInputType? keyboardType,
+  TextInputAction? textInputAction = TextInputAction.next,
+  InputDecoration? decoration,
+  InputBorder? border,
+}) {
+  TextEditingController? c = controller ?? (clear && suffixIcon == null && decoration == null ? TextEditingController() : null);
+  FocusNode node = focusNode ?? FocusNode();
+  void onTextChanged(String text) {
+    valueListener?.onChanged(text.toInt);
+  }
+
+  return TextFormField(
+    key: key,
+    controller: c,
+    initialValue: initialValue?.toString() ?? valueListener?.value?.toString(),
+    onChanged: onChanged ?? onTextChanged,
+    onFieldSubmitted: onSubmitted ?? onTextChanged,
+    focusNode: node,
+    maxLength: maxLength ?? 20,
+    validator: IntValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty).call,
+    keyboardType: keyboardType ?? TextInputType.numberWithOptions(signed: signed, decimal: false),
+    textInputAction: textInputAction,
+    onTapOutside: (e) => node.unfocus(),
+    cursorColor: cursorColor,
+    decoration:
+        decoration ??
+        InputDecoration(
+          labelText: label,
+          hintText: hint,
+          helperText: helperText,
+          errorText: errorText,
+          counterText: "",
+          border: border,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon ?? (!clear ? null : IconButton(icon: const Icon(Icons.clear), onPressed: () => c?.clear())),
+        ),
+  );
+}
+
+Widget EditDouble({
+  Key? key,
+  TextEditingController? controller,
+  OptionalValueListener<double>? valueListener,
+  double? initialValue,
+  double? minValue,
+  double? maxValue,
+  bool signed = true,
+  bool allowEmpty = true,
+  void Function(String)? onSubmitted,
+  void Function(String)? onChanged,
+  String? label,
+  String? hint,
+  Widget? prefixIcon,
+  String? helperText,
+  String? errorText,
+  int? maxLength,
+  bool clear = false,
+  Widget? suffixIcon,
+  FocusNode? focusNode,
+  Color? cursorColor,
+  TextInputType? keyboardType,
+  TextInputAction? textInputAction = TextInputAction.next,
+  InputDecoration? decoration,
+  InputBorder? border,
+}) {
+  TextEditingController? c = controller ?? (clear && suffixIcon == null && decoration == null ? TextEditingController() : null);
+  FocusNode node = focusNode ?? FocusNode();
+  void onTextChanged(String text) {
+    valueListener?.onChanged(text.toDouble);
+  }
+
+  return TextFormField(
+    key: key,
+    controller: c,
+    initialValue: initialValue?.toString() ?? valueListener?.value.toString(),
+    onChanged: onChanged ?? onTextChanged,
+    onFieldSubmitted: onSubmitted ?? onTextChanged,
+    focusNode: node,
+    maxLength: maxLength,
+    validator: DoubleValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty).call,
+    keyboardType: keyboardType ?? TextInputType.numberWithOptions(signed: signed, decimal: true),
+    textInputAction: textInputAction,
+    onTapOutside: (e) => node.unfocus(),
+    cursorColor: cursorColor,
+    decoration:
+        decoration ??
+        InputDecoration(
+          labelText: label,
+          hintText: hint,
+          helperText: helperText,
+          errorText: errorText,
+          counterText: "",
+          border: border,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon ?? (!clear ? null : IconButton(icon: Icon(Icons.clear), onPressed: () => c?.clear())),
+        ),
+  );
 }
