@@ -7,7 +7,6 @@ import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/basic/basic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:println/println.dart';
 
 import '../harewidget/harewidget.dart';
 

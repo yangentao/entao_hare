@@ -1,95 +1,71 @@
 // ignore_for_file: must_be_immutable
 part of 'widgets.dart';
 
-class EditText extends HareWidget {
-  final TextEditingController controller;
-  final String? label;
-  final int minLength;
-  final int maxLength;
-  final bool allowEmpty;
-  final FuncString? onSubmitted;
-  final Widget? prefixIcon;
-  final String? helperText;
-  final String? errorText;
-  final bool clear;
-  final Widget? suffixIcon;
-  final String? initialValue;
-  final Color? cursorColor;
-  final TextInputType? keyboardType;
-  final TextInputAction? textInputAction;
-  final FocusNode focusNode;
-  final TextAlign textAlign;
-  final bool autofocus;
-  final int? maxLines;
-  final int? minLines;
-  final InputDecoration? decoration;
-  final void Function(String)? onChanged;
-  final void Function(PointerDownEvent)? onTapOutside;
+TextFormField EditText({
+  TextEditingController? controller,
+  ValueListener<String>? valueListener,
+  String? initialValue,
+  String? label,
+  String? hint,
+  int? minLength,
+  int maxLength = 256,
+  bool allowEmpty = true,
+  FuncString? onSubmitted,
+  Widget? prefixIcon,
+  String? helperText,
+  String? errorText,
+  bool clear = true,
+  Widget? suffixIcon,
+  Color? cursorColor,
+  TextValidator? validator,
+  List<TextInputFormatter>? inputFormatters,
+  TextInputType? keyboardType = TextInputType.text,
+  TextInputAction? textInputAction = TextInputAction.next,
+  FocusNode? focusNode,
+  TextAlign textAlign = TextAlign.start,
+  bool autofocus = false,
+  int? maxLines,
+  int? minLines,
+  bool readonly = false,
+  InputDecoration? decoration,
+  void Function(String)? onChanged,
+  void Function(PointerDownEvent)? onTapOutside,
+}) {
+  TextEditingController c = controller ?? TextEditingController(text: initialValue ?? valueListener?.value);
+  FocusNode node = focusNode ?? FocusNode();
+  var lv = LengthValidator(minLength: minLength ?? 0, maxLength: maxLength, allowEmpty: allowEmpty);
+  TextValidator tv = validator == null ? lv : ListValidator([validator, lv]);
 
-  String get value => controller.text;
-
-  EditText({
-    TextEditingController? controller,
-    this.initialValue,
-    this.label,
-    FocusNode? focusNode,
-    this.minLength = 1,
-    this.maxLength = 256,
-    this.allowEmpty = false,
-    this.cursorColor = Colors.deepOrange,
-    this.prefixIcon,
-    this.helperText,
-    this.errorText,
-    this.onSubmitted,
-    this.clear = true,
-    this.suffixIcon,
-    this.keyboardType = TextInputType.text,
-    this.textInputAction = TextInputAction.next,
-    this.textAlign = TextAlign.start,
-    this.maxLines = 1,
-    this.minLines,
-    this.autofocus = false,
-    this.decoration,
-    this.onChanged,
-    this.onTapOutside,
-  }) : controller = controller ?? TextEditingController(),
-       focusNode = focusNode ?? FocusNode(),
-       super() {
-    if (this.initialValue != null && this.initialValue!.isNotEmpty) {
-      this.controller.text = this.initialValue!;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      key: UniqueKey(),
-      controller: controller,
-      focusNode: focusNode,
-      cursorColor: cursorColor,
-      maxLength: maxLength,
-      onFieldSubmitted: (s) => onSubmitted?.call(s),
-      validator: LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: allowEmpty).call,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      textAlign: textAlign,
-      onTapOutside: onTapOutside ?? (e) => focusNode.unfocus(),
-      maxLines: maxLines,
-      minLines: minLines,
-      autofocus: autofocus,
-      onChanged: onChanged,
-      decoration:
-          decoration ??
-          InputDecoration(
-            labelText: label,
-            counterText: "",
-            prefixIcon: prefixIcon,
-            helperText: helperText,
-            errorText: errorText,
-            suffixIcon: suffixIcon ?? (!clear ? null : IconButton(icon: const Icon(Icons.clear), onPressed: () => controller.clear())),
-          ),
-    );
-  }
+  return TextFormField(
+    key: UniqueKey(),
+    controller: c,
+    maxLength: maxLength,
+    validator: tv,
+    maxLines: maxLines,
+    minLines: minLines,
+    onFieldSubmitted: onSubmitted ?? valueListener?.onChanged,
+    onChanged: onChanged ?? valueListener?.onChanged,
+    textAlign: textAlign,
+    keyboardType: keyboardType,
+    textInputAction: textInputAction,
+    inputFormatters: inputFormatters,
+    readOnly: readonly,
+    autofocus: autofocus,
+    cursorColor: cursorColor,
+    focusNode: node,
+    onTapOutside: onTapOutside ?? (e) => node.unfocus(),
+    decoration:
+        decoration ??
+        InputDecoration(
+          labelText: label,
+          hintText: hint,
+          counterText: "",
+          prefixIcon: prefixIcon,
+          helperText: helperText,
+          errorText: errorText,
+          suffixIcon: suffixIcon ?? (!clear ? null : IconButton(icon: const Icon(Icons.clear), onPressed: () => c.clear())),
+        ),
+  );
 }
 
 Widget EditPassword({
@@ -104,6 +80,7 @@ Widget EditPassword({
   String? hint,
   OnValue<String>? onChanged,
   OnValue<String>? onSubmitted,
+  List<TextInputFormatter>? inputFormatters,
   FocusNode? focusNode,
   Color? cursorColor,
   Widget? prefixIcon = const Icon(Icons.lock),
@@ -122,7 +99,8 @@ Widget EditPassword({
     textInputAction: textInputAction,
     onChanged: onChanged ?? valueListener?.onChanged,
     onFieldSubmitted: onSubmitted ?? valueListener?.onChanged,
-    validator: LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: false).call,
+    validator: LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: false),
+    inputFormatters: inputFormatters,
     focusNode: focusNode,
     onTapOutside: (e) => node.unfocus(),
     decoration: InputDecoration(
@@ -205,8 +183,9 @@ Widget EditInt({
     onFieldSubmitted: onSubmitted ?? onTextChanged,
     focusNode: node,
     maxLength: maxLength ?? 20,
-    validator: IntValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty).call,
+    validator: IntValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty),
     keyboardType: keyboardType ?? TextInputType.numberWithOptions(signed: signed, decimal: false),
+    inputFormatters: [signed ? InputFormats.reals : InputFormats.realsUnsigned],
     textInputAction: textInputAction,
     onTapOutside: (e) => node.unfocus(),
     cursorColor: cursorColor,
@@ -265,9 +244,10 @@ Widget EditDouble({
     onFieldSubmitted: onSubmitted ?? onTextChanged,
     focusNode: node,
     maxLength: maxLength,
-    validator: DoubleValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty).call,
+    validator: DoubleValidator(minValue: minValue, maxValue: maxValue, allowEmpty: allowEmpty),
     keyboardType: keyboardType ?? TextInputType.numberWithOptions(signed: signed, decimal: true),
     textInputAction: textInputAction,
+    inputFormatters: [signed ? InputFormats.reals : InputFormats.realsUnsigned],
     onTapOutside: (e) => node.unfocus(),
     cursorColor: cursorColor,
     decoration:

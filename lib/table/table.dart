@@ -4,13 +4,9 @@ library;
 import 'dart:math' as math;
 
 import 'package:entao_dutil/entao_dutil.dart';
-import 'package:entao_hare/basic/basic.dart';
 import 'package:entao_hare/entao_hare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-import '../harewidget/harewidget.dart';
-import '../query/query.dart';
 
 part 'data_table.dart';
 part 'pagination.dart';
