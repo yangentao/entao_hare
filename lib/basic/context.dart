@@ -25,6 +25,25 @@ class ContextIndexItem<T> extends ContextIndex {
   T item;
 
   ContextIndexItem(super.context, super.index, this.item);
+
+  static NullableIndexedWidgetBuilder nullableIndexBuilder<V>(List<V> items, Widget Function(ContextIndexItem<V>) itemBuilder) {
+    Widget? builder(BuildContext context, int index) {
+      if (index >= items.length) return null;
+      ContextIndexItem<V> cii = ContextIndexItem(context, index, items[index]);
+      return itemBuilder(cii);
+    }
+
+    return builder;
+  }
+
+  static IndexedWidgetBuilder indexBuilder<V>(List<V> items, Widget Function(ContextIndexItem<V>) itemBuilder) {
+    Widget builder(BuildContext context, int index) {
+      ContextIndexItem<V> cii = ContextIndexItem(context, index, items[index]);
+      return itemBuilder(cii);
+    }
+
+    return builder;
+  }
 }
 
 extension ContextExt on BuildContext {
