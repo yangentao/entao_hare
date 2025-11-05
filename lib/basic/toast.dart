@@ -85,7 +85,7 @@ class ToastItem {
       trailing: Icons.clear.icon(size: 12, color: Colors.white).inkWell(onTap: () => context.removeDelay(1)),
       horizontalTitleGap: 0,
     ).constrainedBox(minWidth: 200, minHeight: 48, maxWidth: width.GE(200)).physicalModel(color: fillColor, radius: 3, elevation: 3);
-    return lt.align(alignment ?? Toast.defaultAlignment);
+    return lt;
   }
 
   void show() {
@@ -125,7 +125,9 @@ class Toast {
     if (_items.isEmpty) return;
     ToastItem item = _items.removeAt(0);
     _current = item;
-    OverlayX ox = OverlayX((c) => item.build(c));
+    OverlayX ox = OverlayX((c) {
+      return Draggable(feedback: item.build(c), child: item.build(c), onDragEnd: (d) => c.entry.removeDelay(10)).align(item.alignment ?? Toast.defaultAlignment);
+    });
     ox.show();
     ox.removeDelay(item.durationMS);
     ox.onRemoved(() {

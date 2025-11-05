@@ -1,7 +1,7 @@
 part of 'basic.dart';
 
-OverlayX showOverlayX(OverlayBuilder builder, {BuildContext? context}) {
-  return OverlayX(builder).show(context);
+OverlayX showOverlayX(OverlayBuilder builder, {BuildContext? context, bool canSizeOverlay = false}) {
+  return OverlayX(builder, canSizeOverlay: canSizeOverlay).show(context);
 }
 
 class OverlayContext {
