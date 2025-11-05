@@ -90,7 +90,7 @@ class TextAction extends HareWidget {
   ValueChanged<String>? onChanged;
   VoidCallback? onTap;
 
-  TextAction({required this.title, this.onChanged, VoidCallback? onTap});
+  TextAction({required this.title, this.onChanged, this.onTap});
 
   void update(String newValue, {bool fire = false}) {
     this.title = newValue;

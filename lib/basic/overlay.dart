@@ -1,5 +1,9 @@
 part of 'basic.dart';
 
+OverlayX showOverlayX(OverlayBuilder builder, {BuildContext? context}) {
+  return OverlayX(builder).show(context);
+}
+
 class OverlayContext {
   final BuildContext context;
   final OverlayX entry;
@@ -17,13 +21,7 @@ class OverlayContext {
 
 typedef OverlayBuilder = Widget Function(OverlayContext);
 
-enum OverlayXState {
-  init,
-  preShowing,
-  showing,
-  postRemove,
-  removed;
-}
+enum OverlayXState { init, preShowing, showing, postRemove, removed }
 
 class OverlayX {
   late final OverlayEntry _entry;
