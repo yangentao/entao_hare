@@ -16,7 +16,7 @@ dependencies:
   any_call: ^1.0.1
 
   entao_dutil: ^1.2.7
-  entao_log: ^1.2.7
+  entao_log: ^1.2.8
   entao_http: ^1.2.5
 
   shared_preferences: ^2.5.3

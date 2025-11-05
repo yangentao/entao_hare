@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-
 part 'AppBuilder.dart';
 part 'AppMap.dart';
 part 'Assets.dart';
@@ -20,8 +19,6 @@ part 'HareApp.dart';
 part 'ThemePalette.dart';
 part 'ThemeWidget.dart';
 part 'router_date_widget.dart';
-
-
 
 extension ThemeDataBright on ThemeData {
   bool get isDark => this.brightness == Brightness.dark;
@@ -55,6 +52,59 @@ const Set<PointerDeviceKind> _deviceTypes = <PointerDeviceKind>{
   PointerDeviceKind.unknown,
 };
 
-Widget TextAction(String title, {Color? color, VoidCallback? onTap}) {
-  return title.button(onTap, color: color ?? HareApp.themeData.colorScheme.onPrimary);
+class ToggleAction extends HareWidget {
+  bool value;
+  final Widget _onWidget;
+  final Widget _offWidget;
+  ValueChanged<bool> onChanged;
+
+  ToggleAction({this.value = true, required Widget on, required Widget off, required this.onChanged}) : _onWidget = on, _offWidget = off;
+
+  void update(bool newValue, {bool fire = false}) {
+    this.value = newValue;
+    updateState();
+    if (fire) {
+      onChanged(this.value);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: value ? _onWidget : _offWidget,
+      onPressed: () {
+        value = !value;
+        updateState();
+        onChanged(value);
+      },
+    );
+  }
+}
+
+// Widget TextAction(String title, {Color? color, VoidCallback? onTap}) {
+//   return title.button(onTap, color: color ?? HareApp.themeData.colorScheme.onPrimary);
+// }
+
+class TextAction extends HareWidget {
+  String title;
+  ValueChanged<String>? onChanged;
+  VoidCallback? onTap;
+
+  TextAction({required this.title, this.onChanged, VoidCallback? onTap});
+
+  void update(String newValue, {bool fire = false}) {
+    this.title = newValue;
+    updateState();
+    if (fire) {
+      onChanged?.call(this.title);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: title.text(color: HareApp.themeData.colorScheme.onPrimary),
+      onPressed: onTap,
+    );
+  }
 }

@@ -1,45 +1,59 @@
 import 'dart:typed_data';
 
 import 'package:entao_hare/harewidget/harewidget.dart';
-import 'package:entao_log/entao_log.dart';
-import 'package:web_socket/web_socket.dart';
+import 'package:web_socket/web_socket.dart' as ws;
 
 typedef OnWebSocketText = void Function(String text);
 typedef OnWebSocketBinary = void Function(Uint8List data);
 typedef OnWebSocketClose = void Function(int? code, String reason);
-typedef OnWebSocketError = void Function(WebSocketException e);
+typedef OnWebSocketError = void Function(ws.WebSocketException e);
+
+abstract mixin class WsDelegate {
+  void onWebSocketText(String text);
+
+  void onWebSocketBinary(Uint8List data) {}
+
+  void onWebSocketClose(int? code, String reason);
+
+  void onWebSocketError(ws.WebSocketException e);
+}
 
 class HareWebsocket {
-  WebSocket? websocket;
+  ws.WebSocket? websocket;
   OnWebSocketText? onText;
   OnWebSocketBinary? onBinary;
   OnWebSocketClose? onClose;
   OnWebSocketError? onError;
+  WsDelegate? delegate;
 
-  HareWebsocket({this.onText, this.onBinary, this.onClose, this.onError});
+  HareWebsocket({this.delegate, this.onText, this.onBinary, this.onClose, this.onError});
 
   bool get isOpen => websocket != null;
 
   Future<void> connect(Uri uri) async {
-    final WebSocket socket = await WebSocket.connect(uri);
+    final ws.WebSocket socket = await ws.WebSocket.connect(uri);
     this.websocket = socket;
     socket.events.listen(
       (e) async {
         switch (e) {
-          case TextDataReceived(text: final text):
+          case ws.TextDataReceived(text: final text):
             onText?.call(text);
-          case BinaryDataReceived(data: final data):
+            delegate?.onWebSocketText(text);
+          case ws.BinaryDataReceived(data: final data):
             onBinary?.call(data);
-          case CloseReceived(code: final code, reason: final reason):
+            delegate?.onWebSocketBinary(data);
+          case ws.CloseReceived(code: final code, reason: final reason):
             websocket = null;
             onClose?.call(code, reason);
+            delegate?.onWebSocketClose(code, reason);
             break;
         }
       },
       onError: (Object e) {
         socket.close();
         websocket = null;
-        onError?.call(e as WebSocketException);
+        onError?.call(e as ws.WebSocketException);
+        delegate?.onWebSocketError(e as ws.WebSocketException);
       },
       onDone: () {
         websocket = null;
@@ -61,27 +75,12 @@ class HareWebsocket {
   }
 }
 
-mixin HareWebSocketMixin on HareWidget {
-  late HareWebsocket hareWebSocket = HareWebsocket(
-    onText: this.onWebsocketText,
-    onBinary: this.onWebsocketBinary,
-    onClose: this.onWebsocketClose,
-    onError: this.onWebsocketError,
-  );
+mixin HareWebSocketMixin on HareWidget implements WsDelegate {
+  late HareWebsocket hareWebSocket = HareWebsocket(delegate: this);
 
   Future<void> websocketConnect(Uri uri) async {
     return await hareWebSocket.connect(uri);
   }
-
-  void onWebsocketText(String text) {}
-
-  void onWebsocketBinary(Uint8List data) {}
-
-  void onWebsocketError(WebSocketException e) {
-    loge(e.toString());
-  }
-
-  void onWebsocketClose(int? code, String reason) {}
 
   @override
   void onDestroy() {
