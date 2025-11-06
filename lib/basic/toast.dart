@@ -126,7 +126,7 @@ class Toast {
     ToastItem item = _items.removeAt(0);
     _current = item;
     OverlayX ox = OverlayX((c) {
-      return Draggable(feedback: item.build(c), child: item.build(c), onDragEnd: (d) => c.entry.removeDelay(10)).align(item.alignment ?? Toast.defaultAlignment);
+      return ToastPanWidget(child: item.build(c), onDone: () => c.entry.removeDelay(10)).align(item.alignment ?? Toast.defaultAlignment);
     });
     ox.show();
     ox.removeDelay(item.durationMS);
@@ -134,5 +134,40 @@ class Toast {
       _current = null;
       _showNext();
     });
+  }
+}
+
+class ToastPanWidget extends HareWidget {
+  double _dx = 0;
+  double _dy = 0;
+  Widget child;
+  VoidCallback onDone;
+// ignore: use_key_in_widget_constructors
+  ToastPanWidget({required this.child, required this.onDone});
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(_dx, _dy),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        child: child,
+        onPanStart: (d) {},
+        onPanUpdate: (d) {
+          _dx += d.delta.dx;
+          _dy += d.delta.dy;
+          updateState();
+        },
+        onPanEnd: (d) {
+          if (_dx.abs() > 50 || _dy.abs() > 50) {
+            onDone();
+          } else {
+            _dx = 0;
+            _dy = 0;
+            updateState();
+          }
+        },
+      ),
+    );
   }
 }

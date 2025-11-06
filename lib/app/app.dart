@@ -57,7 +57,7 @@ class ToggleAction extends HareWidget {
   final Widget _onWidget;
   final Widget _offWidget;
   ValueChanged<bool> onChanged;
-
+// ignore: use_key_in_widget_constructors
   ToggleAction({this.value = true, required Widget on, required Widget off, required this.onChanged}) : _onWidget = on, _offWidget = off;
 
   void update(bool newValue, {bool fire = false}) {
@@ -90,6 +90,7 @@ class TextAction extends HareWidget {
   ValueChanged<String>? onChanged;
   VoidCallback? onTap;
 
+  // ignore: use_key_in_widget_constructors
   TextAction({required this.title, this.onChanged, this.onTap});
 
   void update(String newValue, {bool fire = false}) {

@@ -15,6 +15,7 @@ class LogPage extends ListPage<LogItem> {
   late ToggleAction dirIcon = ToggleAction(on: Icons.arrow_upward_outlined.icon(), off: Icons.arrow_downward_outlined.icon(), onChanged: (e) => refreshItems());
   late ToggleAction loadIcon = ToggleAction(on: Icons.auto_mode.icon(), off: Icons.block.icon(), onChanged: (e) => refreshItems());
 
+  // ignore: use_key_in_widget_constructors
   LogPage({int maxSize = 1000}) : memLog = MemLogPrinter(maxSize) {
     this.pageIcon = Icons.list;
     this.pageLabel = "日志";

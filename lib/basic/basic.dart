@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:entao_dutil/entao_dutil.dart';
+import 'package:entao_hare/entao_hare.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
