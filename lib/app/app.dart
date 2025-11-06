@@ -52,60 +52,7 @@ const Set<PointerDeviceKind> _deviceTypes = <PointerDeviceKind>{
   PointerDeviceKind.unknown,
 };
 
-class ToggleAction extends HareWidget {
-  bool value;
-  final Widget _onWidget;
-  final Widget _offWidget;
-  ValueChanged<bool> onChanged;
-// ignore: use_key_in_widget_constructors
-  ToggleAction({this.value = true, required Widget on, required Widget off, required this.onChanged}) : _onWidget = on, _offWidget = off;
-
-  void update(bool newValue, {bool fire = false}) {
-    this.value = newValue;
-    updateState();
-    if (fire) {
-      onChanged(this.value);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: value ? _onWidget : _offWidget,
-      onPressed: () {
-        value = !value;
-        updateState();
-        onChanged(value);
-      },
-    );
-  }
-}
 
 // Widget TextAction(String title, {Color? color, VoidCallback? onTap}) {
 //   return title.button(onTap, color: color ?? HareApp.themeData.colorScheme.onPrimary);
 // }
-
-class TextAction extends HareWidget {
-  String title;
-  ValueChanged<String>? onChanged;
-  VoidCallback? onTap;
-
-  // ignore: use_key_in_widget_constructors
-  TextAction({required this.title, this.onChanged, this.onTap});
-
-  void update(String newValue, {bool fire = false}) {
-    this.title = newValue;
-    updateState();
-    if (fire) {
-      onChanged?.call(this.title);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      child: title.text(color: HareApp.themeData.colorScheme.onPrimary),
-      onPressed: onTap,
-    );
-  }
-}

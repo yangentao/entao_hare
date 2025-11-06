@@ -8,12 +8,12 @@ import 'package:entao_hare/key_attr/key_attr.dart';
 import 'package:entao_log/entao_log.dart';
 import 'package:flutter/material.dart';
 
-import '../app/app.dart';
 import '../basic/basic.dart';
 import '../harepage/harepage.dart';
 import '../harewidget/harewidget.dart';
 import '../table/table.dart';
 
+part 'LogPage.dart';
 part 'bottom_bar_page.dart';
 part 'collection_page.dart';
 part 'column_page.dart';
@@ -27,4 +27,3 @@ part 'refresh_page.dart';
 part 'tabbar_page.dart';
 part 'table_page.dart';
 part 'table_single_page.dart';
-part 'LogPage.dart';

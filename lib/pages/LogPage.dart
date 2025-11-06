@@ -1,15 +1,5 @@
 part of 'pages.dart';
 
-// class TextAction extends HareWidget{
-//   String title;
-//   TextAction({required this.title })
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextButton(onPressed: (){}, child: title.text(color: ));
-//   }
-//
-// }
-
 class LogPage extends ListPage<LogItem> {
   MemLogPrinter memLog;
   late ToggleAction dirIcon = ToggleAction(on: Icons.arrow_upward_outlined.icon(), off: Icons.arrow_downward_outlined.icon(), onChanged: (e) => refreshItems());

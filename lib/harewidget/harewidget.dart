@@ -1,6 +1,7 @@
 library;
 
 import 'package:entao_dutil/entao_dutil.dart';
+import 'package:entao_hare/basic/basic.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,6 +11,9 @@ part 'hare_text.dart';
 part 'hare_widget.dart';
 part 'hare_widget_ext.dart';
 part 'ticker_providers.dart';
+part 'ToggleAction.dart';
+part 'TextAction.dart';
+part 'MovableWidget.dart';
 
 extension HareWidgetAttrEx on HareWidget {
   AnyProp<T> widgetProp<T extends Object>(String name, {T? missValue}) {
