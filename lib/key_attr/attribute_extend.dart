@@ -66,17 +66,6 @@ class StringOptional extends OptionalAttribute<String> {
   StringOptional({required super.key, required super.provider, super.transform});
 }
 
-class JsonValueAttribute extends JsonValueOptional with RequiredValue {
-  @override
-  final JsonValue missValue;
-
-  JsonValueAttribute({required super.key, required this.missValue, required super.provider});
-}
-
-class JsonValueOptional extends OptionalAttribute<JsonValue> {
-  JsonValueOptional({required super.key, required super.provider}) : super(transform: JsonValueTransform());
-}
-
 class ListIntAttribute extends ListIntOptional with RequiredValue {
   @override
   final List<int> missValue;

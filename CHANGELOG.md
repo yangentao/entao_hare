@@ -65,3 +65,6 @@
 
 ## 1.2.18
 * attribute
+
+## 2.0.0
+* JsonResult
