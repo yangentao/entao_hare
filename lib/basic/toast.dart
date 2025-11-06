@@ -1,16 +1,8 @@
 part of 'basic.dart';
 
-extension ListResultToast on BaseResult {
+extension CommonErrorValueToast on CommonErrorValue {
   void showError({String? nullMessage}) {
     if (!this.success) {
-      Toast.error(this.message ?? nullMessage ?? "操作失败");
-    }
-  }
-
-  void showMessage({String? nullMessage}) {
-    if (this.success) {
-      Toast.success(this.message ?? nullMessage ?? "操作成功");
-    } else {
       Toast.error(this.message ?? nullMessage ?? "操作失败");
     }
   }
@@ -142,7 +134,8 @@ class ToastPanWidget extends HareWidget {
   double _dy = 0;
   Widget child;
   VoidCallback onDone;
-// ignore: use_key_in_widget_constructors
+
+  // ignore: use_key_in_widget_constructors
   ToastPanWidget({required this.child, required this.onDone});
 
   @override

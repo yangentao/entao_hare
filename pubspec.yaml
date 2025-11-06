@@ -15,7 +15,7 @@ dependencies:
   println: ^1.0.4
   any_call: ^1.0.1
 
-  entao_dutil: ^1.2.7
+  entao_dutil: ^1.2.9
   entao_log: ^1.2.8
   entao_http: ^1.2.5
 

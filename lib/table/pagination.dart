@@ -2,7 +2,7 @@
 part of 'table.dart';
 
 extension PaginationListResultExt on XPagination {
-  void updateByResult(ListResult lr) {
+  void updateByItemsResult(ItemsResult lr) {
     this.update(total: lr.totalOrSize, offset: lr.offset);
   }
 }
@@ -28,8 +28,8 @@ class XPagination extends HareWidget {
   void Function(PaginationInfo)? onChange;
 
   XPagination({String pageId = "global", this.onChange})
-      : _localPageSize = IntAttribute(key: "pagesize_$pageId", missValue: 15, provider: PreferProvider.instance),
-        super();
+    : _localPageSize = IntAttribute(key: "pagesize_$pageId", missValue: 15, provider: PreferProvider.instance),
+      super();
 
   int get pageSize => _localPageSize.value;
 
@@ -63,35 +63,34 @@ class XPagination extends HareWidget {
     return Container(
       height: 48,
       padding: edges(left: 16, right: 10),
-      child: WrapRow(
-        [
-          IconButton(onPressed: offset <= 0 ? null : _first, iconSize: 16, icon: Icons.keyboard_double_arrow_left.icon()),
-          IconButton(onPressed: offset <= 0 ? null : _pre, iconSize: 16, icon: Icons.keyboard_arrow_left.icon()),
-          IconButton(onPressed: (offset + pageSize) >= total ? null : _next, iconSize: 16, icon: Icons.keyboard_arrow_right.icon()),
-          IconButton(onPressed: (offset + pageSize) >= total ? null : _last, iconSize: 16, icon: Icons.keyboard_double_arrow_right.icon()),
-          space(width: 4),
-          DropdownButtonHideUnderline(
-              child: DropdownButton<int>(
+      child: WrapRow([
+        IconButton(onPressed: offset <= 0 ? null : _first, iconSize: 16, icon: Icons.keyboard_double_arrow_left.icon()),
+        IconButton(onPressed: offset <= 0 ? null : _pre, iconSize: 16, icon: Icons.keyboard_arrow_left.icon()),
+        IconButton(onPressed: (offset + pageSize) >= total ? null : _next, iconSize: 16, icon: Icons.keyboard_arrow_right.icon()),
+        IconButton(onPressed: (offset + pageSize) >= total ? null : _last, iconSize: 16, icon: Icons.keyboard_double_arrow_right.icon()),
+        space(width: 4),
+        DropdownButtonHideUnderline(
+          child: DropdownButton<int>(
             value: currentPage,
             items: pageRange.mapList((e) => DropdownMenuItem<int>(value: e, child: "第${e + 1}页".text())),
             focusColor: Colors.transparent,
             style: themeData.textTheme.bodySmall,
             onChanged: _onPageChange,
-          )),
-          space(width: 4),
-          DropdownButtonHideUnderline(
-              child: DropdownButton<int>(
+          ),
+        ),
+        space(width: 4),
+        DropdownButtonHideUnderline(
+          child: DropdownButton<int>(
             value: pageSize,
             items: pageSizeList.mapList((e) => DropdownMenuItem<int>(value: e, child: "每页$e条".text())),
             focusColor: Colors.transparent,
             style: themeData.textTheme.bodySmall,
             onChanged: _onSizeChange,
-          )),
-          space(width: 4),
-          "共$pageCount页 共$total条".text(style: themeData.textTheme.bodySmall),
-        ],
-        spacing: 0,
-      ),
+          ),
+        ),
+        space(width: 4),
+        "共$pageCount页 共$total条".text(style: themeData.textTheme.bodySmall),
+      ], spacing: 0),
     );
   }
 

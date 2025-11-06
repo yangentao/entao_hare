@@ -2,7 +2,7 @@
 part of 'pages.dart';
 
 class PreparePage extends HarePage {
-  Future<DataResult<Widget>> Function() prepare;
+  Future<SingleResult<Widget>> Function() prepare;
   String _msg = "加载中...";
   WidgetBuilder back;
   String? backLabel;
@@ -12,10 +12,10 @@ class PreparePage extends HarePage {
 
   Future<void> doPrepare() async {
     try {
-      DataResult<Widget> br = await prepare();
+      SingleResult<Widget> br = await prepare();
       success = br.success;
       if (br.success) {
-        if (context.mounted) context.replacePage(br.data!);
+        if (context.mounted) context.replacePage(br.value);
       } else {
         _msg = br.message ?? "加载失败";
         updateState();

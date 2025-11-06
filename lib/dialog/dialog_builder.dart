@@ -27,7 +27,7 @@ class DialogBuilderContext<T> {
   Widget? panelTitle;
   Widget? panelActions;
   BoolFunc? okCallback;
-  RFunc<DataResult<T>>? onValidator;
+  RFunc<SingleResult<T>>? onValidator;
   DialogWidth dialogWidth = DialogWidth.middle;
   T? result;
   bool centerActions = true;
@@ -251,14 +251,15 @@ class DialogBuilderContext<T> {
 
   void clickOK() {
     if (onValidator != null) {
-      DataResult<T> r = onValidator!.call();
-      if (!r.success) {
+      SingleResult<T> r = onValidator!.call();
+      if (r.success) {
+        result = r.value;
+      } else {
         if (r.message != null) {
           Toast.error(r.message!);
         }
         return;
       }
-      result = r.data;
     }
     if (false == okCallback?.call()) return;
     pop(result);

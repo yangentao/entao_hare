@@ -628,7 +628,7 @@ class dialogs {
 
   static Future<T?> columns<T>(
     List<Widget> children, {
-    required RFunc<DataResult<T>> validator,
+    required RFunc<SingleResult<T>> validator,
     String? title,
     String? message,
     bool? ok = true,
@@ -637,9 +637,9 @@ class dialogs {
   }) async {
     return await showDialogX((b) {
       b.okCallback = () {
-        DataResult<T> r = validator.call();
+        SingleResult<T> r = validator.call();
         if (r.success) {
-          b.setResult(r.data);
+          b.setResult(r.value);
         } else if (r.message != null) {
           Toast.error(r.message);
         }

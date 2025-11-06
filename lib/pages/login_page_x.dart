@@ -2,10 +2,10 @@
 part of 'pages.dart';
 
 /// return token
-typedef OnLogin = Future<DataResult<String>> Function(String phone, String pwd);
+typedef OnLogin = Future<SingleResult<String>> Function(String phone, String pwd);
 
 /// return main page
-typedef OnLoginPrepare = Future<DataResult<Widget>> Function();
+typedef OnLoginPrepare = Future<SingleResult<Widget>> Function();
 
 class LoginPageX extends HarePage {
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -40,20 +40,20 @@ class LoginPageX extends HarePage {
     String pwd = _pwdController.text.trim();
 
     try {
-      DataResult<String> r = await _onLogin(phone, pwd);
+      SingleResult<String> r = await _onLogin(phone, pwd);
       if (!r.success) {
         _tipText.update(r.message ?? "未知错误");
-        r.showMessage();
+        r.showError();
         return;
       }
-      DataResult<Widget> pr = await _onPrepare();
+      SingleResult<Widget> pr = await _onPrepare();
       if (!pr.success) {
         _tipText.update(pr.message ?? "未知错误");
-        pr.showMessage();
+        pr.showError();
         return;
       }
       lastPhonePrefer.value = phone;
-      context.replacePage(pr.data!);
+      context.replacePage(pr.value);
     } catch (e) {
       Toast.error("加载失败: $e");
       updateState();
@@ -62,11 +62,11 @@ class LoginPageX extends HarePage {
   }
 
   Future<void> _tryPrepare() async {
-    DataResult<Widget> pr = await _onPrepare();
+    SingleResult<Widget> pr = await _onPrepare();
     if (!pr.success) {
       updateState();
     } else {
-      context.replacePage(pr.data!);
+      context.replacePage(pr.value);
     }
   }
 

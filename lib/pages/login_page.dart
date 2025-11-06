@@ -3,7 +3,7 @@ part of 'pages.dart';
 
 StringAttribute lastPhonePrefer = PreferProvider.instance.stringAttribute(key: "lastPhone");
 
-typedef LoginCallback = Future<DataResult<Widget>> Function(String phone, String pwd);
+typedef LoginCallback = Future<SingleResult<Widget>> Function(String phone, String pwd);
 
 class LoginPage extends HareWidget {
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -30,10 +30,10 @@ class LoginPage extends HareWidget {
     String phone = _phoneController.text.trim();
     String pwd = _pwdController.text.trim();
 
-    DataResult<Widget> r = await onLogin(phone, pwd);
+    SingleResult<Widget> r = await onLogin(phone, pwd);
     if (r.success) {
       lastPhonePrefer.value = phone;
-      context.replacePage(r.data!);
+      context.replacePage(r.value);
       return;
     }
     _tipText.update(r.message ?? "未知错误");
