@@ -266,7 +266,7 @@ class bottoms {
     Offset? anchorPoint,
     AnimationStyle? sheetAnimationStyle,
     bool? requestFocus,
-    PropMap? propMap,
+    AnyMap? propMap,
   }) {
     return showModalBottomSheet(
       context: context ?? globalContext,
@@ -293,8 +293,8 @@ class bottoms {
   }
 
   static Future<T?> showModalWith<T>(
-    Widget Function(BuildContext context, PropMap propMap) builder, {
-    required PropMap propMap,
+    Widget Function(BuildContext context, AnyMap propMap) builder, {
+    required AnyMap propMap,
     BuildContext? context,
     Color? backgroundColor,
     String? barrierLabel,
@@ -361,7 +361,7 @@ class bottoms {
     Offset? anchorPoint,
     AnimationStyle? sheetAnimationStyle,
     bool? requestFocus,
-    PropMap? propMap,
+        AnyMap? propMap,
   }) {
     return showModalBottomSheet(
       context: context ?? globalContext,

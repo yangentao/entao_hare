@@ -34,7 +34,7 @@ class DialogBuilderContext<T> {
   double spaceActions = 12;
   String textCancel = "取消";
   String textOK = "确定";
-  PropMap attrMap = {};
+  AnyMap attrMap = {};
   bool _first = true;
 
   DialogBuilderContext(this._rootWidget);

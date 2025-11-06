@@ -1,7 +1,7 @@
 part of 'app.dart';
 
 class AppMap {
-  static PropMap appMap = {};
+  static AnyMap appMap = {};
 
   AppMap._();
 

@@ -5,9 +5,9 @@ extension WidgetRouterDataEx on Widget {
 }
 
 class RouterDataWidget extends InheritedWidget {
-  final PropMap data;
+  final AnyMap data;
 
-  RouterDataWidget({required super.child, PropMap? data})
+  RouterDataWidget({required super.child, AnyMap? data})
       : this.data = data ?? {},
         super(key: UniqueKey());
 
@@ -16,20 +16,20 @@ class RouterDataWidget extends InheritedWidget {
     return data == oldWidget.data;
   }
 
-  static PropMap? of<T>(BuildContext context) {
+  static AnyMap? of<T>(BuildContext context) {
     RouterDataWidget? w = context.dependOnInheritedWidgetOfExactType();
     return w?.data;
   }
 }
 
 extension RouterDataConetxtExt on BuildContext {
-  PropMap routerData() {
+  AnyMap routerData() {
     RouterDataWidget w = this.dependOnInheritedWidgetOfExactType()!;
     return w.data;
   }
 
   void setRouterValue(String key, Object? value) {
-    PropMap map = routerData();
+    AnyMap map = routerData();
     if (value == null) {
       map.remove(key);
     } else {
@@ -38,7 +38,7 @@ extension RouterDataConetxtExt on BuildContext {
   }
 
   T? getRouterValue<T>(String key) {
-    PropMap map = routerData();
+    AnyMap map = routerData();
     return map[key];
   }
 

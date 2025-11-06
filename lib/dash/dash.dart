@@ -28,7 +28,7 @@ extension BuildContextDashEx on BuildContext {
   }
 
   @Deprecated("use pushDash instead")
-  Future<T?> pushScaffold<T extends Object>(HarePage page, {bool? backButton, PropMap? data}) {
+  Future<T?> pushScaffold<T extends Object>(HarePage page, {bool? backButton, AnyMap? data}) {
     return pushDash(page);
   }
 

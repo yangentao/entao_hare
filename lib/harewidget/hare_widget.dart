@@ -123,7 +123,7 @@ class HareWidgetState extends State<HareWidget> {
 class StateHolder {
   HareLife life = HareLife.inited;
   HareWidgetState? state;
-  PropMap attrs = {};
+  AnyMap attrs = {};
 
   void put(String key, dynamic value) {
     if (value == null) {
