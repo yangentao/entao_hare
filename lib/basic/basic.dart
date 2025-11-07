@@ -43,6 +43,8 @@ part 'utils/plat.dart';
 part 'utils/validator.dart';
 part 'value_listener.dart';
 
+int get nowMillis => DateTime.now().millisecondsSinceEpoch;
+
 extension IntMinMaxExt on int {
   static const int minValue = (kIsWasm || kIsWeb) ? -9007199254740992 : -9223372036854775808;
 
@@ -103,6 +105,8 @@ extension ListIndexItemExt<T> on List<T> {
 
 class Tick {
   int lastTime = nowMillis;
+
+  int get current => nowMillis - lastTime;
 
   int tick() {
     var now = nowMillis;

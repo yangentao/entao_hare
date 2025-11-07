@@ -2,6 +2,7 @@ library;
 
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/basic/basic.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/services.dart';
 
 import '../harewidget/harewidget.dart';
 
+part 'AmplitudeWidget.dart';
 part 'FlipCard.dart';
 part 'actions.dart';
 part 'auto_complete.dart';
