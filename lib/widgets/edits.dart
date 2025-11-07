@@ -120,6 +120,42 @@ Widget EditPassword({
 }
 
 extension TextEditingControllerInsertExt on TextEditingController {
+  void backspace() {
+    TextEditingValue v = this.value;
+    if (v.text.isEmpty) {
+      return;
+    }
+    String oldText = v.text;
+    TextSelection old = v.selection;
+    if (old.isValid && old.isNormalized) {
+      if (old.isCollapsed) {
+        if (old.start == 0) {
+          return;
+        } else if (old.start == 1) {
+          this.value = TextEditingValue(text: oldText.substring(1), selection: TextSelection.collapsed(offset: 0));
+        } else {
+          int ch = oldText.codeUnitAt(old.start - 2);
+          if (isUtf16Lead(ch)) {
+            this.value = TextEditingValue(
+              text: oldText.substring(0, old.start - 2) + oldText.substring(old.end),
+              selection: TextSelection.collapsed(offset: old.start - 2),
+            );
+          } else {
+            this.value = TextEditingValue(
+              text: oldText.substring(0, old.start - 1) + oldText.substring(old.end),
+              selection: TextSelection.collapsed(offset: old.start - 1),
+            );
+          }
+        }
+      } else {
+        this.value = TextEditingValue(
+          text: old.textBefore(oldText) + old.textAfter(oldText),
+          selection: TextSelection.collapsed(offset: old.start),
+        );
+      }
+    }
+  }
+
   void insert(String s) {
     if (s.isEmpty) return;
     TextEditingValue v = this.value;
