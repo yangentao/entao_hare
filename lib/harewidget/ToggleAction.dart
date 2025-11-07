@@ -5,18 +5,17 @@ class ToggleIcon extends HareWidget {
   final Widget _onWidget;
   final Widget _offWidget;
   ValueChanged<bool> onChanged;
-  final bool onPrimary;
   double? iconSize;
   Color? colorOn;
   Color? colorOff;
 
   // ignore: use_key_in_widget_constructors
-  ToggleIcon({this.value = false, required Widget on, required Widget off, required this.onChanged, this.colorOn, this.colorOff, this.iconSize, this.onPrimary = false})
+  ToggleIcon({this.value = false, required Widget on, required Widget off, required this.onChanged, this.colorOn, this.colorOff, this.iconSize})
     : _onWidget = on,
       _offWidget = off;
 
   // ignore: use_key_in_widget_constructors
-  ToggleIcon.icon({required IconData iconData, this.value = false, this.iconSize, this.colorOn, this.colorOff, required this.onChanged, this.onPrimary = false})
+  ToggleIcon.icon({required IconData iconData, this.value = false, this.iconSize, this.colorOn, this.colorOff, required this.onChanged})
     : _onWidget = iconData.icon(),
       _offWidget = iconData.icon();
 
@@ -31,19 +30,9 @@ class ToggleIcon extends HareWidget {
   @override
   Widget build(BuildContext context) {
     if (value) {
-      return IconButton(
-        icon: _onWidget,
-        color: colorOn ?? (onPrimary ? context.themeData.colorScheme.onPrimary : context.themeData.colorScheme.primary),
-        iconSize: iconSize,
-        onPressed: () => update(!value, fire: true),
-      );
+      return IconButton(icon: _onWidget, color: colorOn, iconSize: iconSize, onPressed: () => update(!value, fire: true));
     } else {
-      return IconButton(
-        icon: _offWidget,
-        color: colorOff ?? (onPrimary ? null : context.themeData.unselectedWidgetColor),
-        iconSize: iconSize,
-        onPressed: () => update(!value, fire: true),
-      );
+      return IconButton(icon: _offWidget, color: colorOff, iconSize: iconSize, onPressed: () => update(!value, fire: true));
     }
   }
 }

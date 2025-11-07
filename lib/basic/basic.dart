@@ -100,3 +100,14 @@ extension ListIndexItemExt<T> on List<T> {
     return IndexItem(index, this.elementAt(index));
   }
 }
+
+class Tick {
+  int lastTime = nowMillis;
+
+  int tick() {
+    var now = nowMillis;
+    var delta = now - lastTime;
+    lastTime = now;
+    return delta;
+  }
+}

@@ -89,6 +89,10 @@ extension ContextExt on BuildContext {
   Color get grayFill {
     return this.isDark ? Colors.grey[700]! : Colors.grey[400]!;
   }
+
+  Color get primaryColor => this.themeData.colorScheme.primary;
+
+  Color get onPrimaryColor => this.themeData.colorScheme.onPrimary;
 }
 
 extension StateUtilsEx<T extends StatefulWidget> on State<T> {
