@@ -1,13 +1,17 @@
 part of '../basic.dart';
 
 class TipMessage {
-  final TipLevel level;
-  final String message;
+  TipLevel level;
+  String message;
 
-  const TipMessage({required this.level, required this.message});
+  TipMessage({required this.level, required this.message});
 
   Text toText({BuildContext? context}) {
     return message.text(color: level.textColor(context));
+  }
+
+  Text toTitle({BuildContext? context}) {
+    return message.titleMedium(color: level.textColor(context));
   }
 
   @override
