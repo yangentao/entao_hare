@@ -19,3 +19,5 @@ export 'ungrouped/http_ext.dart';
 export 'ungrouped/search_dialog.dart';
 export 'ungrouped/tree_path.dart';
 export 'widgets/widgets.dart';
+
+int get nowMillis => DateTime.now().millisecondsSinceEpoch;
