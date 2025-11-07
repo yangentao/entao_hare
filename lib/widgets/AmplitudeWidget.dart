@@ -33,16 +33,16 @@ class AmplitudeWidget extends HareWidget {
 
   void add(double a) {
     data.add(a);
-    if (data.length > 600) {
-      data.removeRange(0, data.length - 600);
+    if (data.length > maxLength) {
+      data.removeRange(0, data.length - maxLength);
     }
     _tryFlush();
   }
 
   void addAll(List<double> ls) {
     data.addAll(ls);
-    if (data.length > 600) {
-      data.removeRange(0, data.length - 600);
+    if (data.length > maxLength) {
+      data.removeRange(0, data.length - maxLength);
     }
     _tryFlush();
   }
