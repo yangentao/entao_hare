@@ -1,10 +1,72 @@
 part of 'dialog.dart';
 
+class IntRanges {
+  int start;
+  int end;
+
+  IntRanges(this.start, this.end) : assert(start <= end);
+
+  IntRanges.from(RangeValues rangeValues) : this(rangeValues.start.round(), rangeValues.end.round());
+
+  IntRanges clamp(int minValue, int maxValue) {
+    int a = start.clamp(minValue, maxValue);
+    int b = end.clamp(minValue, maxValue);
+    return IntRanges(a, b);
+  }
+
+  RangeValues get rangeValues => RangeValues(start.toDouble(), end.toDouble());
+
+  @override
+  String toString() {
+    return "IntRanges($start, $end)";
+  }
+}
+
 class dialogs {
   dialogs._();
 
   static void pop<T>([T? result]) {
     Navigator.of(globalContext).pop<T>(result);
+  }
+
+  static Future<IntRanges?> pickIntRanges({
+    required IntRanges value,
+    required int minValue,
+    required int maxValue,
+    required String label,
+    required String title,
+    int? divisions,
+  }) async {
+    assert(maxValue > minValue);
+    HareBuilder hb = HareBuilder();
+    ValueListener<RangeValues> vl = ValueListener(value: value.clamp(minValue, maxValue).rangeValues, after: hb.updateState);
+    hb.builder = (c) => RowMax([
+      label.text(),
+      space(width: 4),
+
+      RangeSlider(
+        values: vl.value,
+        min: minValue.toDouble(),
+        max: maxValue.toDouble(),
+        divisions: divisions ?? (maxValue - minValue),
+        onChanged: vl.onChanged,
+      ).expanded(),
+      vl.value.start.round().toString().titleMedium(),
+      "-".text(),
+      vl.value.end.round().toString().titleMedium(),
+    ]);
+    return await dialogs.columns<IntRanges>([hb], title: title, validator: () => SingleResult.success(IntRanges.from(vl.value)));
+  }
+
+  static Future<int?> pickInt({required int value, required int minValue, required int maxValue, required String label, required String title, int? divisions}) async {
+    HareBuilder hb = HareBuilder();
+    ValueListener<double> vl = ValueListener(value: value.clamp(minValue, maxValue).toDouble(), after: hb.updateState);
+    hb.builder = (c) => RowMax([
+      label.text(),
+      Slider(value: vl.value, min: minValue.toDouble(), max: maxValue.toDouble(), divisions: divisions ?? (maxValue - minValue), onChanged: vl.onChanged).expanded(),
+      vl.value.round().toString().titleMedium(),
+    ]);
+    return await dialogs.columns<int>([hb], title: title, validator: () => SingleResult.success(vl.value.round()));
   }
 
   static Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? title, String? message, T? selected, bool allowEmpty = false}) async {
