@@ -25,7 +25,7 @@ class AmplitudeWidget extends HareWidget {
 
   void _tryFlush() {
     int now = nowMillis;
-    if (now - _preTime > 100) {
+    if (now - _preTime >= 100) {
       _preTime = now;
       updateState();
     }
@@ -33,7 +33,7 @@ class AmplitudeWidget extends HareWidget {
 
   void add(double a) {
     data.add(a);
-    if (data.length > maxLength) {
+    if (data.length > maxLength + 10) {
       data.removeRange(0, data.length - maxLength);
     }
     _tryFlush();
@@ -41,7 +41,7 @@ class AmplitudeWidget extends HareWidget {
 
   void addAll(List<double> ls) {
     data.addAll(ls);
-    if (data.length > maxLength) {
+    if (data.length > maxLength + 10) {
       data.removeRange(0, data.length - maxLength);
     }
     _tryFlush();
