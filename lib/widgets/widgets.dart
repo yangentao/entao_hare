@@ -13,6 +13,7 @@ import '../harewidget/harewidget.dart';
 
 part 'AmplitudeWidget.dart';
 part 'FlipCard.dart';
+part 'PaintWidget.dart';
 part 'actions.dart';
 part 'auto_complete.dart';
 part 'chips.dart';

@@ -7,12 +7,25 @@ class AmplitudeWidget extends HareWidget {
   final double lineWidth;
   final double spaceWidth;
   final Color lineColor;
+  final Color horLineColor;
+  final double horLineWidth;
+  final bool hasHorLine;
   final int maxLength;
   List<double> data = [];
   int _preTime = 0;
 
   // ignore: use_key_in_widget_constructors
-  AmplitudeWidget({this.maxLength = 600, this.area = 0.9, this.minRatio = 0.1, this.lineWidth = 1, this.spaceWidth = 1, this.lineColor = Colors.amber});
+  AmplitudeWidget({
+    this.maxLength = 600,
+    this.area = 0.9,
+    this.minRatio = 0.1,
+    this.lineWidth = 1,
+    this.spaceWidth = 1,
+    this.lineColor = Colors.amber,
+    this.horLineWidth = 0.2,
+    this.horLineColor = Colors.grey,
+    this.hasHorLine = true,
+  });
 
   void clear() {
     data.clear();
@@ -50,7 +63,17 @@ class AmplitudeWidget extends HareWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: AmpPainter(data: List<double>.from(data), area: area, minRatio: minRatio, lineWidth: lineWidth, lineColor: lineColor, spaceWidth: spaceWidth),
+      painter: AmpPainter(
+        data: List<double>.from(data),
+        area: area,
+        minRatio: minRatio,
+        lineWidth: lineWidth,
+        lineColor: lineColor,
+        spaceWidth: spaceWidth,
+        horLineColor: horLineColor,
+        horLineWidth: horLineWidth,
+        hasHorLine: hasHorLine,
+      ),
     );
   }
 }
@@ -61,9 +84,22 @@ class AmpPainter extends CustomPainter {
   final double lineWidth;
   final double spaceWidth;
   final Color lineColor;
+  final Color horLineColor;
+  final double horLineWidth;
+  final bool hasHorLine;
   final List<double> data;
 
-  AmpPainter({required this.data, this.area = 0.9, this.minRatio = 0.1, this.lineWidth = 1, this.spaceWidth = 1, this.lineColor = Colors.amber});
+  AmpPainter({
+    required this.data,
+    this.area = 0.9,
+    this.minRatio = 0.1,
+    this.lineWidth = 1,
+    this.spaceWidth = 1,
+    this.lineColor = Colors.amber,
+    this.horLineWidth = 0.2,
+    this.horLineColor = Colors.white30,
+    this.hasHorLine = true,
+  });
 
   @override
   void paint(ui.Canvas canvas, ui.Size size) {
@@ -82,12 +118,13 @@ class AmpPainter extends CustomPainter {
     Paint paint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.butt
-      ..color = Colors.grey
-      ..strokeWidth = 1;
+      ..strokeCap = StrokeCap.butt;
 
-    canvas.drawLine(Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint);
-
+    if (hasHorLine) {
+      paint.color = horLineColor;
+      paint.strokeWidth = horLineWidth;
+      canvas.drawLine(Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint);
+    }
     paint.strokeWidth = lineWidth;
     paint.color = lineColor;
 
