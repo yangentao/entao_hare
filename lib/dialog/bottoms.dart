@@ -1,12 +1,156 @@
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/entao_hare.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // 不能用于很多数据的列表， 或键盘输入。
 class bottoms {
   bottoms._();
 
-  static Future<T?> showBuilder<T>(UpdableBuilder builder, {String? message, bool cancel = false, bool ok = false, EdgeInsets padding = const EdgeInsets.all(16)}) async {
+  static Future<String?> inputText({
+    String? message,
+    String? initialValue,
+    String? label,
+    String? hint,
+    int? minLength,
+    int maxLength = 256,
+    bool allowEmpty = true,
+    FuncString? onSubmitted,
+    Widget? prefixIcon,
+    String? helperText,
+    String? errorText,
+    bool clear = true,
+    Widget? suffixIcon,
+    Color? cursorColor,
+    TextValidator? validator,
+    List<TextInputFormatter>? inputFormatters,
+    FocusNode? focusNode,
+    TextAlign textAlign = TextAlign.start,
+    bool autofocus = false,
+    int? maxLines,
+    int? minLines,
+    bool readonly = false,
+    InputDecoration? decoration,
+  }) async {
+    return await bottoms.showBuilder(
+      (c) {
+        GlobalKey<FormState> formKey = GlobalKey();
+        c.onValidate = () {
+          if (false == formKey.currentState?.validate()) return false;
+          if (c.getResult() == null) return false;
+          return true;
+        };
+        ValueListener<String> vl = ValueListener(value: initialValue ?? "", afterValue: (v) => c.setResult(v));
+
+        return Form(
+          key: formKey,
+          child: EditText(
+            valueListener: vl,
+            textInputAction: TextInputAction.done,
+            initialValue: initialValue,
+            label: label,
+            hint: hint,
+            clear: clear,
+            minLength: minLength,
+            maxLength: maxLength,
+            allowEmpty: allowEmpty,
+            onSubmitted: onSubmitted,
+            prefixIcon: prefixIcon,
+            helperText: helperText,
+            errorText: errorText,
+            suffixIcon: suffixIcon,
+            cursorColor: cursorColor,
+            validator: validator,
+            inputFormatters: inputFormatters,
+            focusNode: focusNode,
+            textAlign: textAlign,
+            autofocus: autofocus,
+            maxLines: maxLines,
+            minLines: minLines,
+            readonly: readonly,
+            decoration: decoration,
+          ),
+        );
+      },
+      message: message,
+      ok: true,
+      cancel: true,
+      hasEdit: true,
+    );
+  }
+
+  static Future<double?> inputDouble({String? message, double? initialValue, double? minValue, double? maxValue, bool signed = true, String? label, String? hint}) async {
+    return await bottoms.showBuilder(
+      (c) {
+        GlobalKey<FormState> formKey = GlobalKey();
+        c.onValidate = () {
+          if (false == formKey.currentState?.validate()) return false;
+          if (c.getResult() == null) return false;
+          return true;
+        };
+        OptionalValueListener<double> vl = OptionalValueListener(value: initialValue, afterValue: (v) => c.setResult(v));
+
+        return Form(
+          key: formKey,
+          child: EditDouble(
+            valueListener: vl,
+            textInputAction: TextInputAction.done,
+            initialValue: initialValue,
+            minValue: minValue,
+            maxValue: maxValue,
+            signed: signed,
+            label: label,
+            hint: hint,
+          ),
+        );
+      },
+      message: message,
+      ok: true,
+      cancel: true,
+      hasEdit: true,
+    );
+  }
+
+  static Future<int?> inputInt({String? message, int? initialValue, int? minValue, int? maxValue, bool signed = true, String? label, String? hint}) async {
+    return await bottoms.showBuilder(
+      (c) {
+        GlobalKey<FormState> formKey = GlobalKey();
+        c.onValidate = () {
+          if (false == formKey.currentState?.validate()) return false;
+          if (c.getResult() == null) return false;
+          return true;
+        };
+        OptionalValueListener<int> vl = OptionalValueListener(value: initialValue, afterValue: (v) => c.setResult(v));
+
+        return Form(
+          key: formKey,
+          child: EditInt(
+            valueListener: vl,
+            textInputAction: TextInputAction.done,
+            initialValue: initialValue,
+            minValue: minValue,
+            maxValue: maxValue,
+            signed: signed,
+            label: label,
+            hint: hint,
+          ),
+        );
+      },
+      message: message,
+      ok: true,
+      cancel: true,
+      hasEdit: true,
+    );
+  }
+
+  static Future<T?> showBuilder<T>(
+    UpdableBuilder builder, {
+    String? message,
+    bool cancel = false,
+    bool ok = false,
+    bool hasEdit = false,
+    EdgeInsets padding = const EdgeInsets.all(16),
+  }) async {
     return showModalUpdatable((c) {
       return ColumnMinStretch([
         ?(message?.titleMedium().centered()),
@@ -27,7 +171,7 @@ class bottoms {
               }),
           ], mainAxisAlignment: MainAxisAlignment.spaceAround),
       ]).padded(padding);
-    });
+    }, hasEdit: hasEdit);
   }
 
   static Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? message, T? selected, bool allowEmpty = true}) async {
@@ -302,6 +446,7 @@ class bottoms {
     bool enableDrag = true,
     bool? showDragHandle,
     bool useSafeArea = false,
+    bool hasEdit = false,
     RouteSettings? routeSettings,
     AnimationController? transitionAnimationController,
     Offset? anchorPoint,
@@ -312,7 +457,13 @@ class bottoms {
     hb.builder = (c) => builder(UpdatableContext(context: c, updatable: hb));
     return showModalBottomSheet(
       context: context ?? globalContext,
-      builder: (c) => hb,
+      builder: (c) => !hasEdit
+          ? hb
+          : AnimatedPadding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(c).viewInsets.bottom),
+              duration: Duration(milliseconds: 50),
+              child: hb,
+            ),
       backgroundColor: backgroundColor,
       barrierLabel: barrierLabel,
       elevation: elevation,
@@ -320,7 +471,7 @@ class bottoms {
       clipBehavior: clipBehavior,
       constraints: constraints,
       barrierColor: barrierColor,
-      isScrollControlled: isScrollControlled,
+      isScrollControlled: hasEdit || isScrollControlled,
       useRootNavigator: useRootNavigator,
       isDismissible: isDismissible,
       enableDrag: enableDrag,

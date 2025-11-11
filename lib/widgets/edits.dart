@@ -275,7 +275,7 @@ Widget EditDouble({
   return TextFormField(
     key: key,
     controller: c,
-    initialValue: initialValue?.toString() ?? valueListener?.value.toString(),
+    initialValue: (initialValue ?? valueListener?.value)?.toString(),
     onChanged: onChanged ?? onTextChanged,
     onFieldSubmitted: onSubmitted ?? onTextChanged,
     focusNode: node,
