@@ -14,6 +14,7 @@ part 'ticker_providers.dart';
 part 'ToggleAction.dart';
 part 'TextAction.dart';
 part 'MovableWidget.dart';
+part 'UpdatableContext.dart';
 
 extension HareWidgetAttrEx on HareWidget {
   AnyProp<T> widgetProp<T extends Object>(String name, {T? missValue}) {

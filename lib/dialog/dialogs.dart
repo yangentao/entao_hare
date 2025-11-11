@@ -40,32 +40,38 @@ class dialogs {
     assert(maxValue > minValue);
     HareBuilder hb = HareBuilder();
     ValueListener<RangeValues> vl = ValueListener(value: value.clamp(minValue, maxValue).rangeValues, after: hb.updateState);
-    hb.builder = (c) => RowMax([
-      label.text(),
-      space(width: 4),
-
+    hb.builder = (c) => ColumnMin([
+      RowMin([label.titleMedium(), space(width: 8), vl.value.start.round().toString().titleMedium(), "-".text(), vl.value.end.round().toString().titleMedium()]),
       RangeSlider(
         values: vl.value,
         min: minValue.toDouble(),
         max: maxValue.toDouble(),
         divisions: divisions ?? (maxValue - minValue),
         onChanged: vl.onChanged,
-      ).expanded(),
-      vl.value.start.round().toString().titleMedium(),
-      "-".text(),
-      vl.value.end.round().toString().titleMedium(),
-    ]);
+        labels: RangeLabels(vl.value.start.round().toString(), vl.value.end.round().toString()),
+        padding: xy(0, 8),
+      ).coloredBox(Colors.green),
+      space(height: 8),
+    ], crossAxisAlignment: CrossAxisAlignment.center);
     return await dialogs.columns<IntRanges>([hb], title: title, validator: () => SingleResult.success(IntRanges.from(vl.value)));
   }
 
   static Future<int?> pickInt({required int value, required int minValue, required int maxValue, required String label, required String title, int? divisions}) async {
     HareBuilder hb = HareBuilder();
     ValueListener<double> vl = ValueListener(value: value.clamp(minValue, maxValue).toDouble(), after: hb.updateState);
-    hb.builder = (c) => RowMax([
-      label.text(),
-      Slider(value: vl.value, min: minValue.toDouble(), max: maxValue.toDouble(), divisions: divisions ?? (maxValue - minValue), onChanged: vl.onChanged).expanded(),
-      vl.value.round().toString().titleMedium(),
-    ]);
+    hb.builder = (c) => ColumnMin([
+      RowMin([label.titleMedium(), space(width: 8), vl.value.round().toString().titleMedium()]),
+      Slider(
+        value: vl.value,
+        min: minValue.toDouble(),
+        max: maxValue.toDouble(),
+        divisions: divisions ?? (maxValue - minValue),
+        onChanged: vl.onChanged,
+        label: vl.value.round().toString(),
+        padding: xy(0, 8),
+      ),
+      space(height: 8),
+    ], crossAxisAlignment: CrossAxisAlignment.center);
     return await dialogs.columns<int>([hb], title: title, validator: () => SingleResult.success(vl.value.round()));
   }
 
@@ -690,7 +696,7 @@ class dialogs {
 
   static Future<T?> columns<T>(
     List<Widget> children, {
-    required RFunc<SingleResult<T>> validator,
+    required SingleResult<T> Function() validator,
     String? title,
     String? message,
     bool? ok = true,

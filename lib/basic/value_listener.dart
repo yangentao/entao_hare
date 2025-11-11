@@ -1,15 +1,15 @@
 part of 'basic.dart';
 
-
 class ValueListener<T extends Object> {
   T value;
   final bool allowEqual;
   final Predicate<T>? acceptor;
+  final VoidCallback? afterChanged;
   final VoidCallback? after;
   final OnValue<T>? afterValue;
   final Predicate<T>? delegate;
 
-  ValueListener({required this.value, this.allowEqual = false, this.acceptor, this.after, this.afterValue, this.delegate});
+  ValueListener({required this.value, this.allowEqual = false, this.acceptor, this.afterChanged, this.after, this.afterValue, this.delegate});
 
   void onChanged(T newValue) {
     if (delegate != null) {
@@ -22,6 +22,7 @@ class ValueListener<T extends Object> {
     if (acceptor?.call(newValue) == false) return;
     this.value = newValue;
     afterValue?.call(newValue);
+    afterChanged?.call();
     after?.call();
   }
 }

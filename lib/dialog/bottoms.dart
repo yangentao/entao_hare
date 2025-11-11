@@ -6,6 +6,30 @@ import 'package:flutter/material.dart';
 class bottoms {
   bottoms._();
 
+  static Future<T?> showBuilder<T>(UpdableBuilder builder, {String? message, bool cancel = false, bool ok = false, EdgeInsets padding = const EdgeInsets.all(16)}) async {
+    return showModalUpdatable((c) {
+      return ColumnMinStretch([
+        ?(message?.titleMedium().centered()),
+        if (message != null) space(height: 12),
+        builder(c),
+        if (ok || cancel) space(height: 24),
+        if (ok || cancel)
+          RowMax([
+            if (cancel)
+              "取消".text().paddings(hor: 12).stadiumOutlinedButton(() {
+                c.maybePop();
+              }),
+            if (ok)
+              "确定".text().paddings(hor: 12).stadiumElevatedButton(() {
+                if (c.onValidate()) {
+                  c.popResult();
+                }
+              }),
+          ], mainAxisAlignment: MainAxisAlignment.spaceAround),
+      ]).padded(padding);
+    });
+  }
+
   static Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? message, T? selected, bool allowEmpty = true}) async {
     Set<T>? st = await pickSegment(items, message: message, selected: selected == null ? null : {selected}, allowEmpty: allowEmpty, multi: false);
     return st?.firstOrNull;
@@ -17,33 +41,31 @@ class bottoms {
 
   static Future<Set<T>?> pickSegment<T>(List<LabelValue<T>> items, {String? message, Set<T>? selected, bool multi = false, bool allowEmpty = true}) async {
     Set<T> selSet = {...?selected};
-    return showModal((ctx) {
-      HareBuilder hb = HareBuilder();
-      hb.builder = (c) {
-        return SegmentedButton<T>(
-          multiSelectionEnabled: multi,
-          emptySelectionAllowed: allowEmpty,
-          showSelectedIcon: false,
-          style: SegmentedButton.styleFrom(
-            selectedBackgroundColor: c.themeData.colorScheme.primary,
-            selectedForegroundColor: c.themeData.colorScheme.surface,
-            side: BorderSide(color: c.themeData.dividerColor),
-          ),
-          segments: items.mapList((e) => ButtonSegment<T>(value: e.value, label: e.label.text())),
-          selected: selSet,
-          onSelectionChanged: (newSelection) {
-            selSet = newSelection;
-            hb.updateState();
-          },
-        );
-      };
+    return showModalUpdatable((c) {
+      var sb = SegmentedButton<T>(
+        multiSelectionEnabled: multi,
+        emptySelectionAllowed: allowEmpty,
+        showSelectedIcon: false,
+        style: SegmentedButton.styleFrom(
+          selectedBackgroundColor: c.themeData.colorScheme.primary,
+          selectedForegroundColor: c.themeData.colorScheme.surface,
+          side: BorderSide(color: c.themeData.dividerColor),
+        ),
+        segments: items.mapList((e) => ButtonSegment<T>(value: e.value, label: e.label.text())),
+        selected: selSet,
+        onSelectionChanged: (newSelection) {
+          selSet = newSelection;
+          c.updateState();
+        },
+      );
+
       return ColumnMin([
         space(height: 24),
         ?(message?.titleMedium()),
         if (message != null) space(height: 12),
-        hb,
+        sb,
         space(height: 24),
-        "确定".text().paddings(hor: 12).stadiumElevatedButton(() => ctx.maybePop(selSet)),
+        "确定".text().paddings(hor: 12).stadiumElevatedButton(() => c.context.maybePop(selSet)),
         space(height: 32),
       ], crossAxisAlignment: CrossAxisAlignment.center);
     });
@@ -216,34 +238,6 @@ class bottoms {
     });
   }
 
-  static PersistentBottomSheetController show(
-    WidgetBuilder builder, {
-    BuildContext? context,
-    Color? backgroundColor,
-    double? elevation,
-    ShapeBorder? shape,
-    Clip? clipBehavior,
-    BoxConstraints? constraints,
-    bool? enableDrag,
-    bool? showDragHandle,
-    AnimationController? transitionAnimationController,
-    AnimationStyle? sheetAnimationStyle,
-  }) {
-    return showBottomSheet(
-      context: context ?? globalContext,
-      builder: builder,
-      backgroundColor: backgroundColor,
-      elevation: elevation,
-      shape: shape,
-      clipBehavior: clipBehavior,
-      constraints: constraints,
-      enableDrag: enableDrag,
-      showDragHandle: showDragHandle,
-      transitionAnimationController: transitionAnimationController,
-      sheetAnimationStyle: sheetAnimationStyle,
-    );
-  }
-
   static Future<T?> showModal<T>(
     WidgetBuilder builder, {
     BuildContext? context,
@@ -292,9 +286,8 @@ class bottoms {
     );
   }
 
-  static Future<T?> showModalWith<T>(
-    Widget Function(BuildContext context, AnyMap propMap) builder, {
-    required AnyMap propMap,
+  static Future<T?> showModalUpdatable<T>(
+    UpdableBuilder builder, {
     BuildContext? context,
     Color? backgroundColor,
     String? barrierLabel,
@@ -315,57 +308,11 @@ class bottoms {
     AnimationStyle? sheetAnimationStyle,
     bool? requestFocus,
   }) {
+    HareBuilder hb = HareBuilder();
+    hb.builder = (c) => builder(UpdatableContext(context: c, updatable: hb));
     return showModalBottomSheet(
       context: context ?? globalContext,
-      builder: (c) => builder(c, propMap),
-      backgroundColor: backgroundColor,
-      barrierLabel: barrierLabel,
-      elevation: elevation,
-      shape: shape,
-      clipBehavior: clipBehavior,
-      constraints: constraints,
-      barrierColor: barrierColor,
-      isScrollControlled: isScrollControlled,
-      useRootNavigator: useRootNavigator,
-      isDismissible: isDismissible,
-      enableDrag: enableDrag,
-      showDragHandle: showDragHandle,
-      useSafeArea: useSafeArea,
-      routeSettings: routeSettings,
-      transitionAnimationController: transitionAnimationController,
-      anchorPoint: anchorPoint,
-      sheetAnimationStyle: sheetAnimationStyle,
-      requestFocus: requestFocus,
-    );
-  }
-
-  static Future<T?> showModalWidget<T>(
-    Widget child, {
-    BuildContext? context,
-    Color? backgroundColor,
-    String? barrierLabel,
-    double? elevation,
-    ShapeBorder? shape,
-    Clip? clipBehavior,
-    BoxConstraints? constraints,
-    Color? barrierColor,
-    bool isScrollControlled = false,
-    // double scrollControlDisabledMaxHeightRatio = _defaultScrollControlDisabledMaxHeightRatio,
-    bool useRootNavigator = false,
-    bool isDismissible = true,
-    bool enableDrag = true,
-    bool? showDragHandle,
-    bool useSafeArea = false,
-    RouteSettings? routeSettings,
-    AnimationController? transitionAnimationController,
-    Offset? anchorPoint,
-    AnimationStyle? sheetAnimationStyle,
-    bool? requestFocus,
-        AnyMap? propMap,
-  }) {
-    return showModalBottomSheet(
-      context: context ?? globalContext,
-      builder: (c) => child,
+      builder: (c) => hb,
       backgroundColor: backgroundColor,
       barrierLabel: barrierLabel,
       elevation: elevation,
