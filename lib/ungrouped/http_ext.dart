@@ -5,15 +5,15 @@ import '../basic/basic.dart';
 extension HttpResultToast on HttpResult {
   void showError({String? nullMessage}) {
     if (!this.success) {
-      Toast.error(this.message ?? nullMessage ?? "操作失败");
+      Toast.error(this.message);
     }
   }
 
   void showMessage({String? nullMessage}) {
     if (this.success) {
-      Toast.success(this.message ?? nullMessage ?? "操作成功");
+      Toast.success(this.message);
     } else {
-      Toast.error(this.message ?? nullMessage ?? "操作失败");
+      Toast.error(this.message);
     }
   }
 }

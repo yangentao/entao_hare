@@ -1,5 +1,6 @@
 part of 'widgets.dart';
 
+// ignore: use_key_in_widget_constructors
 abstract class PaintWidget extends HareWidget {
   @override
   Widget build(BuildContext context) {
