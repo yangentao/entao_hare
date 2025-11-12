@@ -71,3 +71,6 @@
 
 ## 2.0.1
 *  AmplitudeWidget
+
+## 2.0.2
+* http
