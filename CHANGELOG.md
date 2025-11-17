@@ -74,3 +74,8 @@
 
 ## 2.0.2
 * http
+
+## 2.0.3
+* ListPage
+* asyncCall
+* AsyncWidget, AsyncBuilder
