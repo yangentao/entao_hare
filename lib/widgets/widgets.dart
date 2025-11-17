@@ -6,12 +6,14 @@ import 'dart:ui' as ui;
 
 import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/basic/basic.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../harewidget/harewidget.dart';
 
 part 'AmplitudeWidget.dart';
+part 'AsyncBuilder.dart';
 part 'FlipCard.dart';
 part 'PaintWidget.dart';
 part 'actions.dart';
@@ -28,6 +30,20 @@ part 'radios.dart';
 part 'segments.dart';
 part 'slider.dart';
 part 'snack.dart';
+
+extension ScrollControllerExt on ScrollController {
+  void jumpBottom() {
+    postFrame(() {
+      this.jumpTo(this.position.maxScrollExtent);
+    });
+  }
+
+  void jumpTop() {
+    postFrame(() {
+      this.jumpTo(this.position.minScrollExtent);
+    });
+  }
+}
 
 RadioGroup<T> RadioGroupVer<T>(
   List<LabelValue<T>> items,

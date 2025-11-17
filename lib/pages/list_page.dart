@@ -24,6 +24,7 @@ abstract class ListPage<T> extends CollectionPage<T> {
       items: itemList,
       itemView: onItemView,
       lastItemView: onLastItemView,
+      shrinkWrap: false,
       padding: listPadding,
       separator: separated,
       separatorIndentStart: separatorIndentStart,

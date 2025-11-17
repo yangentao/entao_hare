@@ -44,6 +44,38 @@ part 'utils/validator.dart';
 part 'value_listener.dart';
 
 int get nowMillis => DateTime.now().millisecondsSinceEpoch;
+const int GB = 1024 * 1024 * 1024;
+const int MB = 1024 * 1024;
+const int KB = 1024;
+
+extension StringNullableEx on String? {
+  bool get nullOrEmpty => this == null || this!.isEmpty;
+
+  bool get nullOrBlank => this == null || this!.trim().isEmpty;
+
+  bool get notBlank => this != null && this!.trim().isNotEmpty;
+
+  bool get notEmpty => this != null && this!.isNotEmpty;
+}
+
+Future<void> asyncCall(VoidCallback callback) async {
+  callback();
+}
+
+extension IntSizeDisplay on int {
+  String get sizeDisplay {
+    if (this > GB) {
+      return (this * 1.0 / GB).formated("0.0G");
+    }
+    if (this > MB) {
+      return (this * 1.0 / MB).formated("0.0M");
+    }
+    if (this > KB) {
+      return (this * 1.0 / KB).formated("0.0K");
+    }
+    return "${this}b";
+  }
+}
 
 extension IntMinMaxExt on int {
   static const int minValue = (kIsWasm || kIsWeb) ? -9007199254740992 : -9223372036854775808;
