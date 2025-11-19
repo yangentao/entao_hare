@@ -37,7 +37,7 @@ class AmplitudeWidget extends HareWidget {
   }
 
   void _tryFlush() {
-    int now = nowMillis;
+    int now = millsNow;
     if (now - _preTime >= 100) {
       _preTime = now;
       updateState();
