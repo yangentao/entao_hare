@@ -161,7 +161,7 @@ class bottoms {
           RowMax([
             if (cancel)
               "取消".text().paddings(hor: 12).stadiumOutlinedButton(() {
-                c.maybePop();
+                c.pop();
               }),
             if (ok)
               "确定".text().paddings(hor: 12).stadiumElevatedButton(() {

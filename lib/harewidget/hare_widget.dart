@@ -125,6 +125,8 @@ class StateHolder {
   HareWidgetState? state;
   AnyMap attrs = {};
 
+  bool containsKey(String key) => attrs.containsKey(key);
+
   void put(String key, dynamic value) {
     if (value == null) {
       attrs.remove(key);

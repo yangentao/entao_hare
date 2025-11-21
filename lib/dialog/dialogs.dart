@@ -1,27 +1,5 @@
 part of 'dialog.dart';
 
-class IntRanges {
-  int start;
-  int end;
-
-  IntRanges(this.start, this.end) : assert(start <= end);
-
-  IntRanges.from(RangeValues rangeValues) : this(rangeValues.start.round(), rangeValues.end.round());
-
-  IntRanges clamp(int minValue, int maxValue) {
-    int a = start.clamp(minValue, maxValue);
-    int b = end.clamp(minValue, maxValue);
-    return IntRanges(a, b);
-  }
-
-  RangeValues get rangeValues => RangeValues(start.toDouble(), end.toDouble());
-
-  @override
-  String toString() {
-    return "IntRanges($start, $end)";
-  }
-}
-
 class dialogs {
   dialogs._();
 
@@ -29,8 +7,8 @@ class dialogs {
     Navigator.of(globalContext).pop<T>(result);
   }
 
-  static Future<IntRanges?> pickIntRanges({
-    required IntRanges value,
+  static Future<CloseRange?> pickIntRanges({
+    required CloseRange value,
     required int minValue,
     required int maxValue,
     required String label,
@@ -39,7 +17,10 @@ class dialogs {
   }) async {
     assert(maxValue > minValue);
     HareBuilder hb = HareBuilder();
-    ValueListener<RangeValues> vl = ValueListener(value: value.clamp(minValue, maxValue).rangeValues, after: hb.updateState);
+    ValueListener<RangeValues> vl = ValueListener(
+      value: RangeValues(value.start.clamp(minValue, maxValue).toDouble(), value.end.clamp(minValue, maxValue).toDouble()),
+      after: hb.updateState,
+    );
     hb.builder = (c) => ColumnMin([
       RowMin([label.titleMedium(), space(width: 8), vl.value.start.round().toString().titleMedium(), "-".text(), vl.value.end.round().toString().titleMedium()]),
       RangeSlider(
@@ -53,7 +34,7 @@ class dialogs {
       ).coloredBox(Colors.green),
       space(height: 8),
     ], crossAxisAlignment: CrossAxisAlignment.center);
-    return await dialogs.columns<IntRanges>([hb], title: title, validator: () => SingleResult.success(IntRanges.from(vl.value)));
+    return await dialogs.columns<CloseRange>([hb], title: title, validator: () => SingleResult.success(CloseRange(vl.value.start.toInt(), vl.value.end.toInt())));
   }
 
   static Future<int?> pickInt({required int value, required int minValue, required int maxValue, required String label, required String title, int? divisions}) async {
@@ -715,5 +696,40 @@ class dialogs {
       };
       return b.buildColumn(children, title: title, message: message, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
     });
+  }
+
+  static Future<T?> showBuilder<T>(
+    Widget Function(UpdatableContext uc) builder, {
+    EdgeInsets? insetPadding,
+    AlignmentGeometry? alignment,
+    clipBehavior = Clip.hardEdge,
+    Color? backgroundColor,
+    double? elevation,
+    Color? shadowColor,
+    Color? surfaceTintColor,
+    Duration insetAnimationDuration = const Duration(milliseconds: 100),
+    Curve insetAnimationCurve = Curves.decelerate,
+    ShapeBorder? shape,
+    BoxConstraints? constraints,
+  }) {
+    HareBuilder hb = HareBuilder();
+    hb.builder = (c) => builder(UpdatableContext(context: c, updatable: hb));
+    return showDialog<T>(
+      context: globalContext,
+      builder: (c) => Dialog(
+        insetPadding: insetPadding ?? defaultDialogInsets,
+        alignment: alignment ?? Alignment.center,
+        clipBehavior: clipBehavior,
+        backgroundColor: backgroundColor,
+        elevation: 4,
+        shadowColor: shadowColor,
+        surfaceTintColor: surfaceTintColor,
+        insetAnimationDuration: insetAnimationDuration,
+        insetAnimationCurve: insetAnimationCurve,
+        shape: shape,
+        constraints: constraints,
+        child: hb,
+      ),
+    );
   }
 }

@@ -18,10 +18,6 @@ class UpdatableContext {
     updatable.updateState();
   }
 
-  Future<bool> maybePop<T extends Object>([T? result]) {
-    return Navigator.of(context).maybePop(result);
-  }
-
   void set(String key, dynamic value) {
     updatable.holder.put(key, value);
   }
@@ -30,11 +26,19 @@ class UpdatableContext {
     return updatable.holder.get(key);
   }
 
+  bool has(String key) => updatable.holder.containsKey(key);
+
+  bool get hasResult => has(RESULT);
+
   T? getResult<T extends Object>() => get(RESULT);
 
   void setResult<T extends Object>(T? value) => set(RESULT, value);
 
   Future<bool> popResult<T extends Object>() {
     return Navigator.of(context).maybePop(getResult());
+  }
+
+  Future<bool> pop<T extends Object>([Object? result]) {
+    return Navigator.of(context).maybePop(result);
   }
 }

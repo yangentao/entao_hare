@@ -6,6 +6,7 @@ import 'package:entao_dutil/entao_dutil.dart';
 import 'package:entao_hare/dash/dash.dart';
 import 'package:entao_hare/key_attr/key_attr.dart';
 import 'package:entao_log/entao_log.dart';
+import 'package:entao_range/entao_range.dart';
 import 'package:flutter/material.dart';
 
 import '../basic/basic.dart';
