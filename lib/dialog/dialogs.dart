@@ -34,7 +34,7 @@ class dialogs {
       ).coloredBox(Colors.green),
       space(height: 8),
     ], crossAxisAlignment: CrossAxisAlignment.center);
-    return await dialogs.columns<CloseRange>([hb], title: title, validator: () => SingleResult.success(CloseRange(vl.value.start.toInt(), vl.value.end.toInt())));
+    return await dialogs.columns<CloseRange>([hb], title: title, validator: () => Success(CloseRange(vl.value.start.toInt(), vl.value.end.toInt())));
   }
 
   static Future<int?> pickInt({required int value, required int minValue, required int maxValue, required String label, required String title, int? divisions}) async {
@@ -53,7 +53,7 @@ class dialogs {
       ),
       space(height: 8),
     ], crossAxisAlignment: CrossAxisAlignment.center);
-    return await dialogs.columns<int>([hb], title: title, validator: () => SingleResult.success(vl.value.round()));
+    return await dialogs.columns<int>([hb], title: title, validator: () => Success(vl.value.round()));
   }
 
   static Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? title, String? message, T? selected, bool allowEmpty = false}) async {
@@ -677,7 +677,7 @@ class dialogs {
 
   static Future<T?> columns<T>(
     List<Widget> children, {
-    required SingleResult<T> Function() validator,
+    required Result<T> Function() validator,
     String? title,
     String? message,
     bool? ok = true,
@@ -686,10 +686,10 @@ class dialogs {
   }) async {
     return await showDialogX((b) {
       b.okCallback = () {
-        SingleResult<T> r = validator.call();
-        if (r.success) {
+        Result<T> r = validator.call();
+        if (r is Success<T>) {
           b.setResult(r.value);
-        } else if (r.message != null) {
+        } else if (r is Failure) {
           Toast.error(r.message);
         }
         return r.success;

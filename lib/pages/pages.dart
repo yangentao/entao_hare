@@ -7,6 +7,7 @@ import 'package:entao_hare/dash/dash.dart';
 import 'package:entao_hare/key_attr/key_attr.dart';
 import 'package:entao_log/entao_log.dart';
 import 'package:entao_range/entao_range.dart';
+import 'package:entao_result/entao_result.dart';
 import 'package:flutter/material.dart';
 
 import '../basic/basic.dart';
@@ -28,3 +29,11 @@ part 'refresh_page.dart';
 part 'tabbar_page.dart';
 part 'table_page.dart';
 part 'table_single_page.dart';
+
+extension ResultShowErrorExt on Result {
+  void showError() {
+    if (this case Failure e) {
+      Toast.error(e.message);
+    }
+  }
+}

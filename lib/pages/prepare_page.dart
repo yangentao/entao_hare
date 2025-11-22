@@ -2,7 +2,7 @@
 part of 'pages.dart';
 
 class PreparePage extends HarePage {
-  Future<SingleResult<Widget>> Function() prepare;
+  Future<Result<Widget>> Function() prepare;
   String _msg = "加载中...";
   WidgetBuilder back;
   String? backLabel;
@@ -12,12 +12,12 @@ class PreparePage extends HarePage {
 
   Future<void> doPrepare() async {
     try {
-      SingleResult<Widget> br = await prepare();
+      Result<Widget> br = await prepare();
       success = br.success;
-      if (br.success) {
-        if (context.mounted) context.replacePage(br.value);
-      } else {
-        _msg = br.message ?? "加载失败";
+      if (br case Success(value: Widget w)) {
+        if (context.mounted) context.replacePage(w);
+      } else if (br case Failure e) {
+        _msg = e.message;
         updateState();
       }
     } catch (e) {
@@ -41,23 +41,18 @@ class PreparePage extends HarePage {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> ls = [
-      _msg.titleMedium().centered(),
-      IconButton(
-        onPressed: loadPrepare,
-        icon: Icons.refresh_rounded.icon(),
-        iconSize: 32,
-      ),
-    ];
+    List<Widget> ls = [_msg.titleMedium().centered(), IconButton(onPressed: loadPrepare, icon: Icons.refresh_rounded.icon(), iconSize: 32)];
     if (success == false) {
       Widget w = back(context);
       String label = backLabel ?? w.castTo<HarePage>()?.pageLabel ?? "后退";
-      ls.add(ElevatedButton(
-        child: label.text(),
-        onPressed: () {
-          context.replacePage(w);
-        },
-      ).constrainedBox(minWidth: 70));
+      ls.add(
+        ElevatedButton(
+          child: label.text(),
+          onPressed: () {
+            context.replacePage(w);
+          },
+        ).constrainedBox(minWidth: 70),
+      );
     }
     return ColumnMax(ls, mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center).material();
   }

@@ -79,3 +79,7 @@
 * ListPage
 * asyncCall
 * AsyncWidget, AsyncBuilder
+
+## 2.0.5
+* Result
+* remove http dependence

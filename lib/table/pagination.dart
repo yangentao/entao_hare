@@ -1,8 +1,25 @@
 // ignore_for_file: must_be_immutable
 part of 'table.dart';
 
+extension SuccessOffsetExt on Success {
+  int? get offset {
+    if (this.extra case {"offset": int n}) return n;
+    return null;
+  }
+
+  int? get total {
+    if (this.extra case {"total": int n}) return n;
+    return null;
+  }
+
+  int get totalOrSize {
+    if (value is List<dynamic>) return total ?? value.length;
+    return 0;
+  }
+}
+
 extension PaginationListResultExt on XPagination {
-  void updateByItemsResult(ItemsResult lr) {
+  void updateByItemsResult(Success lr) {
     this.update(total: lr.totalOrSize, offset: lr.offset);
   }
 }
