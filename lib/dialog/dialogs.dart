@@ -1,5 +1,6 @@
 part of 'dialog.dart';
 
+@Deprecated("use dialogx instead.")
 class dialogs {
   dialogs._();
 

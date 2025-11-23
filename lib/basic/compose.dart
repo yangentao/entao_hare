@@ -159,8 +159,8 @@ Widget space({double? width, double? height, EdgeInsets? margin}) {
   return Container(height: height, width: width, margin: margin);
 }
 
-Column ColumnMinStretch(List<Widget> children, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start}) {
-  return ColumnMin(children, crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisAlignment: mainAxisAlignment);
+Column ColumnMinStretch(List<Widget> children, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, double spacing = 0.0}) {
+  return ColumnMin(children, crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisAlignment: mainAxisAlignment, spacing: spacing);
 }
 
 Column ColumnMaxStretch(List<Widget> children, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start}) {

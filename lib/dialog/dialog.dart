@@ -13,3 +13,4 @@ import '../widgets/widgets.dart';
 
 part 'dialog_builder.dart';
 part 'dialogs.dart';
+part 'dialogx.dart';

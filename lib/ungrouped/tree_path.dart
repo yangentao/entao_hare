@@ -17,19 +17,19 @@ class TreePath<T> extends HareWidget {
   final Map<T, List<T>> _childMap = {};
   final Map<T, List<T>> _siblingMap = {};
 
-  TreePath(
-      {required T root,
-      required String Function(T) onLabel,
-      required FutureOr<List<T>> Function(T) onSiblings,
-      required FutureOr<List<T>> Function(T) onChildren,
-      void Function(List<T>)? onChanged,
-      bool cache = true})
-      : _onChanged = onChanged,
-        _onSiblings = onSiblings,
-        _onChildren = onChildren,
-        _onLabel = onLabel,
-        _cached = cache,
-        super() {
+  TreePath({
+    required T root,
+    required String Function(T) onLabel,
+    required FutureOr<List<T>> Function(T) onSiblings,
+    required FutureOr<List<T>> Function(T) onChildren,
+    void Function(List<T>)? onChanged,
+    bool cache = true,
+  }) : _onChanged = onChanged,
+       _onSiblings = onSiblings,
+       _onChildren = onChildren,
+       _onLabel = onLabel,
+       _cached = cache,
+       super() {
     _paths.add(root);
   }
 
@@ -68,7 +68,7 @@ class TreePath<T> extends HareWidget {
     List<T> sibList = await _sibOf(item);
     if (sibList.isEmpty) return;
     if (sibList.length == 1 && sibList.first == item) return;
-    T? v = await dialogs.pickValue(sibList, onTitle: (a) => _onLabel(a).text());
+    T? v = await dialogx.pickValue(sibList, onTitle: (a) => _onLabel(a).text());
     if (v != null) {
       _paths.removeRange(idx, _paths.length);
       _paths.add(v);
@@ -104,7 +104,7 @@ class TreePath<T> extends HareWidget {
       updateState();
       _fireChanged();
     } else {
-      T? v = await dialogs.pickValue(chList, onTitle: (a) => _onLabel(a).text());
+      T? v = await dialogx.pickValue(chList, onTitle: (a) => _onLabel(a).text());
       if (v != null) {
         _paths.add(v);
         updateState();
@@ -131,13 +131,7 @@ class TreePath<T> extends HareWidget {
         },
       );
     });
-    var last = RawChip(
-      label: Icons.arrow_right.icon(),
-      selected: false,
-      selectedColor: Colors.blueAccent,
-      showCheckmark: false,
-      onPressed: _children,
-    );
+    var last = RawChip(label: Icons.arrow_right.icon(), selected: false, selectedColor: Colors.blueAccent, showCheckmark: false, onPressed: _children);
     ls.add(last);
     return WrapRow(ls);
   }

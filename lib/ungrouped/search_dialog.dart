@@ -76,7 +76,7 @@ class _SearchWidget<T> extends HareWidget {
     return ListTile(
       title: item.toString().text(),
       onTap: () {
-        dialogs.pop(item);
+        dialogx.pop(item);
       },
     );
   }
