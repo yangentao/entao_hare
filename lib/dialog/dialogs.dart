@@ -1,109 +1,34 @@
-part of 'dialog.dart';
+library;
 
-@Deprecated("use dialogx instead.")
-class dialogs {
-  dialogs._();
+import 'package:entao_dutil/entao_dutil.dart';
+import 'package:entao_hare/basic/basic.dart';
+import 'package:entao_range/entao_range.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-  static void pop<T>([T? result]) {
+import '../harepage/harepage.dart';
+import '../harewidget/harewidget.dart';
+import '../widgets/widgets.dart';
+
+
+final dialogs = Dialogs();
+
+
+class Dialogs {
+  double ACTION_MIN_WIDTH = 80;
+  double CONTENT_MIN_WIDTH = 200;
+  double CONTENT_MIN_HEIGHT = 64;
+  Color ACTION_DANGER_COLOR = Colors.redAccent;
+  Color GRID_SELECTED_BACKGROUND = Colors.blue.withOpacityX(0.2);
+  final DialogOptions options;
+
+  Dialogs({DialogOptions? options}) : options = options ?? DialogOptions();
+
+  void pop<T>([T? result]) {
     Navigator.of(globalContext).pop<T>(result);
   }
 
-  static Future<CloseRange?> pickIntRanges({
-    required CloseRange value,
-    required int minValue,
-    required int maxValue,
-    required String label,
-    required String title,
-    int? divisions,
-  }) async {
-    assert(maxValue > minValue);
-    HareBuilder hb = HareBuilder();
-    ValueListener<RangeValues> vl = ValueListener(
-      value: RangeValues(value.start.clamp(minValue, maxValue).toDouble(), value.end.clamp(minValue, maxValue).toDouble()),
-      after: hb.updateState,
-    );
-    hb.builder = (c) => ColumnMin([
-      RowMin([label.titleMedium(), space(width: 8), vl.value.start.round().toString().titleMedium(), "-".text(), vl.value.end.round().toString().titleMedium()]),
-      RangeSlider(
-        values: vl.value,
-        min: minValue.toDouble(),
-        max: maxValue.toDouble(),
-        divisions: divisions ?? (maxValue - minValue),
-        onChanged: vl.onChanged,
-        labels: RangeLabels(vl.value.start.round().toString(), vl.value.end.round().toString()),
-        padding: xy(0, 8),
-      ).coloredBox(Colors.green),
-      space(height: 8),
-    ], crossAxisAlignment: CrossAxisAlignment.center);
-    return await dialogs.columns<CloseRange>([hb], title: title, validator: () => Success(CloseRange(vl.value.start.toInt(), vl.value.end.toInt())));
-  }
-
-  static Future<int?> pickInt({required int value, required int minValue, required int maxValue, required String label, required String title, int? divisions}) async {
-    HareBuilder hb = HareBuilder();
-    ValueListener<double> vl = ValueListener(value: value.clamp(minValue, maxValue).toDouble(), after: hb.updateState);
-    hb.builder = (c) => ColumnMin([
-      RowMin([label.titleMedium(), space(width: 8), vl.value.round().toString().titleMedium()]),
-      Slider(
-        value: vl.value,
-        min: minValue.toDouble(),
-        max: maxValue.toDouble(),
-        divisions: divisions ?? (maxValue - minValue),
-        onChanged: vl.onChanged,
-        label: vl.value.round().toString(),
-        padding: xy(0, 8),
-      ),
-      space(height: 8),
-    ], crossAxisAlignment: CrossAxisAlignment.center);
-    return await dialogs.columns<int>([hb], title: title, validator: () => Success(vl.value.round()));
-  }
-
-  static Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? title, String? message, T? selected, bool allowEmpty = false}) async {
-    Set<T>? st = await pickSegmentValue(items, title: title, message: message, selected: selected == null ? null : {selected}, allowEmpty: allowEmpty, multi: false);
-    return st?.firstOrNull;
-  }
-
-  static Future<Set<T>?> pickSegmentMulti<T>(List<LabelValue<T>> items, {String? title, String? message, Set<T>? selected, bool allowEmpty = false}) async {
-    return await pickSegmentValue(items, title: title, message: message, selected: selected, allowEmpty: allowEmpty, multi: true);
-  }
-
-  static Future<Set<T>?> pickSegmentValue<T>(
-    List<LabelValue<T>> items, {
-    String? title,
-    String? message,
-    Set<T>? selected,
-    bool multi = false,
-    bool allowEmpty = false,
-  }) async {
-    Set<T> selSet = {...?selected};
-    return await showDialogX((b) {
-      b.init(result: selSet);
-      b.dialogWidth = DialogWidth.instrict;
-      b.title(title?.text());
-      b.actions(ok: true, cancel: true);
-      List<Widget> ls = [];
-      if (message != null) {
-        ls << b.messageText(message, minHeight: 32, textAlign: TextAlign.start);
-      }
-
-      ls <<
-          SegmentedButton<T>(
-            multiSelectionEnabled: multi,
-            emptySelectionAllowed: allowEmpty,
-            showSelectedIcon: false,
-            style: SegStyle,
-            segments: items.mapList((e) => ButtonSegment<T>(value: e.value, label: e.label.text())),
-            selected: selSet,
-            onSelectionChanged: (newSelection) {
-              selSet = newSelection;
-              b.setResult(selSet);
-              b.updateState();
-            },
-          );
-      return b.buildColumn(ls);
-    });
-  }
-
-  static String? _rangeTip(num? minValue, num? maxValue) {
+  String? _rangeTip(num? minValue, num? maxValue) {
     if (minValue != null && maxValue != null) {
       return "介于$minValue和$maxValue之间";
     } else if (minValue != null) {
@@ -114,15 +39,7 @@ class dialogs {
     return null;
   }
 
-  static Future<double?> inputDouble({
-    double? value,
-    required String title,
-    String? label,
-    String? message,
-    double? minValue,
-    double? maxValue,
-    bool signed = true,
-  }) async {
+  Future<double?> inputDouble({double? value, required String title, String? label, String? message, double? minValue, double? maxValue, bool signed = true}) async {
     String? s = await inputText(
       value: value?.toString(),
       title: title,
@@ -132,13 +49,12 @@ class dialogs {
       maxLength: 64,
       tips: _rangeTip(minValue, maxValue),
       validator: NumValidator(minValue: minValue, maxValue: maxValue).call,
-      width: DialogWidth.small,
       keyboardType: TextInputType.numberWithOptions(decimal: true, signed: signed),
     );
     return s?.trim().toDouble;
   }
 
-  static Future<int?> inputInt({int? value, required String title, String? label, String? message, int? minValue, int? maxValue, bool signed = true}) async {
+  Future<int?> inputInt({int? value, required String title, String? label, String? message, int? minValue, int? maxValue, bool signed = true}) async {
     String? s = await inputText(
       value: value?.toString(),
       title: title,
@@ -148,15 +64,14 @@ class dialogs {
       allowExp: Regs.integers,
       tips: _rangeTip(minValue, maxValue),
       validator: NumValidator(minValue: minValue, maxValue: maxValue).call,
-      width: DialogWidth.small,
       keyboardType: TextInputType.numberWithOptions(decimal: false, signed: signed),
     );
     return s?.trim().toInt;
   }
 
-  static Future<String?> inputText({
-    String? value,
+  Future<String?> inputText({
     required String title,
+    String? value,
     String? label,
     String? message,
     String? hint,
@@ -176,119 +91,221 @@ class dialogs {
     bool clearButton = false,
     InputBorder? border,
     bool? outlineBorder,
-    DialogWidth? width,
   }) {
     TextValidator lenValid = LengthValidator(minLength: minLength, maxLength: maxLength, allowEmpty: allowEmpty, trim: trim);
     TextValidator vs = validator == null ? lenValid : ListValidator([validator, lenValid]);
-    return showDialogX((b) {
-      if (width != null) b.dialogWidth = width;
-      b.title(title.text());
-      bool multiLines = (maxLines != null && maxLines > 1) || (minLines != null && minLines > 1);
-      ListWidget ls = [];
-      HareEdit edit = HareEdit(
-        value: value?.toString() ?? "",
-        hint: hint,
-        helpText: tips,
-        label: label,
-        allowExp: allowExp,
-        denyExp: denyExp,
-        keyboardType: keyboardType,
-        inputFormaters: inputFormaters,
-        validator: vs,
-        maxLength: maxLength,
-        maxLines: maxLines,
-        minLines: minLines,
-        password: password,
-        autofucus: true,
-        noClear: multiLines || clearButton,
-        border: border ?? (outlineBorder == true || multiLines ? const OutlineInputBorder() : null),
-        onSubmit: (s) {
-          b.setResult(s);
-          b.clickOK();
-        },
-      );
-      ls << edit;
-      if (multiLines || clearButton) {
-        Widget btn = b.makeAction("清除", () {
-          edit.value = "";
-        });
-        b.actions(ok: true, cancel: true, items: [btn]);
-      } else {
-        b.actions(ok: true, cancel: true);
-      }
-      b.okCallback = () {
-        if (!edit.validate()) return false;
-        String s = trim ? edit.value.trim() : edit.value;
-        b.setResult(s);
-        return true;
-      };
-      return b.buildColumn(ls, message: message);
-    });
+
+    GlobalKey<FormState> formKey = GlobalKey();
+    return showColumn(
+      onActions: (uc) {
+        return actionPanel(uc, [
+          cancelAction("取消"),
+          makeAction("清除", () {
+            uc.fireAction("clear");
+          }),
+          okAction(uc, "确定"),
+        ]);
+      },
+      onContent: (uc) {
+        bool multiLines = (maxLines != null && maxLines > 1) || (minLines != null && minLines > 1);
+        HareEdit edit = HareEdit(
+          value: value?.toString() ?? "",
+          hint: hint,
+          helpText: tips,
+          label: label,
+          allowExp: allowExp,
+          denyExp: denyExp,
+          keyboardType: keyboardType,
+          inputFormaters: inputFormaters,
+          validator: vs,
+          maxLength: maxLength,
+          maxLines: maxLines,
+          minLines: minLines,
+          password: password,
+          autofucus: true,
+          noClear: multiLines || clearButton,
+          border: border ?? (outlineBorder == true || multiLines ? const OutlineInputBorder() : null),
+          onSubmit: (s) {
+            uc.setResult(s);
+            if (uc.onValidate()) {
+              uc.popResult();
+            }
+          },
+        );
+        uc.onValidate = () {
+          if (formKey.currentState?.validate() != true) return false;
+          if (!edit.validate()) return false;
+          String s = trim ? edit.value.trim() : edit.value;
+          uc.setResult(s);
+          return true;
+        };
+        uc.onAction("clear", () => edit.clear());
+        return Form(key: formKey, child: ColumnMinStretch([if (message != null) messageWidget(message), edit]));
+      },
+      title: title,
+    );
   }
 
-  static Future<({String first, String second})?> input2(
+  Future<({String first, String second})?> input2(
     HareEdit edit,
     HareEdit secondEdit, {
     required String title,
     String? message,
     TextValidator? validator,
     TextValidator? secondValidator,
-    DialogWidth? dialogWidth,
   }) async {
-    return await showDialogX((b) {
-      b.okCallback = () {
-        bool ok1 = edit.validate(validator);
-        bool ok2 = secondEdit.validate(secondValidator);
-        if (!ok1 || !ok2) return false;
-        String s = edit.value;
-        String s2 = secondEdit.value;
-        b.setResult((first: s, second: s2));
-        return true;
-      };
-      return b.buildColumn([edit, secondEdit], title: title, ok: true, cancel: true, message: message, dialogWidth: dialogWidth);
-    });
+    GlobalKey<FormState> formKey = GlobalKey();
+    return showColumn(
+      onContent: (uc) {
+        uc.onValidate = () {
+          if (formKey.currentState?.validate() != true) return false;
+          if (!edit.validate(validator)) return false;
+          if (!secondEdit.validate(secondValidator)) return false;
+          String s = edit.value;
+          String s2 = secondEdit.value;
+          uc.setResult((first: s, second: s2));
+          return true;
+        };
+        return Form(key: formKey, child: ColumnMinStretch([if (message != null) messageWidget(message), edit, secondEdit]));
+      },
+      title: title,
+      ok: true,
+      cancel: true,
+    );
   }
 
-  static Future<String?> input(HareEdit edit, {required String title, String? message, TextValidator? validator, DialogWidth? dialogWidth}) async {
-    return await showDialogX((b) {
-      b.okCallback = () {
-        if (!edit.validate(validator)) return false;
-        String s = edit.value;
-        b.setResult(s);
-        return true;
-      };
-      return b.buildColumn([edit], title: title, ok: true, cancel: true, dialogWidth: dialogWidth, message: message, messageAlign: TextAlign.start, messageMinHeight: 32);
-    });
+  Future<String?> input(HareEdit edit, {required String title, String? message, TextValidator? validator, double spacing = 8}) async {
+    GlobalKey<FormState> formKey = GlobalKey();
+    return showColumn(
+      onContent: (uc) {
+        uc.onValidate = () {
+          if (formKey.currentState?.validate() != true) return false;
+          if (!edit.validate(validator)) return false;
+          String s = edit.value;
+          uc.setResult(s);
+          return true;
+        };
+        return Form(
+          key: formKey,
+          child: ColumnMinStretch([if (message != null) messageWidget(message), edit], spacing: spacing),
+        );
+      },
+      title: title,
+      ok: true,
+      cancel: true,
+    );
   }
 
-  static Future<bool?> alert({required String title, required String message, TextAlign? align}) async {
-    return await showDialogX((b) {
-      if (message.length < 60) {
-        b.dialogWidth = DialogWidth.small;
-      }
-      b.centerActions = true;
-      b.okCallback = () {
-        b.setResult(true);
-        return true;
-      };
-      return b.buildColumn([], title: title, message: message, messageAlign: align, ok: true);
-    });
+  Future<T?> pickSegmentSingle<T>(List<LabelValue<T>> items, {String? title, String? message, T? selected, bool allowEmpty = false}) async {
+    if (!allowEmpty && selected == null) selected = items.first.value;
+    Set<T>? st = await pickSegmentValue(items, title: title, message: message, selected: selected == null ? null : {selected}, allowEmpty: allowEmpty, multi: false);
+    return st?.firstOrNull;
   }
 
-  static Future<bool?> confirm({required String title, required String message, TextAlign? align}) async {
-    return await showDialogX((b) {
-      if (message.length < 60) {
-        b.dialogWidth = DialogWidth.small;
-      }
-      b.okCallback = () {
-        b.setResult(true);
-        return true;
-      };
-      return b.buildColumn([], title: title, message: message, messageAlign: align, ok: true, cancel: true);
-    });
+  Future<Set<T>?> pickSegmentMulti<T>(List<LabelValue<T>> items, {String? title, String? message, Set<T>? selected, bool allowEmpty = false}) async {
+    if (!allowEmpty && (selected == null || selected.isEmpty)) selected = {items.first.value};
+    return await pickSegmentValue(items, title: title, message: message, selected: selected, allowEmpty: allowEmpty, multi: true);
   }
 
-  static Future<XAction?> pickAction(
+  Future<Set<T>?> pickSegmentValue<T>(List<LabelValue<T>> items, {String? title, String? message, Set<T>? selected, bool multi = false, bool allowEmpty = true}) async {
+    if (!allowEmpty && (selected == null || selected.isEmpty)) selected = {items.first.value};
+    return showColumn(
+      title: title,
+      ok: true,
+      cancel: true,
+      onContent: (uc) {
+        if (!uc.hasResult) {
+          uc.setResult({...?selected});
+        }
+        return ColumnMinStretch([
+          if (message != null) messageWidget(message),
+          SegmentedButton<T>(
+            multiSelectionEnabled: multi,
+            emptySelectionAllowed: allowEmpty,
+            showSelectedIcon: false,
+            style: SegStyle,
+            segments: items.mapList((e) => ButtonSegment<T>(value: e.value, label: e.label.text())),
+            selected: uc.getResult()!,
+            onSelectionChanged: (newSelection) {
+              uc.setResult(newSelection);
+              uc.updateState();
+            },
+          ),
+        ], spacing: 16);
+      },
+    );
+  }
+
+  Future<CloseRange?> pickIntRanges({
+    required CloseRange value,
+    required int minValue,
+    required int maxValue,
+    required String label,
+    required String title,
+    int? divisions,
+  }) async {
+    assert(maxValue > minValue);
+    return showColumn(
+      title: title,
+      ok: true,
+      cancel: true,
+      onContent: (uc) {
+        if (!uc.hasResult) {
+          uc.setResult(value);
+        }
+        CloseRange range = uc.getResult()!;
+        return ColumnMin([
+          RowMin([label.titleMedium(), space(width: 8), range.start.round().toString().titleMedium(), "-".text(), range.end.round().toString().titleMedium()]),
+          RangeSlider(
+            values: RangeValues(range.start.clamp(minValue, maxValue).toDouble(), range.end.clamp(minValue, maxValue).toDouble()),
+            min: minValue.toDouble(),
+            max: maxValue.toDouble(),
+            divisions: divisions ?? (maxValue - minValue),
+            onChanged: (v) {
+              uc.setResult(CloseRange(v.start.toInt(), v.end.toInt()));
+              uc.updateState();
+            },
+            labels: RangeLabels(range.start.round().toString(), range.end.round().toString()),
+            padding: xy(0, 8),
+          ),
+          space(height: 8),
+        ], crossAxisAlignment: CrossAxisAlignment.center);
+      },
+    );
+  }
+
+  Future<int?> pickInt({required int value, required int minValue, required int maxValue, required String label, required String title, int? divisions}) async {
+    return showColumn(
+      title: title,
+      ok: true,
+      cancel: true,
+      padding: edges(hor: 16, ver: 16),
+      onContent: (uc) {
+        if (!uc.hasResult) {
+          uc.setResult(value);
+        }
+        int v = uc.getResult()!;
+        return ColumnMin([
+          RowMin([label.titleMedium(), space(width: 8), v.toString().titleMedium()]),
+          Slider(
+            value: v.toDouble(),
+            min: minValue.toDouble(),
+            max: maxValue.toDouble(),
+            divisions: divisions ?? (maxValue - minValue),
+            onChanged: (r) {
+              uc.setResult(r.toInt());
+              uc.updateState();
+            },
+            label: v.toString(),
+            padding: xy(0, 8),
+          ),
+          space(height: 8),
+        ], crossAxisAlignment: CrossAxisAlignment.center);
+      },
+    );
+  }
+
+  Future<XAction?> pickAction(
     List<XAction> items, {
     String? title,
     XAction? selected,
@@ -299,7 +316,6 @@ class dialogs {
     Widget? Function(XAction)? onTrailing,
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
-    DialogWidth? width,
     bool withOKCancel = false,
   }) async {
     XAction? sel = selected ?? items.firstOr((e) => e.checked);
@@ -315,14 +331,14 @@ class dialogs {
       onTrailing: onTrailing,
       aboveWidgets: aboveWidgets,
       belowWidgets: belowWidgets,
-      width: width,
-      withOKCancel: withOKCancel,
+      ok: withOKCancel,
+      cancel: withOKCancel,
     );
     ac?.onclick();
     return ac;
   }
 
-  static Future<LabelValue<T>?> pickLabelValue<T>(
+  Future<LabelValue<T>?> pickLabelValue<T>(
     List<LabelValue<T>> items, {
     T? selected,
     String? title,
@@ -333,7 +349,6 @@ class dialogs {
     Widget? Function(LabelValue<T>)? onTrailing,
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
-    DialogWidth? width,
     bool withOKCancel = false,
   }) async {
     LabelValue<T>? checked = items.firstOr((e) => e.value == selected);
@@ -348,70 +363,12 @@ class dialogs {
       onTrailing: onTrailing,
       aboveWidgets: aboveWidgets,
       belowWidgets: belowWidgets,
-      width: width,
-      withOKCancel: withOKCancel,
+      ok: withOKCancel,
+      cancel: withOKCancel,
     );
   }
 
-  static Future<T?> pickValue<T>(
-    List<T> items, {
-    T? selected,
-    String? title,
-    Widget Function(T)? onItemView,
-    Widget? Function(T)? onTitle,
-    Widget? Function(T)? onSubtitle,
-    Widget? Function(T)? onLeading,
-    Widget? Function(T)? onTrailing,
-    List<Widget>? aboveWidgets,
-    List<Widget>? belowWidgets,
-    DialogWidth? width,
-    bool withOKCancel = false,
-  }) async {
-    return await showDialogX((b) {
-      b.init(result: selected);
-      return b.buildList(
-        items,
-        builder: (iic) {
-          T item = iic.item;
-          bool checked = b.result == item;
-          if (onItemView != null) {
-            return onItemView(item).inkWell(
-              onTap: () {
-                b.setResult(item);
-                if (withOKCancel) {
-                  b.updateState();
-                } else {
-                  b.clickOK();
-                }
-              },
-            );
-          }
-          return ListTile(
-            title: onTitle?.call(item) ?? item.toString().text(),
-            subtitle: onSubtitle?.call(item),
-            leading: onLeading?.call(item),
-            trailing: onTrailing?.call(item) ?? (checked ? Icons.check.icon() : null),
-            onTap: () {
-              b.setResult(item);
-              if (withOKCancel) {
-                b.updateState();
-              } else {
-                b.clickOK();
-              }
-            },
-          );
-        },
-        aboveWidgets: aboveWidgets,
-        belowWidgets: belowWidgets,
-        dialogWidth: width,
-        title: title,
-        ok: withOKCancel,
-        cancel: withOKCancel,
-      );
-    });
-  }
-
-  static Future<Set<LabelValue<T>>?> pickLabelValueSet<T>(
+  Future<Set<LabelValue<T>>?> pickLabelValueSet<T>(
     List<LabelValue<T>> items, {
     Iterable<T>? selected,
     String? title,
@@ -422,7 +379,7 @@ class dialogs {
     Widget? Function(LabelValue<T>)? onTrailing,
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
-    DialogWidth? width,
+    bool separated = true,
   }) async {
     List<LabelValue<T>> checked = items.filter((e) => selected?.contains(e.value) ?? false);
     return await pickValueSet<LabelValue<T>>(
@@ -435,74 +392,11 @@ class dialogs {
       onTrailing: onTrailing,
       aboveWidgets: aboveWidgets,
       belowWidgets: belowWidgets,
-      dialogWidth: width,
+      separated: separated,
     );
   }
 
-  static Future<Set<T>?> pickValueSet<T>(
-    List<T> items, {
-    Iterable<T>? selected,
-    String? title,
-    Widget Function(T, Set<T>)? onItemView,
-    Widget? Function(T)? onTitle,
-    Widget? Function(T)? onSubtitle,
-    Widget? Function(T)? onLeading,
-    Widget? Function(T)? onTrailing,
-    List<Widget>? aboveWidgets,
-    List<Widget>? belowWidgets,
-    DialogWidth? dialogWidth,
-  }) async {
-    Set<T> resultSet = {};
-    if (selected != null) resultSet.addAll(selected);
-    return await showDialogX((b) {
-      b.init(result: resultSet);
-      return b.buildList(
-        items,
-        builder: (iic) {
-          T item = iic.item;
-          Widget cell;
-          if (onItemView != null) {
-            cell = onItemView(item, b.result ?? {}).inkWell(
-              onTap: () {
-                if (resultSet.contains(item)) {
-                  resultSet.remove(item);
-                } else {
-                  resultSet.add(item);
-                }
-                b.updateState();
-              },
-            );
-          } else {
-            bool checked = resultSet.contains(item);
-            cell = ListTile(
-              key: UniqueKey(),
-              title: onTitle?.call(item) ?? item.toString().text(),
-              subtitle: onSubtitle?.call(item),
-              leading: onLeading?.call(item),
-              trailing: onTrailing?.call(item) ?? (checked ? Icons.check.icon() : null),
-              onTap: () {
-                if (resultSet.contains(item)) {
-                  resultSet.remove(item);
-                } else {
-                  resultSet.add(item);
-                }
-                b.updateState();
-              },
-            );
-          }
-          return cell;
-        },
-        dialogWidth: dialogWidth,
-        title: title,
-        ok: true,
-        cancel: true,
-        aboveWidgets: aboveWidgets,
-        belowWidgets: belowWidgets,
-      );
-    });
-  }
-
-  static Future<T?> pickGridValue<T>(
+  Future<T?> pickGridValue<T>(
     List<T> items, {
     T? selected,
     Widget Function(T)? onItemView,
@@ -519,66 +413,64 @@ class dialogs {
     String? title,
     bool ok = false,
     bool cancel = false,
-    DialogWidth? dialogWidth,
     List<Widget>? aboveWidgets,
     List<Widget>? belowWidgets,
-    Alignment? dialogAlignment,
-    EdgeInsets? dialogInsets,
   }) async {
-    return await showDialogX(
-      (b) {
-        b.init(result: selected);
-        return b.buildGrid(
-          items,
+    return showColumn(
+      isContentScrollable: true,
+      title: title,
+      cancel: cancel,
+      ok: ok,
+      aboveWidgets: aboveWidgets,
+      belowWidgets: belowWidgets,
+      padding: EdgeInsets.all(0),
+      onContent: (uc) {
+        if (!uc.hasResult) {
+          uc.setResult(selected);
+        }
+        return EnGridView(
           columnCount: columnCount,
-          itemWidth: itemWidth,
-          itemHeight: itemHeight,
-          aspectRatio: aspectRatio,
-          verticalSpacing: verticalSpacing,
-          horizontalSpacing: horizontalSpacing,
+          crossAxisExtent: itemWidth,
+          mainAxisExtent: itemHeight,
+          childAspectRatio: aspectRatio,
+          mainAxisSpacing: verticalSpacing,
+          crossAxisSpacing: horizontalSpacing,
           padding: padding,
-          builder: (iic) {
+          shrinkWrap: true,
+          items: items,
+          itemView: (iic) {
             T item = iic.item;
             Widget cell;
             if (onItemView != null) {
               cell = onItemView(item);
             } else {
-              bool checked = b.result == item;
-              cell =
-                  GridTile(
-                    header: onHeader?.call(item),
-                    footer: onFooter?.call(item),
-                    child: onTitle?.call(item) ?? item.toString().text(style: b.context.themeData.textTheme.titleMedium).centered(),
-                  ).let((e) {
-                    if (!checked) return e;
-                    return e.coloredBox(b.gridSelectedBackground).clipRoundRect(3);
-                  });
+              bool checked = uc.getResult() == item;
+              cell = GridTile(
+                header: onHeader?.call(item),
+                footer: onFooter?.call(item),
+                child: onTitle?.call(item) ?? item.toString().text(style: uc.themeData.textTheme.titleMedium).centered(),
+              );
+              if (checked) {
+                cell = cell.coloredBox(GRID_SELECTED_BACKGROUND).clipRoundRect(3);
+              }
             }
             return cell.inkWell(
               onTap: () {
-                b.setResult(item);
-                if (ok == true) {
-                  b.updateState();
+                uc.setResult(item);
+                if (ok) {
+                  uc.updateState();
                 } else {
-                  b.clickOK();
+                  uc.pop(item);
                 }
               },
             );
           },
-          title: title,
-          ok: ok,
-          cancel: cancel,
-          dialogWidth: dialogWidth,
-          aboveWidgets: aboveWidgets,
-          belowWidgets: belowWidgets,
         );
       },
-      alignment: dialogAlignment,
-      insetPadding: dialogInsets,
     );
   }
 
-  static Future<Set<T>?> pickGridValueSet<T>(
+  Future<Set<T>?> pickGridValueSet<T>(
     List<T> items, {
     Iterable<T>? selected,
     String? title,
@@ -595,111 +487,353 @@ class dialogs {
     double verticalSpacing = 0.0,
     double horizontalSpacing = 0.0,
     EdgeInsets? padding,
-    DialogWidth? dialogWidth,
   }) async {
     Set<T> resultSet = {};
     if (selected != null) resultSet.addAll(selected);
-    return await showDialogX((b) {
-      b.init(result: resultSet);
-      return b.buildGrid(
-        items,
-        aboveWidgets: aboveWidgets,
-        belowWidgets: belowWidgets,
-        columnCount: columnCount,
-        itemWidth: itemWidth,
-        itemHeight: itemHeight,
-        aspectRatio: aspectRatio,
-        verticalSpacing: verticalSpacing,
-        horizontalSpacing: horizontalSpacing,
-        padding: padding,
-        builder: (iic) {
-          T item = iic.item;
-          Widget cell;
-          if (onItemView != null) {
-            cell = onItemView.call(item, resultSet);
+    return showColumn(
+      isContentScrollable: true,
+      title: title,
+      cancel: true,
+      ok: true,
+      aboveWidgets: aboveWidgets,
+      belowWidgets: belowWidgets,
+      padding: EdgeInsets.all(0),
+      onContent: (uc) {
+        bool isCheck(T item) {
+          Set<T> ls = uc.getResult() ?? {};
+          return ls.contains(item);
+        }
+
+        void toggole(T item) {
+          Set<T> ls = uc.getResult() ?? {};
+          if (ls.contains(item)) {
+            ls.remove(item);
           } else {
-            bool checked = resultSet.contains(item);
-            cell = GridTile(header: onHeader?.call(item), footer: onFooter?.call(item), child: onTitle?.call(item) ?? item.toString().titleMedium().centered()).let((e) {
-              if (!checked) return e;
-              return e.coloredBox(b.gridSelectedBackground).clipRoundRect(3);
-            });
+            ls.add(item);
           }
-          return cell.inkWell(
-            onTap: () {
-              if (resultSet.contains(item)) {
-                resultSet.remove(item);
-              } else {
-                resultSet.add(item);
+        }
+
+        if (!uc.hasResult) uc.setResult(resultSet);
+        return EnGridView(
+          columnCount: columnCount,
+          crossAxisExtent: itemWidth,
+          mainAxisExtent: itemHeight,
+          childAspectRatio: aspectRatio,
+          mainAxisSpacing: verticalSpacing,
+          crossAxisSpacing: horizontalSpacing,
+          padding: padding,
+          shrinkWrap: true,
+          items: items,
+          itemView: (iic) {
+            T item = iic.item;
+            Widget cell;
+            if (onItemView != null) {
+              Set<T> ls = uc.getResult() ?? {};
+              cell = onItemView(item, ls);
+            } else {
+              cell = GridTile(
+                header: onHeader?.call(item),
+                footer: onFooter?.call(item),
+                child: onTitle?.call(item) ?? item.toString().text(style: uc.themeData.textTheme.titleMedium).centered(),
+              );
+              if (isCheck(item)) {
+                cell = cell.coloredBox(GRID_SELECTED_BACKGROUND).clipRoundRect(3);
               }
-              b.updateState();
-            },
-          );
-        },
-        title: title,
-        ok: true,
-        cancel: true,
-        dialogWidth: dialogWidth,
-      );
+            }
+            return cell.inkWell(
+              onTap: () {
+                toggole(item);
+                uc.updateState();
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<T?> pickValue<T>(
+    List<T> items, {
+    T? selected,
+    String? title,
+    Widget Function(T)? onItemView,
+    Widget? Function(T)? onTitle,
+    Widget? Function(T)? onSubtitle,
+    Widget? Function(T)? onLeading,
+    Widget? Function(T)? onTrailing,
+    List<Widget>? aboveWidgets,
+    List<Widget>? belowWidgets,
+    EdgeInsets? padding,
+    bool separated = true,
+    bool cancel = false,
+    bool ok = false,
+  }) async {
+    return showColumn(
+      isContentScrollable: true,
+      title: title,
+      cancel: cancel,
+      ok: ok,
+      aboveWidgets: aboveWidgets,
+      belowWidgets: belowWidgets,
+      padding: EdgeInsets.all(0),
+      onContent: (uc) {
+        if (!uc.hasResult) uc.setResult(selected);
+        return EnListView(
+          items: items,
+          shrinkWrap: true,
+          padding: padding,
+          separator: separated,
+          itemView: (cii) {
+            var item = cii.item;
+            if (onItemView != null) return onItemView(item);
+            return ListTile(
+              title: onTitle?.call(item) ?? item.toString().titleMedium(),
+              subtitle: onSubtitle?.call(item),
+              leading: onLeading?.call(item),
+              trailing: onTrailing?.call(item) ?? (uc.getResult() == item ? Icons.check.icon() : null),
+              onTap: () {
+                uc.setResult(item);
+                if (ok) {
+                  uc.updateState();
+                } else {
+                  uc.pop(item);
+                }
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<Set<T>?> pickValueSet<T>(
+    List<T> items, {
+    Iterable<T>? selected,
+    String? title,
+    Widget Function(T, Set<T>)? onItemView,
+    Widget? Function(T)? onTitle,
+    Widget? Function(T)? onSubtitle,
+    Widget? Function(T)? onLeading,
+    Widget? Function(T)? onTrailing,
+    List<Widget>? aboveWidgets,
+    List<Widget>? belowWidgets,
+    EdgeInsets? padding,
+    bool separated = true,
+  }) async {
+    Set<T> resultSet = {};
+    if (selected != null) resultSet.addAll(selected);
+    return showColumn(
+      isContentScrollable: true,
+      title: title,
+      cancel: true,
+      ok: true,
+      aboveWidgets: aboveWidgets,
+      belowWidgets: belowWidgets,
+      padding: EdgeInsets.all(0),
+      onContent: (uc) {
+        bool isCheck(T item) {
+          Set<T> ls = uc.getResult() ?? {};
+          return ls.contains(item);
+        }
+
+        void toggole(T item) {
+          Set<T> ls = uc.getResult() ?? {};
+          if (ls.contains(item)) {
+            ls.remove(item);
+          } else {
+            ls.add(item);
+          }
+        }
+
+        if (!uc.hasResult) uc.setResult(resultSet);
+        return EnListView(
+          items: items,
+          shrinkWrap: true,
+          padding: padding,
+          separator: separated,
+          itemView: (cii) {
+            var item = cii.item;
+            if (onItemView != null) {
+              Set<T> ls = uc.getResult() ?? {};
+              return onItemView(item, ls);
+            }
+            return ListTile(
+              title: onTitle?.call(item) ?? item.toString().titleMedium(),
+              subtitle: onSubtitle?.call(item),
+              leading: onLeading?.call(item),
+              trailing: onTrailing?.call(item) ?? (isCheck(item) ? Icons.check.icon() : null),
+              onTap: () {
+                toggole(item);
+                uc.updateState();
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<T?> showPage<T>(HarePage page, {bool flex = true, double minHeight = 120}) {
+    return showBuilder((uc) {
+      ListWidget ls = [
+        titlePanel(
+          uc,
+          left: IconButton(onPressed: () => page.onBackPressed(uc.context), icon: Icons.adaptive.arrow_back.icon(size: 18), color: uc.colorScheme.onPrimary),
+          title: page.pageLabel.text(),
+          right: page.actions.isEmpty ? null : RowMin(page.actions),
+          closable: false,
+        ),
+        if (flex) page.expanded() else page,
+      ];
+      if (flex) {
+        return ColumnMaxStretch(ls).constrainedBox(minHeight: minHeight);
+      } else {
+        return ColumnMinStretch(ls).constrainedBox(minHeight: minHeight);
+      }
     });
   }
 
-  static Future<T?> showPage<T>(HarePage page, {bool flex = true, bool closable = false, DialogWidth? dialogWidth}) {
-    return showDialogX((b) {
-      b.titleX(
-        left: IconButton(onPressed: () => page.onBackPressed(b.context), icon: Icons.adaptive.arrow_back.icon(size: 18)),
-        title: page.pageLabel.text(),
-        right: page.actions.isEmpty ? null : RowMin(page.actions),
-        closable: closable,
-      );
-      return b.build(page, flex: flex, dialogWidth: dialogWidth);
-    });
-  }
-
-  static Future<Set<T>?> showChips<T>({
+  Future<Set<T>?> showChips<T>({
     required List<LabelValue<T>> items,
     Set<T>? selected,
-    Widget? title,
+    String? title,
     bool allowEmpty = true,
     bool multiSelect = false,
-    Widget? above,
-    Widget? below,
+    List<Widget>? aboveWidgets,
+    List<Widget>? belowWidgets,
   }) async {
     ChipChoiceGroup<T> group = ChipChoiceGroup(items: items, selected: selected, allowEmpty: allowEmpty, multiSelect: multiSelect, alignment: WrapAlignment.center);
 
-    return await showDialogX((b) {
-      b.title(title);
-      b.okCallback = () {
-        b.setResult(group.selected);
+    return showColumn(
+      onContent: (uc) {
+        uc.onValidate = () {
+          uc.setResult(group.selected);
+          return true;
+        };
+        return group;
+      },
+      title: title,
+      ok: true,
+      cancel: true,
+      aboveWidgets: aboveWidgets,
+      belowWidgets: belowWidgets,
+    );
+  }
+
+  Future<bool?> confirm({required String title, required String message, TextAlign? align = TextAlign.center}) async {
+    return showColumn(
+      onContent: (uc) => message.titleMedium(align: align).centered(),
+      title: title,
+      ok: true,
+      cancel: true,
+      onOK: (uc) {
+        uc.setResult(true);
         return true;
-      };
-      return b.buildColumn([if (above != null) above, group.centered(), if (below != null) below], ok: true, cancel: true);
-    });
+      },
+    );
   }
 
-  static Future<T?> columns<T>(
-    List<Widget> children, {
-    required Result<T> Function() validator,
+  Future<bool?> alert({required String title, required String message, TextAlign? align = TextAlign.center}) async {
+    return showColumn(
+      onContent: (uc) => message.titleMedium(align: align).centered(),
+      title: title,
+      ok: true,
+      onOK: (uc) {
+        uc.setResult(true);
+        return true;
+      },
+    );
+  }
+
+  Future<T?> showColumn<T>({
+    required UpdableBuilder onContent,
+    UpdableBuilder? onTitle,
+    UpdableBuilder? onActions,
+    bool Function(UpdatableContext)? onOK,
     String? title,
-    String? message,
-    bool? ok = true,
-    bool? cancel = true,
-    DialogWidth? dialogWidth,
-  }) async {
-    return await showDialogX((b) {
-      b.okCallback = () {
-        Result<T> r = validator.call();
-        if (r is Success<T>) {
-          b.setResult(r.value);
-        } else if (r is Failure) {
-          Toast.error(r.message);
-        }
-        return r.success;
+    bool ok = false,
+    bool cancel = false,
+    bool isContentScrollable = false,
+    EdgeInsets padding = const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+    List<Widget>? aboveWidgets,
+    List<Widget>? belowWidgets,
+  }) {
+    return showBuilder((uc) {
+      uc.onValidate = () {
+        return onOK?.call(uc) ?? true;
       };
-      return b.buildColumn(children, title: title, message: message, ok: ok, cancel: cancel, dialogWidth: dialogWidth);
+      Widget c = onContent(uc).padded(padding).constrainedBox(minWidth: CONTENT_MIN_WIDTH, minHeight: CONTENT_MIN_HEIGHT);
+      return ColumnMinStretch([
+        if (onTitle != null) onTitle(uc),
+        if (onTitle == null && title != null) titlePanel(uc, title: title.text()),
+        ...?aboveWidgets,
+        if (isContentScrollable) c.flexible() else c,
+        ...?belowWidgets,
+        if (onActions != null) onActions(uc),
+        if (onActions == null && (ok || cancel)) actionPanel(uc, [if (cancel) cancelAction("取消"), if (ok) okAction(uc, "确定")]),
+      ]).constrainedBox(minHeight: 80);
     });
   }
 
-  static Future<T?> showBuilder<T>(
+  Widget messageWidget(String message, {TextAlign? align = TextAlign.center}) {
+    return message.titleMedium(align: align).centered();
+  }
+
+  Widget cancelAction(String label, {Color? color}) {
+    return makeAction(label, () => globalContext.maybePop(), color: color);
+  }
+
+  Widget okAction(UpdatableContext updatableContext, String label, {Color? color}) {
+    return primaryAction(label, () {
+      if (updatableContext.onValidate()) {
+        updatableContext.popResult();
+      }
+    }, color: color);
+  }
+
+  Widget dangerAction(String label, VoidCallback onTap, {Color? color}) {
+    return makeAction(label, onTap, color: color ?? ACTION_DANGER_COLOR);
+  }
+
+  Widget primaryAction(String label, VoidCallback onTap, {Color? color}) {
+    return makeAction(label, onTap, color: color ?? globalContext.themeData.primaryColor);
+  }
+
+  Widget makeAction(String label, VoidCallback onTap, {Color? color}) {
+    if (color != null) {
+      return StadiumElevatedButton(child: label.text(), onPressed: onTap, fillColor: color).constrainedBox(minWidth: ACTION_MIN_WIDTH);
+    }
+    return StadiumOutlinedButton(child: label.text(), onPressed: onTap).constrainedBox(minWidth: ACTION_MIN_WIDTH);
+  }
+
+  Widget actionPanel(UpdatableContext uc, List<Widget> items) {
+    return RowMax(items, mainAxisAlignment: MainAxisAlignment.spaceAround)
+        .padded(xy(10, 8))
+        .shapeDecorated(
+          shape: Border(top: BorderSide(color: uc.themeData.dividerColor)),
+        );
+  }
+
+  Widget titlePanel(UpdatableContext uc, {Widget? left, Widget? title, Widget? right, bool closable = true}) {
+    var w = RowMax([
+      ?left,
+      ?title,
+      Spacer(),
+      ?right,
+      if (closable)
+        IconButton(
+          onPressed: () => uc.pop(),
+          icon: Icons.close.icon(size: 16, color: uc.themeData.colorScheme.onPrimary),
+        ),
+    ]).padded(edges(left: 16, right: 8, top: 4, bottom: 4)).coloredBox(uc.themeData.colorScheme.primary);
+    return DefaultTextStyle(
+      textAlign: TextAlign.left,
+      style: uc.themeData.textTheme.titleMedium!.copyWith(color: uc.themeData.colorScheme.onPrimary),
+      child: w,
+    );
+  }
+
+  Future<T?> showBuilder<T>(
     Widget Function(UpdatableContext uc) builder, {
     EdgeInsets? insetPadding,
     AlignmentGeometry? alignment,
@@ -708,8 +842,8 @@ class dialogs {
     double? elevation,
     Color? shadowColor,
     Color? surfaceTintColor,
-    Duration insetAnimationDuration = const Duration(milliseconds: 100),
-    Curve insetAnimationCurve = Curves.decelerate,
+    Duration? insetAnimationDuration,
+    Curve? insetAnimationCurve,
     ShapeBorder? shape,
     BoxConstraints? constraints,
   }) {
@@ -718,19 +852,34 @@ class dialogs {
     return showDialog<T>(
       context: globalContext,
       builder: (c) => Dialog(
-        insetPadding: insetPadding ?? defaultDialogInsets,
-        alignment: alignment ?? Alignment.center,
-        clipBehavior: clipBehavior,
-        backgroundColor: backgroundColor,
-        elevation: 4,
-        shadowColor: shadowColor,
-        surfaceTintColor: surfaceTintColor,
-        insetAnimationDuration: insetAnimationDuration,
-        insetAnimationCurve: insetAnimationCurve,
-        shape: shape,
-        constraints: constraints,
+        insetPadding: insetPadding ?? options.insetPadding,
+        alignment: alignment ?? options.alignment,
+        clipBehavior: clipBehavior ?? options.clipBehavior,
+        backgroundColor: backgroundColor ?? options.backgroundColor,
+        elevation: elevation ?? options.elevation,
+        shadowColor: shadowColor ?? options.shadowColor,
+        surfaceTintColor: surfaceTintColor ?? options.surfaceTintColor,
+        insetAnimationDuration: insetAnimationDuration ?? options.insetAnimationDuration,
+        insetAnimationCurve: insetAnimationCurve ?? options.insetAnimationCurve,
+        shape: shape ?? options.shape,
+        constraints: constraints ?? options.constraints,
         child: hb,
       ),
     );
   }
+}
+
+class DialogOptions {
+  Color? backgroundColor;
+  double? elevation;
+  Color? shadowColor;
+  Color? surfaceTintColor;
+  Duration insetAnimationDuration = const Duration(milliseconds: 100);
+  Curve insetAnimationCurve = Curves.decelerate;
+  EdgeInsets? insetPadding;
+  Clip? clipBehavior;
+  ShapeBorder? shape;
+  AlignmentGeometry? alignment;
+  Widget? child;
+  BoxConstraints? constraints;
 }

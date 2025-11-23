@@ -4,7 +4,7 @@ import 'package:entao_dutil/entao_dutil.dart';
 import 'package:flutter/material.dart';
 
 import '../basic/basic.dart';
-import '../dialog/dialog.dart';
+import '../dialog/dialogs.dart';
 import '../harewidget/harewidget.dart';
 
 class TreePath<T> extends HareWidget {
@@ -68,7 +68,7 @@ class TreePath<T> extends HareWidget {
     List<T> sibList = await _sibOf(item);
     if (sibList.isEmpty) return;
     if (sibList.length == 1 && sibList.first == item) return;
-    T? v = await dialogx.pickValue(sibList, onTitle: (a) => _onLabel(a).text());
+    T? v = await dialogs.pickValue(sibList, onTitle: (a) => _onLabel(a).text());
     if (v != null) {
       _paths.removeRange(idx, _paths.length);
       _paths.add(v);
@@ -104,7 +104,7 @@ class TreePath<T> extends HareWidget {
       updateState();
       _fireChanged();
     } else {
-      T? v = await dialogx.pickValue(chList, onTitle: (a) => _onLabel(a).text());
+      T? v = await dialogs.pickValue(chList, onTitle: (a) => _onLabel(a).text());
       if (v != null) {
         _paths.add(v);
         updateState();

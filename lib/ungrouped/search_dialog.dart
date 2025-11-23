@@ -5,18 +5,13 @@ import 'package:entao_dutil/entao_dutil.dart';
 import 'package:flutter/material.dart';
 
 import '../basic/basic.dart';
-import '../dialog/dialog.dart';
+import '../dialog/dialogs.dart';
 import '../harewidget/harewidget.dart';
 import '../widgets/widgets.dart';
 
 // enum LayoutStyle { list, wrap, grid }
 
-Future<T?> showSearchDialog<T>({
-  required Future<List<T>> Function(String input) onItems,
-  Widget Function(T item)? onItemView,
-  String? searchText,
-  Widget? title,
-}) async {
+Future<T?> showSearchDialog<T>({required Future<List<T>> Function(String input) onItems, Widget Function(T item)? onItemView, String? searchText, String? title}) async {
   var w = _SearchWidget<T>(onItems: onItems, onItemView: onItemView, searchText: searchText);
   return w.show(title: title);
 }
@@ -53,30 +48,27 @@ class _SearchWidget<T> extends HareWidget {
     }
   }
 
-  Future<T?> show({Widget? title}) async {
+  Future<T?> show({String? title}) async {
     await _queryItems();
-    return await showDialogX((b) {
-      b.title(title);
-      return b.buildColumn([this]);
-    });
+    return await dialogs.showColumn(
+      onContent: (uc) {
+        return this;
+      },
+      title: title,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> ws = _items.mapList((e) => _onItemView.call(e));
-    return ColumnMin([
-      _edit.padded(xy(16)),
-      space(height: 8),
-      ...ws,
-      space(height: 8),
-    ]).padded(xy(0, 0));
+    return ColumnMin([_edit.padded(xy(16)), space(height: 8), ...ws, space(height: 8)]).padded(xy(0, 0));
   }
 
   Widget _listItemView(T item) {
     return ListTile(
       title: item.toString().text(),
       onTap: () {
-        dialogx.pop(item);
+        dialogs.pop(item);
       },
     );
   }
