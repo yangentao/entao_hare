@@ -172,11 +172,13 @@ Column ColumnMax(
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
   TextBaseline? textBaseline,
+  double spacing = 0.0,
 }) {
   return Column(
     mainAxisSize: MainAxisSize.max,
     crossAxisAlignment: crossAxisAlignment,
     mainAxisAlignment: mainAxisAlignment,
+    spacing: spacing,
     children: children,
     textBaseline: textBaseline,
   );
@@ -187,11 +189,13 @@ Column ColumnMin(
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
   TextBaseline? textBaseline,
+  double spacing = 0.0,
 }) {
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: crossAxisAlignment,
     mainAxisAlignment: mainAxisAlignment,
+    spacing: spacing,
     children: children,
     textBaseline: textBaseline,
   );
@@ -201,12 +205,14 @@ Row RowMax(
   List<Widget> children, {
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  double spacing = 0,
   TextBaseline? textBaseline,
 }) {
   return Row(
     mainAxisSize: MainAxisSize.max,
     mainAxisAlignment: mainAxisAlignment,
     crossAxisAlignment: crossAxisAlignment,
+    spacing: spacing,
     children: children,
     textBaseline: textBaseline,
   );
@@ -218,12 +224,14 @@ Row RowMin(
   CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
   TextDirection? textDirection,
   TextBaseline? textBaseline,
+  double spacing = 0,
   VerticalDirection verticalDirection = VerticalDirection.down,
 }) {
   return Row(
     mainAxisSize: MainAxisSize.min,
     mainAxisAlignment: mainAxisAlignment,
     crossAxisAlignment: crossAxisAlignment,
+    spacing: spacing,
     children: children,
     textBaseline: textBaseline,
     textDirection: textDirection,
