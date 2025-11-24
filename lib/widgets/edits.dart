@@ -55,7 +55,7 @@ TextFormField EditText({
     focusNode: node,
     onTapOutside: onTapOutside ?? (e) => node.unfocus(),
     decoration:
-        decoration ??
+    decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -226,7 +226,7 @@ Widget EditInt({
     onTapOutside: (e) => node.unfocus(),
     cursorColor: cursorColor,
     decoration:
-        decoration ??
+    decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -287,7 +287,7 @@ Widget EditDouble({
     onTapOutside: (e) => node.unfocus(),
     cursorColor: cursorColor,
     decoration:
-        decoration ??
+    decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -300,3 +300,67 @@ Widget EditDouble({
         ),
   );
 }
+
+
+TextFormField EditArea({
+  TextEditingController? controller,
+  String? initialValue,
+  String? label,
+  String? hint,
+  int? minLength,
+  int maxLength = 256,
+  bool allowEmpty = true,
+  FuncString? onSubmitted,
+  Widget? prefixIcon,
+  String? helperText,
+  String? errorText,
+  Widget? suffixIcon,
+  Color? cursorColor,
+  TextValidator? validator,
+  List<TextInputFormatter>? inputFormatters,
+  FocusNode? focusNode,
+  bool autofocus = false,
+  int? maxLines = 6,
+  int? minLines = 3,
+  bool readonly = false,
+  InputDecoration? decoration,
+  void Function(String)? onChanged,
+  void Function(PointerDownEvent)? onTapOutside,
+}) {
+  TextEditingController c = controller ?? TextEditingController(text: initialValue);
+  FocusNode node = focusNode ?? FocusNode();
+  var lv = LengthValidator(minLength: minLength ?? 0, maxLength: maxLength, allowEmpty: allowEmpty);
+  TextValidator tv = validator == null ? lv : ListValidator([validator, lv]);
+
+  return TextFormField(
+    key: UniqueKey(),
+    controller: c,
+    maxLength: maxLength,
+    validator: tv,
+    maxLines: maxLines,
+    minLines: minLines,
+    onFieldSubmitted: onSubmitted,
+    onChanged: onChanged,
+    textAlign: TextAlign.start,
+    keyboardType: TextInputType.multiline,
+    textInputAction: TextInputAction.newline,
+    inputFormatters: inputFormatters,
+    readOnly: readonly,
+    autofocus: autofocus,
+    cursorColor: cursorColor,
+    focusNode: node,
+    onTapOutside: onTapOutside ?? (e) => node.unfocus(),
+    decoration:
+    decoration ??
+        InputDecoration(
+          labelText: label,
+          hintText: hint,
+          counterText: "",
+          prefixIcon: prefixIcon,
+          helperText: helperText,
+          errorText: errorText,
+          border: OutlineInputBorder(),
+        ),
+  );
+}
+

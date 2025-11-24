@@ -27,7 +27,7 @@ class ChipChoiceGroup<T> extends HareWidget {
   })  : selectedColor = selectedColor ?? selectedColorDefault,
         super() {
     if (selected != null) this.selected.addAll(selected);
-    if (!allowEmpty && this.selected.isEmpty) error("allowEmpty=false, but selected is empty.");
+    if (!allowEmpty && this.selected.isEmpty) raise("allowEmpty=false, but selected is empty.");
   }
 
   bool _contains(T value) => selected.contains(value);

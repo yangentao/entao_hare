@@ -16,7 +16,7 @@ abstract class HareWidget extends StatefulWidget {
     if (holder.state != null) {
       return holder.state!.context;
     }
-    error("widget state has not created");
+    raise("widget state has not created");
   }
 
   void postCreate() {}

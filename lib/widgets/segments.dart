@@ -75,7 +75,7 @@ abstract class AbstractSegments<V> extends HareWidget {
       case LabelPosition.topLeft:
         return ColumnMin([label!, _make()], mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch);
       default:
-        error("Bad Label Position");
+        raise("Bad Label Position");
     }
   }
 }

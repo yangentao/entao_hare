@@ -24,15 +24,7 @@ class XDataTable<T> extends HareWidget {
   void Function(T)? onRowSecondaryTap;
   void Function(T)? onRowDoubleTap;
 
-  XDataTable({
-    required this.items,
-    this.delegate,
-    this.sorter,
-    this.selector,
-    this.onRowLongPress,
-    this.onRowSecondaryTap,
-    this.onRowDoubleTap,
-  }) : super() {
+  XDataTable({required this.items, this.delegate, this.sorter, this.selector, this.onRowLongPress, this.onRowSecondaryTap, this.onRowDoubleTap}) : super() {
     this.delegate?.attach(this);
     this.sorter?.attach(this);
     this.selector?.attach(this);
@@ -59,11 +51,11 @@ class XDataTable<T> extends HareWidget {
   }
 
   List<DataColumnY> buildColumns(BuildContext context) {
-    return delegate?.buildColumns(context) ?? error("NO implement: buildColumns");
+    return delegate?.buildColumns(context) ?? raise("NO implement: buildColumns");
   }
 
   List<DataCellY> buildCells(ContextIndexItem<T> c) {
-    return delegate?.buildCells(c) ?? error("NO implement: buildCells");
+    return delegate?.buildCells(c) ?? raise("NO implement: buildCells");
   }
 
   DataRowY buildRow(ContextIndexItem<T> c) {
@@ -192,13 +184,13 @@ class DataColumnCell<T> {
     Widget Function(ContextIndexItem<T>)? cellWidget,
     Object? Function(ContextIndexItem<T>)? cellProp,
     this.footerBuilder,
-  })  : column = DataColumnY(label: label, tooltip: tooltip, numeric: numeric, instrict: instrict, onSort: onSort, width: width, alignment: alignment),
-        assert(cell != null || cellProp != null || cellWidget != null),
-        this.builder = cell ?? _makeCellBuilder(cellWidget, cellProp);
+  }) : column = DataColumnY(label: label, tooltip: tooltip, numeric: numeric, instrict: instrict, onSort: onSort, width: width, alignment: alignment),
+       assert(cell != null || cellProp != null || cellWidget != null),
+       this.builder = cell ?? _makeCellBuilder(cellWidget, cellProp);
 
   static DataCellY Function(ContextIndexItem<E>) _makeCellBuilder<E>(Widget Function(ContextIndexItem<E>)? cellWidget, Object? Function(ContextIndexItem<E>)? onProp) {
     if (cellWidget != null) return (c) => DataCellY(cellWidget.call(c));
     if (onProp != null) return (c) => DataCellY(onProp.call(c)?.toString().text() ?? space(width: 8));
-    error("NO cell builder given!");
+    raise("NO cell builder given!");
   }
 }

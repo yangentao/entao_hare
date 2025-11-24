@@ -101,7 +101,7 @@ class PreferProvider extends AttributeProvider {
       case List<String> _:
         prefer.setStringList(key, value);
       default:
-        error("Not support type, LocalStore.setValue: $key, $value");
+        raise("Not support type, LocalStore.setValue: $key, $value");
     }
   }
 
