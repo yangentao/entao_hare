@@ -3,6 +3,7 @@ library;
 import 'dart:async';
 
 import 'package:entao_dutil/entao_dutil.dart';
+import 'package:entao_message/entao_message.dart';
 import 'package:flutter/material.dart';
 
 import '../basic/basic.dart';
