@@ -281,6 +281,7 @@ class Dialogs {
       cancel: true,
       padding: edges(hor: 16, ver: 16),
       onContent: (uc) {
+        value = value.clamp(minValue, maxValue);
         if (!uc.hasResult) {
           uc.setResult(value);
         }

@@ -2,6 +2,7 @@
 part of 'widgets.dart';
 
 TextFormField EditText({
+  Key? key,
   TextEditingController? controller,
   ValueListener<String>? valueListener,
   String? initialValue,
@@ -14,7 +15,7 @@ TextFormField EditText({
   Widget? prefixIcon,
   String? helperText,
   String? errorText,
-  bool clear = true,
+  bool clear = false,
   Widget? suffixIcon,
   Color? cursorColor,
   TextValidator? validator,
@@ -37,7 +38,7 @@ TextFormField EditText({
   TextValidator tv = validator == null ? lv : ListValidator([validator, lv]);
 
   return TextFormField(
-    key: UniqueKey(),
+    key: key ?? UniqueKey(),
     controller: c,
     maxLength: maxLength,
     validator: tv,
@@ -55,7 +56,7 @@ TextFormField EditText({
     focusNode: node,
     onTapOutside: onTapOutside ?? (e) => node.unfocus(),
     decoration:
-    decoration ??
+        decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -69,6 +70,7 @@ TextFormField EditText({
 }
 
 Widget EditPassword({
+  Key? key,
   required ValueListener<bool> eyeListener,
   ValueListener<String>? valueListener,
   TextEditingController? controller,
@@ -89,7 +91,7 @@ Widget EditPassword({
   TextEditingController c = controller ?? TextEditingController(text: initialValue ?? valueListener?.value);
   FocusNode node = focusNode ?? FocusNode();
   return TextFormField(
-    key: UniqueKey(),
+    key: key ?? UniqueKey(),
     initialValue: null,
     controller: c,
     cursorColor: cursorColor,
@@ -226,7 +228,7 @@ Widget EditInt({
     onTapOutside: (e) => node.unfocus(),
     cursorColor: cursorColor,
     decoration:
-    decoration ??
+        decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -287,7 +289,7 @@ Widget EditDouble({
     onTapOutside: (e) => node.unfocus(),
     cursorColor: cursorColor,
     decoration:
-    decoration ??
+        decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -301,8 +303,8 @@ Widget EditDouble({
   );
 }
 
-
 TextFormField EditArea({
+  Key? key,
   TextEditingController? controller,
   String? initialValue,
   String? label,
@@ -333,7 +335,7 @@ TextFormField EditArea({
   TextValidator tv = validator == null ? lv : ListValidator([validator, lv]);
 
   return TextFormField(
-    key: UniqueKey(),
+    key: key ?? UniqueKey(),
     controller: c,
     maxLength: maxLength,
     validator: tv,
@@ -351,7 +353,7 @@ TextFormField EditArea({
     focusNode: node,
     onTapOutside: onTapOutside ?? (e) => node.unfocus(),
     decoration:
-    decoration ??
+        decoration ??
         InputDecoration(
           labelText: label,
           hintText: hint,
@@ -363,4 +365,3 @@ TextFormField EditArea({
         ),
   );
 }
-

@@ -32,16 +32,32 @@ part 'slider.dart';
 part 'snack.dart';
 
 extension ScrollControllerExt on ScrollController {
-  void jumpBottom() {
-    postFrame(() {
-      this.jumpTo(this.position.maxScrollExtent);
-    });
+  void jumpBottom({int delay = 0}) {
+    if (delay > 0) {
+      Future.delayed(Duration(milliseconds: delay), () {
+        postFrame(() {
+          this.jumpTo(this.position.maxScrollExtent);
+        });
+      });
+    } else {
+      postFrame(() {
+        this.jumpTo(this.position.maxScrollExtent);
+      });
+    }
   }
 
-  void jumpTop() {
-    postFrame(() {
-      this.jumpTo(this.position.minScrollExtent);
-    });
+  void jumpTop({int delay = 0}) {
+    if (delay > 0) {
+      Future.delayed(Duration(milliseconds: delay), () {
+        postFrame(() {
+          this.jumpTo(this.position.minScrollExtent);
+        });
+      });
+    } else {
+      postFrame(() {
+        this.jumpTo(this.position.minScrollExtent);
+      });
+    }
   }
 }
 
