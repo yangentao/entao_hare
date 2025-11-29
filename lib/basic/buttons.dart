@@ -74,7 +74,7 @@ extension StringButtonsExt on String {
     );
   }
 
-  Widget textButton(VoidCallback? onPressed, {Color? color}) {
+  Widget buttonText(VoidCallback? onPressed, {Color? color}) {
     return TextButton(
       onPressed: onPressed,
       child: text(color: color),

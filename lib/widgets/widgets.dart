@@ -30,6 +30,8 @@ part 'radios.dart';
 part 'segments.dart';
 part 'slider.dart';
 part 'snack.dart';
+part 'TipText.dart';
+part 'form.dart';
 
 extension ScrollControllerExt on ScrollController {
   void jumpBottom({int delay = 0}) {

@@ -93,7 +93,7 @@ class XAction {
     }).also((e) => _widget = e);
   }
 
-  HareWidget textButton() {
+  HareWidget buttonText() {
     return HareBuilder((c) {
       return TextButton(onPressed: enable ? onclick : null, child: display?.call(this) ?? titleWidget);
     }).also((e) => _widget = e);
@@ -107,7 +107,7 @@ class XAction {
 
   HareWidget button() {
     if (hasIcon) return iconButton();
-    return textButton();
+    return buttonText();
   }
 
   HareWidget chip({bool noIcon = true}) {
