@@ -42,7 +42,7 @@ class EnListView<T> extends StatelessWidget {
     ScrollController? controller,
     this.primary,
     this.physics = const AlwaysScrollableScrollPhysics(),
-    this.shrinkWrap = true,
+    this.shrinkWrap = false,
     this.padding,
     this.itemExtent,
     this.itemExtentBuilder,
@@ -57,9 +57,9 @@ class EnListView<T> extends StatelessWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     super.key,
-  })  : this.controller = controller ?? ScrollController(),
-        this.separatorBuilder = _makeSepBuilder(separatorBuilder, separator, separatorIndentStart, separatorIndentEnd),
-        super() {
+  }) : this.controller = controller ?? ScrollController(),
+       this.separatorBuilder = _makeSepBuilder(separatorBuilder, separator, separatorIndentStart, separatorIndentEnd),
+       super() {
     if (onLoadMore != null) {
       this.controller.addListener(_checkScrollBottom);
     }
@@ -75,7 +75,7 @@ class EnListView<T> extends StatelessWidget {
     var pos = controller.position;
     double maxPos = pos.maxScrollExtent;
     double current = pos.pixels;
-    if (current == maxPos) {
+    if (current >= maxPos) {
       int now = DateTime.now().millisecondsSinceEpoch;
       if (now - _preLoadMoreTime > 1000) {
         _preLoadMoreTime = now;
@@ -148,7 +148,7 @@ class EnListView<T> extends StatelessWidget {
     return lv.refreshIndicator(onRefresh: onRefresh!);
   }
 }
-
+// TODO no global
 int _preLoadMoreTime = 0;
 bool _waitingMore = false;
 

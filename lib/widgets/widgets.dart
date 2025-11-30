@@ -16,10 +16,12 @@ part 'AmplitudeWidget.dart';
 part 'AsyncBuilder.dart';
 part 'FlipCard.dart';
 part 'PaintWidget.dart';
+part 'TipText.dart';
 part 'actions.dart';
 part 'auto_complete.dart';
 part 'chips.dart';
 part 'edits.dart';
+part 'form.dart';
 part 'hare_button.dart';
 part 'hare_edit.dart';
 part 'hare_text.dart';
@@ -30,8 +32,6 @@ part 'radios.dart';
 part 'segments.dart';
 part 'slider.dart';
 part 'snack.dart';
-part 'TipText.dart';
-part 'form.dart';
 
 extension ScrollControllerExt on ScrollController {
   void jumpBottom({int delay = 0}) {
@@ -98,6 +98,29 @@ class QuickScrollPhysics extends ScrollPhysics {
 
   @override
   SpringDescription get spring => SpringDescription.withDampingRatio(mass: 0.1, stiffness: 100, ratio: 1);
+}
+
+class PositionRetainedScrollPhysics extends ScrollPhysics {
+  const PositionRetainedScrollPhysics({super.parent});
+
+  @override
+  PositionRetainedScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return PositionRetainedScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  double adjustPositionForNewDimensions({required ScrollMetrics oldPosition, required ScrollMetrics newPosition, required bool isScrolling, required double velocity}) {
+    final position = super.adjustPositionForNewDimensions(oldPosition: oldPosition, newPosition: newPosition, isScrolling: isScrolling, velocity: velocity);
+    if (isScrolling) return position;
+
+    final diff = newPosition.maxScrollExtent - oldPosition.maxScrollExtent;
+
+    if (oldPosition.pixels > oldPosition.minScrollExtent && diff > 0) {
+      return position + diff;
+    } else {
+      return position;
+    }
+  }
 }
 
 extension WidgetPopButtonExt on Widget {
