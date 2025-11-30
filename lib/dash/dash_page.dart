@@ -58,7 +58,9 @@ abstract class DashPage extends HareWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool showBack = Navigator.of(context).canPop();
+
+    bool showBack = ModalRoute.of(context)?.canPop ?? false ;
+    // bool showBack = Navigator.of(context).canPop();
 
     Drawer? thisDrawer = buildDrawer(context);
     // bool largeScreen = context.largeScreen;
