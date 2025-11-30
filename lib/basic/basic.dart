@@ -42,7 +42,7 @@ part "utils/TipMessage.dart";
 part 'utils/plat.dart';
 part 'utils/validator.dart';
 part 'value_listener.dart';
-
+part 'XListView.dart';
 extension IntMinMaxExt on int {
   static const int minValue = (kIsWasm || kIsWeb) ? -9007199254740992 : -9223372036854775808;
 

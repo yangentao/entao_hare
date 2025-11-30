@@ -1,5 +1,6 @@
 part of 'basic.dart';
 
+@Deprecated("Use XListView instead.")
 class EnListView<T> extends StatelessWidget {
   final int? itemCount;
   final NullableIndexedWidgetBuilder? itemBuilder;
@@ -148,6 +149,7 @@ class EnListView<T> extends StatelessWidget {
     return lv.refreshIndicator(onRefresh: onRefresh!);
   }
 }
+
 // TODO no global
 int _preLoadMoreTime = 0;
 bool _waitingMore = false;
