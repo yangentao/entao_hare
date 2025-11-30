@@ -15,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:println/println.dart';
 
-part 'ItemsGridView.dart';
 part 'ScrollLoading.dart';
 part 'XGridDelegate.dart';
 part 'XGridView.dart';
@@ -29,9 +28,8 @@ part 'context.dart';
 part 'data_widget.dart';
 part 'define.dart';
 part 'dimension.dart';
-part 'grid_tile.dart';
+part 'XGridTile.dart';
 part 'hare_layout.dart';
-part 'listview.dart';
 part 'loading.dart';
 part 'options.dart';
 part 'overlay.dart';

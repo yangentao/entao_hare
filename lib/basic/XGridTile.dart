@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 part of 'basic.dart';
 
-class GridTileX extends StatelessWidget {
+class XGridTile extends StatelessWidget {
   Widget child;
   Widget? bottomLeft;
   Widget? bottomRight;
@@ -16,7 +16,7 @@ class GridTileX extends StatelessWidget {
   double fontSize;
   double autoBias;
 
-  GridTileX({
+  XGridTile({
     super.key,
     required this.child,
     this.bottomLeft,

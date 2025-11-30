@@ -80,7 +80,7 @@ class ThemePalette {
     showModalBottomSheet(
       context: context,
       builder: (ctx) {
-        return ItemsGridView(
+        return XGridView(
           items: themeList,
           itemView: (c) => (c.item.onDisplay?.call(ctx) ?? c.item._displayWidget()).container().inkWell(
             onTap: () {

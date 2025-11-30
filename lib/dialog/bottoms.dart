@@ -354,7 +354,7 @@ class bottoms {
     EdgeInsets? padding,
   }) {
     return showModal((ctx) {
-      return ItemsGridView(
+      return XGridView(
         items: items,
         itemView: (c) {
           bool check = selected == c.item;

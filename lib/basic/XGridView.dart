@@ -1,7 +1,10 @@
 part of 'basic.dart';
 
-GridView XGridView({
-  required NullableIndexedWidgetBuilder itemBuilder,
+GridView XGridView<T>({
+  List<T>? items,
+  Widget Function(ContextIndexItem<T>)? itemView,
+  NullableIndexedWidgetBuilder? itemBuilder,
+  bool shrinkWrap = false,
   int? itemCount,
   Key? key,
   Axis scrollDirection = Axis.vertical,
@@ -9,7 +12,6 @@ GridView XGridView({
   ScrollController? controller,
   bool? primary,
   ScrollPhysics? physics,
-  required bool shrinkWrap,
   EdgeInsetsGeometry? padding,
   int? columnCount,
   int? crossAxisCount,
@@ -39,10 +41,16 @@ GridView XGridView({
     mainAxisExtent: mainAxisExtent,
     flexPercent: flexPercent,
   );
+
   SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
-    (c, i) => itemBuilder(c, i),
+    (c, i) {
+      if (items != null && itemView != null && i < items.length) {
+        return itemView(ContextIndexItem(c, i, items[i])).container(key: ObjectKey(items[i]));
+      }
+      return itemBuilder?.call(c, i);
+    },
     findChildIndexCallback: findChildIndexCallback,
-    childCount: itemCount,
+    childCount: itemCount ?? items?.length,
     addAutomaticKeepAlives: addAutomaticKeepAlives,
     addRepaintBoundaries: addRepaintBoundaries,
     addSemanticIndexes: addSemanticIndexes,

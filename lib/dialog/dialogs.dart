@@ -10,9 +10,7 @@ import '../harepage/harepage.dart';
 import '../harewidget/harewidget.dart';
 import '../widgets/widgets.dart';
 
-
 final dialogs = Dialogs();
-
 
 class Dialogs {
   double ACTION_MIN_WIDTH = 80;
@@ -429,7 +427,7 @@ class Dialogs {
         if (!uc.hasResult) {
           uc.setResult(selected);
         }
-        return ItemsGridView(
+        return XGridView(
           columnCount: columnCount,
           crossAxisExtent: itemWidth,
           mainAxisExtent: itemHeight,
@@ -515,7 +513,7 @@ class Dialogs {
         }
 
         if (!uc.hasResult) uc.setResult(resultSet);
-        return ItemsGridView(
+        return XGridView(
           columnCount: columnCount,
           crossAxisExtent: itemWidth,
           mainAxisExtent: itemHeight,
