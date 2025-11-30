@@ -83,3 +83,7 @@
 ## 2.0.5
 * Result
 * remove http dependence
+
+## 2.1.0
+* rename EnListView to XListView
+* rename EnGridView and GridViewBuilder to XGridView
