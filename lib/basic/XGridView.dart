@@ -1,8 +1,8 @@
 part of 'basic.dart';
 
-GridView EnGridView<T>({
-  required List<T> items,
-  required Widget Function(ContextIndexItem<T>) itemView,
+GridView XGridView({
+  required NullableIndexedWidgetBuilder itemBuilder,
+  int? itemCount,
   Key? key,
   Axis scrollDirection = Axis.vertical,
   bool reverse = false,
@@ -10,13 +10,13 @@ GridView EnGridView<T>({
   bool? primary,
   ScrollPhysics? physics,
   required bool shrinkWrap,
-  EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+  EdgeInsetsGeometry? padding,
   int? columnCount,
   int? crossAxisCount,
   double crossAxisExtent = 80,
-  double flexPercent = 0.2,
-  double mainAxisSpacing = 8,
-  double crossAxisSpacing = 8,
+  double flexPercent = 0.15,
+  double mainAxisSpacing = 0.0,
+  double crossAxisSpacing = 0.0,
   double childAspectRatio = 1.0,
   double? mainAxisExtent,
   bool addAutomaticKeepAlives = true,
@@ -30,7 +30,7 @@ GridView EnGridView<T>({
   String? restorationId,
   Clip clipBehavior = Clip.hardEdge,
 }) {
-  GridDelegateX gridDelegate = GridDelegateX(
+  XGridDelegate gridDelegate = XGridDelegate(
     columnCount: crossAxisCount ?? columnCount ?? 0,
     crossAxisExtent: crossAxisExtent,
     mainAxisSpacing: mainAxisSpacing,
@@ -40,9 +40,9 @@ GridView EnGridView<T>({
     flexPercent: flexPercent,
   );
   SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
-    (c, i) => i >= items.length ? null : itemView(ContextIndexItem(c, i, items[i])).container(key: ObjectKey(items[i])),
+    (c, i) => itemBuilder(c, i),
     findChildIndexCallback: findChildIndexCallback,
-    childCount: items.length,
+    childCount: itemCount,
     addAutomaticKeepAlives: addAutomaticKeepAlives,
     addRepaintBoundaries: addRepaintBoundaries,
     addSemanticIndexes: addSemanticIndexes,

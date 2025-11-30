@@ -13,6 +13,7 @@ class TipText extends HareWidget {
   final Locale? _locale;
   TipMessage? _tip;
 
+  // ignore: use_key_in_widget_constructors
   TipText(
     this._tip, {
     TextAlign? align,

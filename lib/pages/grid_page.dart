@@ -17,7 +17,7 @@ abstract class GridPage<T> extends CollectionPage<T> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return EnGridView(
+    return ItemsGridView(
       shrinkWrap: true,
       padding: padding,
       crossAxisExtent: crossAxisExtent,

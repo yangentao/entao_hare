@@ -2,15 +2,18 @@
 part of 'pages.dart';
 
 abstract class ListPage<T> extends CollectionPage<T> {
+  ScrollController scrollController = ScrollController();
   bool separated = true;
   double separatorIndentStart = 0;
   double separatorIndentEnd = 0;
   EdgeInsets? listPadding;
-  ScrollController scrollController = ScrollController();
+  bool topLoading = true;
+
+  bool bottomLoading = false;
 
   ListPage() : super();
 
-  FutureOr<void> onLoadMore() async {}
+  Future<void> onLoadMore() async {}
 
   Widget? onLastItemView(BuildContext context) {
     return null;
@@ -20,7 +23,7 @@ abstract class ListPage<T> extends CollectionPage<T> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return EnListView(
+    ListView w = XListView(
       items: itemList,
       itemView: onItemView,
       lastItemView: onLastItemView,
@@ -29,9 +32,13 @@ abstract class ListPage<T> extends CollectionPage<T> {
       separator: separated,
       separatorIndentStart: separatorIndentStart,
       separatorIndentEnd: separatorIndentEnd,
-      onRefresh: refreshItems,
-      onLoadMore: onLoadMore,
       controller: scrollController,
     );
+
+    if (topLoading || bottomLoading) {
+      return w.scrollLoading(onTopStart: topLoading ? refreshItems : null, onBottomStart: bottomLoading ? onLoadMore : null);
+    } else {
+      return w;
+    }
   }
 }

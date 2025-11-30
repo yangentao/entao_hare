@@ -1,22 +1,22 @@
 part of 'basic.dart';
 
-GridView XGridViewBuilder({
-  required NullableIndexedWidgetBuilder itemBuilder,
-  int? itemCount,
+GridView ItemsGridView<T>({
+  required List<T> items,
+  required Widget Function(ContextIndexItem<T>) itemView,
+  required bool shrinkWrap,
   Key? key,
   Axis scrollDirection = Axis.vertical,
   bool reverse = false,
   ScrollController? controller,
   bool? primary,
   ScrollPhysics? physics,
-  required bool shrinkWrap,
-  EdgeInsetsGeometry? padding,
+  EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
   int? columnCount,
   int? crossAxisCount,
   double crossAxisExtent = 80,
-  double flexPercent = 0.15,
-  double mainAxisSpacing = 0.0,
-  double crossAxisSpacing = 0.0,
+  double flexPercent = 0.2,
+  double mainAxisSpacing = 8,
+  double crossAxisSpacing = 8,
   double childAspectRatio = 1.0,
   double? mainAxisExtent,
   bool addAutomaticKeepAlives = true,
@@ -30,7 +30,7 @@ GridView XGridViewBuilder({
   String? restorationId,
   Clip clipBehavior = Clip.hardEdge,
 }) {
-  GridDelegateX gridDelegate = GridDelegateX(
+  XGridDelegate gridDelegate = XGridDelegate(
     columnCount: crossAxisCount ?? columnCount ?? 0,
     crossAxisExtent: crossAxisExtent,
     mainAxisSpacing: mainAxisSpacing,
@@ -40,9 +40,9 @@ GridView XGridViewBuilder({
     flexPercent: flexPercent,
   );
   SliverChildDelegate childrenDelegate = SliverChildBuilderDelegate(
-    (c, i) => itemBuilder(c, i),
+    (c, i) => i >= items.length ? null : itemView(ContextIndexItem(c, i, items[i])).container(key: ObjectKey(items[i])),
     findChildIndexCallback: findChildIndexCallback,
-    childCount: itemCount,
+    childCount: items.length,
     addAutomaticKeepAlives: addAutomaticKeepAlives,
     addRepaintBoundaries: addRepaintBoundaries,
     addSemanticIndexes: addSemanticIndexes,

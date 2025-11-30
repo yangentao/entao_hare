@@ -429,7 +429,7 @@ class Dialogs {
         if (!uc.hasResult) {
           uc.setResult(selected);
         }
-        return EnGridView(
+        return ItemsGridView(
           columnCount: columnCount,
           crossAxisExtent: itemWidth,
           mainAxisExtent: itemHeight,
@@ -515,7 +515,7 @@ class Dialogs {
         }
 
         if (!uc.hasResult) uc.setResult(resultSet);
-        return EnGridView(
+        return ItemsGridView(
           columnCount: columnCount,
           crossAxisExtent: itemWidth,
           mainAxisExtent: itemHeight,
@@ -579,7 +579,7 @@ class Dialogs {
       padding: EdgeInsets.all(0),
       onContent: (uc) {
         if (!uc.hasResult) uc.setResult(selected);
-        return EnListView(
+        return XListView(
           items: items,
           shrinkWrap: true,
           padding: padding,
@@ -647,7 +647,7 @@ class Dialogs {
         }
 
         if (!uc.hasResult) uc.setResult(resultSet);
-        return EnListView(
+        return XListView(
           items: items,
           shrinkWrap: true,
           padding: padding,

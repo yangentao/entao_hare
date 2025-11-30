@@ -1,7 +1,7 @@
 part of 'basic.dart';
 
-class GridDelegateX extends SliverGridDelegate {
-  const GridDelegateX({
+class XGridDelegate extends SliverGridDelegate {
+  const XGridDelegate({
     this.crossAxisExtent = 0,
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
@@ -76,7 +76,7 @@ class GridDelegateX extends SliverGridDelegate {
   }
 
   @override
-  bool shouldRelayout(GridDelegateX oldDelegate) {
+  bool shouldRelayout(XGridDelegate oldDelegate) {
     return oldDelegate.crossAxisExtent != crossAxisExtent ||
         oldDelegate.mainAxisSpacing != mainAxisSpacing ||
         oldDelegate.crossAxisSpacing != crossAxisSpacing ||

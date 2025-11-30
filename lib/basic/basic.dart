@@ -15,6 +15,11 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:println/println.dart';
 
+part 'ItemsGridView.dart';
+part 'ScrollLoading.dart';
+part 'XGridDelegate.dart';
+part 'XGridView.dart';
+part 'XListView.dart';
 part 'actions.dart';
 part 'bits.dart';
 part 'buttons.dart';
@@ -24,9 +29,6 @@ part 'context.dart';
 part 'data_widget.dart';
 part 'define.dart';
 part 'dimension.dart';
-part 'grid_builder.dart';
-part 'grid_delegate.dart';
-part 'grid_items.dart';
 part 'grid_tile.dart';
 part 'hare_layout.dart';
 part 'listview.dart';
@@ -42,7 +44,7 @@ part "utils/TipMessage.dart";
 part 'utils/plat.dart';
 part 'utils/validator.dart';
 part 'value_listener.dart';
-part 'XListView.dart';
+
 extension IntMinMaxExt on int {
   static const int minValue = (kIsWasm || kIsWeb) ? -9007199254740992 : -9223372036854775808;
 
@@ -101,3 +103,84 @@ extension ListIndexItemExt<T> on List<T> {
   }
 }
 
+class LimitList<T> extends Iterable<T> {
+  final int limit;
+  final List<T> _list = [];
+
+  LimitList(this.limit, {List<T>? values}) {
+    if (values != null && values.isNotEmpty) {
+      if (values.length <= limit) {
+        _list.addAll(values);
+      } else {
+        _list.addAll(values.sublist(values.length - limit));
+      }
+    }
+  }
+
+  @override
+  int get length => _list.length;
+
+  @override
+  bool get isEmpty => _list.isEmpty;
+
+  @override
+  bool get isNotEmpty => _list.isNotEmpty;
+
+  int backCount(bool Function(T) test) {
+    int n = 0;
+    for (T e in _list.reversed) {
+      if (test(e)) {
+        n += 1;
+      } else {
+        return n;
+      }
+    }
+    return n;
+  }
+
+  void clear() => _list.clear();
+
+  T removeAt(int index) {
+    return _list.removeAt(index);
+  }
+
+  bool removeFirst(T value) {
+    return _list.remove(value);
+  }
+
+  void removeAll(bool Function(T) test) {
+    _list.removeWhere(test);
+  }
+
+  T operator [](int index) {
+    return _list[index];
+  }
+
+  void operator []=(int index, T value) {
+    _list[index] = value;
+    _checkLength();
+  }
+
+  T? getOr(int index) {
+    return _list.getOr(index);
+  }
+
+  void add(T value) {
+    _list.add(value);
+    _checkLength();
+  }
+
+  void addAll(Iterable<T> values) {
+    _list.addAll(values);
+    _checkLength();
+  }
+
+  void _checkLength() {
+    if (_list.length > limit) {
+      _list.removeRange(0, _list.length - limit);
+    }
+  }
+
+  @override
+  Iterator<T> get iterator => _list.iterator;
+}
