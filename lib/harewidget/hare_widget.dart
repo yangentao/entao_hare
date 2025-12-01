@@ -53,7 +53,7 @@ abstract class HareWidget extends StatefulWidget {
 class HareWidgetState extends State<HareWidget> {
   void _updateState(VoidCallback c) {
     if (mounted) {
-      setState(c);
+      postFrame(() => setState(c));
     }
   }
 
