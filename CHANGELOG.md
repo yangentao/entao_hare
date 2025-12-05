@@ -87,3 +87,6 @@
 ## 2.1.0
 * rename EnListView to XListView
 * rename EnGridView and GridViewBuilder to XGridView
+
+## 2.2.0
+* replace Result with XResult

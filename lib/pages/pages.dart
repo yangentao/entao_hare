@@ -8,7 +8,6 @@ import 'package:entao_hare/key_attr/key_attr.dart';
 import 'package:entao_log/entao_log.dart';
 import 'package:entao_message/entao_message.dart';
 import 'package:entao_range/entao_range.dart';
-import 'package:entao_result/entao_result.dart';
 import 'package:flutter/material.dart';
 
 import '../basic/basic.dart';
@@ -31,10 +30,10 @@ part 'tabbar_page.dart';
 part 'table_page.dart';
 part 'table_single_page.dart';
 
-extension ResultShowErrorExt on Result {
+extension ResultShowErrorExt on XResult {
   void showError() {
-    if (this case Failure e) {
-      Toast.error(e.message);
+    if (this.failed) {
+      Toast.error(this.error.message);
     }
   }
 }

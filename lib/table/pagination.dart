@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 part of 'table.dart';
 
-extension SuccessOffsetExt on Success {
+extension SuccessOffsetExt on XSuccess {
   int? get offset {
     if (this.extra case {"offset": int n}) return n;
     return null;
@@ -19,7 +19,7 @@ extension SuccessOffsetExt on Success {
 }
 
 extension PaginationListResultExt on XPagination {
-  void updateByItemsResult(Success lr) {
+  void updateByItemsResult(XSuccess lr) {
     this.update(total: lr.totalOrSize, offset: lr.offset);
   }
 }

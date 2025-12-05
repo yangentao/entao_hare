@@ -1,6 +1,6 @@
 name: entao_hare
 description: "Flutter basic utils"
-version: 2.1.0
+version: 2.2.0
 repository: https://github.com/yangentao/entao_hare
 homepage: https://github.com/yangentao/entao_hare
 
@@ -15,10 +15,9 @@ dependencies:
   println: ^1.0.4
   any_call: ^1.0.1
 
-  entao_dutil: ^2.2.4
+  entao_dutil: ^2.3.0
   entao_log: ^1.2.8
-  entao_range: ^1.0.2
-  entao_result: ^1.0.4
+  entao_range: ^1.0.5
   entao_message: ^1.0.2
 
   shared_preferences: ^2.5.3
@@ -26,9 +25,6 @@ dependencies:
   crypto: ^3.0.6
   package_info_plus: ^9.0.0
   web_socket: ^1.0.1
-
-#  entao_message:
-#    path: "../../github/DartPackages/packages/entao_message"
 
 
 dev_dependencies:
