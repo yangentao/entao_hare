@@ -18,26 +18,27 @@ extension WidgetPopExt on Widget {
     }
 
     return PopMenu<XAction>(
-        child: this,
-        builder: builder,
-        onSelected: (a) => a.onclick(),
-        onCanceled: onCanceled,
-        initialValue: null,
-        enable: enable,
-        popOnTap: popOnTap,
-        popOnLongPress: popOnLongPress,
-        popOnRightClick: popOnRightClick,
-        useRootNavigator: useRootNavigator,
-        offset: offset,
-        hoverColor: hoverColor,
-        borderRadius: borderRadius);
+      child: this,
+      builder: builder,
+      onSelected: (a) => a.onclick(),
+      onCanceled: onCanceled,
+      initialValue: null,
+      enable: enable,
+      popOnTap: popOnTap,
+      popOnLongPress: popOnLongPress,
+      popOnRightClick: popOnRightClick,
+      useRootNavigator: useRootNavigator,
+      offset: offset,
+      hoverColor: hoverColor,
+      borderRadius: borderRadius,
+    );
   }
 
   PopMenu<T> contextMenu<T>({
     List<LabelValue<T>>? values,
     List<PopupMenuEntry<T>>? items,
     PopupMenuItemBuilder<T>? builder,
-    FuncP<T>? onSelected,
+    void Function(T)? onSelected,
     VoidCallback? onCanceled,
     T? initialValue,
     bool enable = true,
@@ -60,19 +61,20 @@ extension WidgetPopExt on Widget {
       b = (c) => [];
     }
     return PopMenu(
-        child: this,
-        builder: b,
-        onSelected: onSelected,
-        onCanceled: onCanceled,
-        initialValue: initialValue,
-        enable: enable,
-        popOnTap: popOnTap,
-        popOnLongPress: popOnLongPress,
-        popOnRightClick: popOnRightClick,
-        useRootNavigator: useRootNavigator,
-        offset: offset,
-        hoverColor: hoverColor,
-        borderRadius: borderRadius);
+      child: this,
+      builder: b,
+      onSelected: onSelected,
+      onCanceled: onCanceled,
+      initialValue: initialValue,
+      enable: enable,
+      popOnTap: popOnTap,
+      popOnLongPress: popOnLongPress,
+      popOnRightClick: popOnRightClick,
+      useRootNavigator: useRootNavigator,
+      offset: offset,
+      hoverColor: hoverColor,
+      borderRadius: borderRadius,
+    );
   }
 }
 
@@ -82,7 +84,7 @@ class PopMenu<T> extends StatefulWidget {
   final Offset offset;
   final T? initialValue;
   final bool useRootNavigator;
-  final FuncP<T>? onSelected;
+  final void Function(T)? onSelected;
   final VoidCallback? onCanceled;
   final bool popOnTap;
   final bool popOnRightClick;
@@ -91,22 +93,22 @@ class PopMenu<T> extends StatefulWidget {
   final Color? hoverColor;
   final double? borderRadius;
 
-  const PopMenu(
-      {required this.child,
-      required this.builder,
-      this.onSelected,
-      this.onCanceled,
-      this.initialValue,
-      this.enable = true,
-      this.popOnTap = false,
-      this.popOnLongPress = true,
-      this.popOnRightClick = true,
-      this.useRootNavigator = true,
-      this.offset = Offset.zero,
-      this.hoverColor,
-      this.borderRadius = 3,
-      super.key})
-      : super();
+  const PopMenu({
+    required this.child,
+    required this.builder,
+    this.onSelected,
+    this.onCanceled,
+    this.initialValue,
+    this.enable = true,
+    this.popOnTap = false,
+    this.popOnLongPress = true,
+    this.popOnRightClick = true,
+    this.useRootNavigator = true,
+    this.offset = Offset.zero,
+    this.hoverColor,
+    this.borderRadius = 3,
+    super.key,
+  }) : super();
 
   @override
   PopMenuState<T> createState() {
@@ -125,22 +127,15 @@ class PopMenuState<T> extends State<PopMenu<T>> {
     Offset offset = mouseLocalPosition + widget.offset;
     final RelativeRect position;
     position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        button.localToGlobal(offset, ancestor: overlay),
-        button.localToGlobal(Offset(100, 60) + offset, ancestor: overlay),
-      ),
+      Rect.fromPoints(button.localToGlobal(offset, ancestor: overlay), button.localToGlobal(Offset(100, 60) + offset, ancestor: overlay)),
       Offset.zero & overlay.size,
     );
 
     final List<PopupMenuEntry<T>> items = widget.builder(context);
     if (items.isEmpty) return;
-    showMenu<T?>(
-      context: context,
-      items: items,
-      initialValue: widget.initialValue,
-      position: position,
-      useRootNavigator: widget.useRootNavigator,
-    ).then<void>((T? newValue) {
+    showMenu<T?>(context: context, items: items, initialValue: widget.initialValue, position: position, useRootNavigator: widget.useRootNavigator).then<void>((
+      T? newValue,
+    ) {
       if (!mounted) {
         return null;
       }

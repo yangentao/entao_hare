@@ -90,3 +90,5 @@
 
 ## 2.2.0
 * replace Result with XResult
+## 2.3.0
+* update entao_dutil

@@ -7,7 +7,7 @@ class UpdatableContext {
   final BuildContext context;
   final HareWidget _updatable;
   final Map<String, VoidCallback> _actionMap = {};
-  BoolFunc onValidate = () => true;
+  bool Function() onValidate = () => true;
 
   UpdatableContext({required this.context, required HareWidget updatable}) : _updatable = updatable;
 

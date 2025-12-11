@@ -6,9 +6,9 @@ BuildContext get globalContext {
   return onGlobalContext();
 }
 
-late RFunc<BuildContext> onGlobalContext;
+late BuildContext Function() onGlobalContext;
 
-void postFrame(VoidFunc callback) {
+void postFrame(VoidCallback callback) {
   SchedulerBinding.instance.addPostFrameCallback((_) {
     callback();
   });

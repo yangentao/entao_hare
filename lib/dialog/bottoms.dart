@@ -15,7 +15,7 @@ class bottoms {
     int? minLength,
     int maxLength = 256,
     bool allowEmpty = true,
-    FuncString? onSubmitted,
+    OnValue<String>? onSubmitted,
     Widget? prefixIcon,
     String? helperText,
     String? errorText,
