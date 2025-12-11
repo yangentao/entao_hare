@@ -92,3 +92,5 @@
 * replace Result with XResult
 ## 2.3.0
 * update entao_dutil
+## 2.3.1
+* fix setState issue
